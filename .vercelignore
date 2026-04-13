@@ -5,9 +5,6 @@
 # Node server — not used in first static deploy
 server.mjs
 
-# SAM chat UI — needs server, not ready for /sam yet
-index.html
-
 # Source / build / working dirs
 src/
 scripts/

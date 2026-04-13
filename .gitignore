@@ -12,7 +12,6 @@ corpus/
 node_modules/
 
 # Not-yet-ready
-index.html
 server.mjs
 
 # Working docs (lives in parent RI repo instead)
