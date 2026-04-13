@@ -1,0 +1,27 @@
+# Git ignore for the Garvey deploy repo.
+# Only yarmouth-departure.html + its public/ assets + Vercel config are deploy-shaped.
+
+# Large / non-deployable
+voyage-3d/
+mockups/
+poster-studio/
+posters/
+src/
+scripts/
+corpus/
+node_modules/
+
+# Not-yet-ready
+index.html
+server.mjs
+
+# Working docs (lives in parent RI repo instead)
+README.md
+COLLABORATION-BRIEF.md
+CORPUS-AUDIT-2026-04-11.md
+
+# OS / env
+.DS_Store
+.env
+.env.local
+*.log

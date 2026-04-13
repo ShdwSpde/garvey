@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Voyage Departs in '27 — A Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Libre+Caslon+Display&family=Cormorant+Garamond:ital@0;1&family=Special+Elite&family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --red: #C8102E;
+    --red-deep: #8B0A1D;
+    --black: #0a0506;
+    --green: #2E8B3E;
+    --gold: #d4a843;
+    --cream: #f0ebe1;
+    --parchment: #e8d9a8;
+    --sepia: #3a1e0a;
+    --fbi-bg: #0d0e11;
+    --fbi-paper: #1a1c20;
+    --fbi-text: #a9a9a9;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: var(--cream);
+    font-family: 'Courier Prime', ui-monospace, monospace;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  /* ============================================================
+     GATE OVERLAY — click to start (audio autoplay gesture)
+     ============================================================ */
+  .gate {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #1a0a0a 0%, #000 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    cursor: pointer;
+    transition: opacity 1.2s ease;
+  }
+  .gate.hidden { opacity: 0; pointer-events: none; }
+  .gate .overline {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .gate h1 {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 110px;
+    line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 16px;
+    text-shadow: 0 0 60px rgba(200, 16, 46, 0.3);
+  }
+  .gate .sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: #9a8f7f;
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 560px;
+  }
+  .gate .start-btn {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cream);
+    padding: 16px 32px;
+    border: 1px solid var(--red);
+    background: rgba(200, 16, 46, 0.1);
+    transition: background 0.2s;
+  }
+  .gate:hover .start-btn { background: rgba(200, 16, 46, 0.25); }
+
+  /* ============================================================
+     SCENE STAGE — parallax container
+     ============================================================ */
+  .stage {
+    position: fixed;
+    inset: 0;
+    perspective: 1200px;
+    overflow: hidden;
+    background: #040308;
+  }
+
+  /* Parallax planes — positioned in Z space via transform */
+  .plane {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+    opacity: 0;
+    transition: opacity 2.5s ease;
+  }
+  .plane.visible { opacity: 1; }
+  .plane img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Individual planes — scaled by Z depth */
+  .plane-sky {
+    width: 200%;
+    height: 100%;
+    margin-left: -100%;
+    margin-top: -50%;
+    transform: translateZ(-400px);
+    background: linear-gradient(180deg,
+      #0a0a18 0%,
+      #1a0b1c 25%,
+      #3d1424 50%,
+      #8b2535 72%,
+      #c44a38 88%,
+      #e8a050 100%);
+  }
+  .plane-crowd {
+    width: 140%;
+    height: 55%;
+    margin-left: -70%;
+    margin-top: 0%;
+    transform: translateZ(-120px);
+    opacity: 0;
+  }
+  .plane-crowd img {
+    filter: grayscale(0.85) sepia(0.4) contrast(1.3) brightness(0.45);
+    mix-blend-mode: screen;
+  }
+  /* .plane-ship removed — the Yarmouth appears only in the final reveal */
+  .plane-foreground {
+    width: 100%;
+    height: 20%;
+    margin-left: -50%;
+    bottom: 0;
+    top: auto;
+    transform: translateZ(40px);
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 100%);
+    opacity: 1;
+  }
+
+  /* Subtle camera drift */
+  .stage {
+    animation: camera-drift 60s ease-in-out infinite alternate;
+  }
+  @keyframes camera-drift {
+    0% { transform: translate3d(-1%, 0, 0); }
+    100% { transform: translate3d(1%, -0.5%, 0); }
+  }
+
+  /* ============================================================
+     FBI SURVEILLANCE LAYER — cold typewriter on gray paper
+     With 3D flip-to-reveal the actual 1921 Hoover letter scan
+     ============================================================ */
+  .fbi-layer {
+    position: absolute;
+    top: 10%;
+    right: 4%;
+    width: 460px;
+    max-width: 44%;
+    height: 620px;
+    max-height: 78%;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    perspective: 2000px;
+  }
+  .fbi-layer.visible { opacity: 1; }
+
+  .fbi-flipper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1.8s cubic-bezier(0.68, -0.15, 0.32, 1.2);
+  }
+  .fbi-flipper.flipped { transform: rotateY(180deg); }
+
+  .fbi-face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .fbi-face.back {
+    transform: rotateY(180deg);
+  }
+
+  .fbi-paper {
+    background: linear-gradient(180deg, #1d1e22 0%, #15161a 100%);
+    border: 1px solid #2a2c32;
+    padding: 24px 28px;
+    font-family: 'Special Elite', 'Courier Prime', monospace;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--fbi-text);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.6),
+      inset 0 0 80px rgba(0,0,0,0.4);
+    overflow: hidden;
+  }
+
+  .fbi-real-scan {
+    width: 100%;
+    height: 100%;
+    background: #0a0a0a;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border: 1px solid #2a2c32;
+  }
+  .fbi-real-scan img {
+    width: 100%;
+    flex: 1;
+    object-fit: contain;
+    object-position: top;
+    filter: contrast(1.1) brightness(1.05);
+  }
+  .fbi-real-scan .scan-caption {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 8px;
+    border-top: 1px solid #2a2c32;
+  }
+  .fbi-real-scan .scan-caption em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 11px;
+    display: block;
+    color: #9a8f7f;
+    margin-top: 4px;
+  }
+
+  .fbi-paper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 36px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.55), transparent);
+    pointer-events: none;
+  }
+
+  .fbi-header {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #666;
+    border-bottom: 1px solid #2a2c32;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .fbi-header .file-no {
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  .fbi-body {
+    min-height: 300px;
+    color: #b5b5b5;
+    white-space: pre-wrap;
+    letter-spacing: 0.3px;
+  }
+
+  /* The typewriter cursor */
+  .typewriter-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: var(--fbi-text);
+    margin-left: 1px;
+    vertical-align: text-bottom;
+    animation: cursor-blink 0.8s infinite;
+  }
+  @keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Redaction bars — black rectangles that cover parts of the text */
+  .redaction {
+    display: inline-block;
+    background: #0a0a0a;
+    height: 14px;
+    margin: 0 1px;
+    vertical-align: middle;
+    box-shadow: 0 0 0 1px #050505;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1),
+                opacity 0.8s ease;
+    transform-origin: left center;
+  }
+  .redaction.peeling {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  /* Classification stamps */
+  .stamp {
+    position: absolute;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--red);
+    border: 2px solid var(--red);
+    padding: 3px 8px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .stamp.confidential {
+    top: -14px;
+    right: 20px;
+    transform: rotate(-6deg);
+  }
+  .stamp.redacted-out {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+
+  /* ============================================================
+     GARVEY PRISON LETTER — warm sepia typewriter on parchment
+     ============================================================ */
+  .letter-layer {
+    position: absolute;
+    top: 20%;
+    left: 4%;
+    width: 420px;
+    max-width: 40%;
+    max-height: 70%;
+    z-index: 21;
+    opacity: 0;
+    transition: opacity 2s ease;
+    transform: rotate(-1.5deg);
+  }
+  .letter-layer.visible { opacity: 1; }
+
+  .letter-paper {
+    background:
+      radial-gradient(ellipse at 30% 20%, #f5e7b8 0%, var(--parchment) 60%, #c4a76a 100%);
+    padding: 28px 34px;
+    font-family: 'Special Elite', 'Courier Prime', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--sepia);
+    position: relative;
+    box-shadow:
+      0 24px 60px rgba(58, 30, 10, 0.7),
+      inset 0 0 40px rgba(162, 120, 50, 0.2);
+  }
+
+  .letter-paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 22px,
+        rgba(58, 30, 10, 0.04) 22px,
+        rgba(58, 30, 10, 0.04) 23px
+      );
+    pointer-events: none;
+  }
+
+  .letter-header {
+    font-family: 'Libre Caslon Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #6a3f12;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(58, 30, 10, 0.3);
+  }
+
+  .letter-body {
+    min-height: 200px;
+    color: var(--sepia);
+    white-space: pre-wrap;
+    font-weight: 400;
+  }
+
+  .letter-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--sepia);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursor-blink 0.9s infinite;
+  }
+
+  .letter-signature {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 32px;
+    color: #4a2310;
+    text-align: right;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 2s ease 0.3s;
+  }
+  .letter-signature.visible { opacity: 1; }
+
+  /* ============================================================
+     PHONOGRAPH HORN — the single audible voice, visualized
+     ============================================================ */
+  .phonograph {
+    position: absolute;
+    bottom: 6%;
+    right: 4%;
+    width: 130px;
+    height: 130px;
+    z-index: 25;
+    opacity: 0;
+    transition: opacity 2s ease;
+  }
+  .phonograph.visible { opacity: 0.85; }
+  .phonograph svg { width: 100%; height: 100%; }
+
+  .phono-label {
+    position: absolute;
+    top: -28px;
+    left: -10px;
+    right: -10px;
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+  .phono-label em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 11px;
+    display: block;
+    color: #9a8f7f;
+    margin-top: 2px;
+  }
+
+  /* Rotating record */
+  @keyframes record-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .record-disc {
+    animation: record-spin 2.6s linear infinite;
+    transform-origin: 65px 85px;
+  }
+
+  /* ============================================================
+     SCENE LABEL — top-left
+     ============================================================ */
+  .scene-label {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    z-index: 30;
+    opacity: 0;
+    transition: opacity 2s ease;
+  }
+  .scene-label.visible { opacity: 1; }
+  .scene-label .eyebrow {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .scene-label .title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--cream);
+    opacity: 0.85;
+  }
+
+  /* ============================================================
+     FINAL REVEAL — the voyage departs in '27
+     ============================================================ */
+  .final {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    background: radial-gradient(ellipse at center, rgba(10,5,6,0.4) 0%, rgba(0,0,0,0.95) 85%);
+    transition: opacity 3s ease;
+    pointer-events: none;
+  }
+  .final.visible { opacity: 1; }
+  .final .voyage {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 120px;
+    line-height: 1;
+    color: var(--cream);
+    text-shadow: 0 0 80px rgba(200, 16, 46, 0.4);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2s ease, transform 2s ease;
+  }
+  .final .voyage.show { opacity: 1; transform: translateY(0); }
+  .final .grab {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 84px;
+    line-height: 1;
+    color: var(--gold);
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2s ease 0.8s, transform 2s ease 0.8s;
+  }
+  .final .grab.show { opacity: 1; transform: translateY(0); }
+  .final .ship-reveal {
+    margin-top: 40px;
+    width: 520px;
+    max-width: 85vw;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 2.5s ease, transform 2.5s ease;
+  }
+  .final .ship-reveal.show {
+    opacity: 0.95;
+    transform: translateY(0);
+  }
+  .final .ship-reveal img {
+    width: 100%;
+    filter: sepia(0.35) contrast(1.15) brightness(0.9);
+    border: 1px solid rgba(212, 168, 67, 0.3);
+    box-shadow:
+      0 20px 80px rgba(200, 16, 46, 0.15),
+      0 0 60px rgba(212, 168, 67, 0.1);
+  }
+  .final .ship-reveal .ship-caption {
+    margin-top: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #9a8f7f;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  .final .date {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #9a8f7f;
+    margin-top: 32px;
+    opacity: 0;
+    transition: opacity 2s ease;
+  }
+  .final .date.show { opacity: 1; }
+  .final .date em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    text-transform: none;
+    letter-spacing: 1px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     PROGRESS BAR (dev only)
+     ============================================================ */
+  .progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    z-index: 50;
+  }
+  .progress .bar {
+    height: 100%;
+    background: var(--red);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ============================================================
+     ACCESSIBILITY LAYER — captions for the 1921 audio +
+     keyboard escape instructions
+     ============================================================ */
+  .captions {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 720px;
+    width: 80%;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: rgba(240, 235, 225, 0.85);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+    z-index: 32;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    line-height: 1.4;
+  }
+  .captions.visible { opacity: 1; }
+  .captions .speaker {
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+    opacity: 0.75;
+  }
+
+  .keyboard-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(240, 235, 225, 0.3);
+    z-index: 33;
+    pointer-events: none;
+  }
+  .keyboard-hint kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid rgba(240, 235, 225, 0.25);
+    border-radius: 2px;
+    margin: 0 3px;
+    font-family: monospace;
+    font-size: 8px;
+  }
+
+  /* Audio gate failure notice */
+  .audio-warning {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(200, 16, 46, 0.9);
+    color: #fff;
+    padding: 16px 24px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 60;
+    display: none;
+    cursor: pointer;
+  }
+  .audio-warning.visible { display: block; }
+
+  /* Pan-African flag bars — top and bottom */
+  .flag-top, .flag-bottom {
+    position: absolute;
+    left: 0; right: 0;
+    height: 3px;
+    display: flex;
+    z-index: 35;
+    pointer-events: none;
+  }
+  .flag-top { top: 0; }
+  .flag-bottom { bottom: 0; }
+  .flag-top > div, .flag-bottom > div { flex: 1; }
+  .r { background: var(--red); }
+  .b { background: var(--black); border-top: 1px solid #222; border-bottom: 1px solid #222; }
+  .g { background: var(--green); }
+
+  /* ============================================================
+     SOURCE DISCLOSURE LAYER — the source is the form
+     Added 2026-04-11 in response to Cultural Validator findings.
+     Every archival object gets a visible line of provenance, and
+     the FBI composite memo is explicitly labeled as reconstruction.
+     ============================================================ */
+  .fbi-reconstruction-tag {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 7.5px;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.72;
+    border: 1px dashed rgba(212, 168, 67, 0.4);
+    padding: 5px 7px;
+    margin-bottom: 10px;
+    line-height: 1.55;
+    text-align: center;
+  }
+  .letter-source {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 10px;
+    line-height: 1.45;
+    color: #6a3f12;
+    opacity: 0.7;
+    text-align: right;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(58, 30, 10, 0.25);
+    letter-spacing: 0.2px;
+  }
+  .letter-source em {
+    font-style: italic;
+  }
+  .parade-credit {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    max-width: 360px;
+    z-index: 31;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(212, 168, 67, 0.6);
+    opacity: 0;
+    transition: opacity 1.8s ease;
+    pointer-events: none;
+    line-height: 1.65;
+  }
+  .parade-credit.visible { opacity: 1; }
+  .parade-credit em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    font-size: 10px;
+    color: rgba(240, 235, 225, 0.5);
+    display: block;
+    margin-top: 3px;
+  }
+  .final .ship-reveal .ship-source {
+    display: block;
+    margin-top: 6px;
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 8px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: rgba(212, 168, 67, 0.55);
+  }
+</style>
+</head>
+<body>
+
+<!-- Audio: Garvey's 1921 phonograph recording — the ONLY voice in the piece -->
+<!-- Public domain. "Explanation of the Objects of the Universal Negro Improvement Association" -->
+<audio id="garvey-audio" preload="auto" aria-label="Marcus Garvey 1921 phonograph recording: Explanation of the Objects of the UNIA">
+  <source src="public/audio/garvey-1921/garvey_1921_full.mp3" type="audio/mpeg">
+  <source src="public/audio/garvey-1921/garvey_1921_full.ogg" type="audio/ogg">
+</audio>
+
+<!-- Audio warning (shown if the browser blocks autoplay) -->
+<div class="audio-warning" id="audio-warning" role="alert">
+  Click anywhere to enable audio · The scene requires sound
+</div>
+
+<!-- Gate overlay — click to start (required for audio autoplay) -->
+<div class="gate" id="gate">
+  <div class="overline">★ Juneteenth 2026 · Sunday Closing Ritual ★</div>
+  <h1>The Voyage</h1>
+  <div class="sub">
+    A preview of <em>The Marcus Garvey Living Archive</em>.<br>
+    The source is the form. Click to begin.
+  </div>
+  <div class="start-btn">▸ Enter</div>
+</div>
+
+<!-- Pan-African flag bars -->
+<div class="flag-top"><div class="r"></div><div class="b"></div><div class="g"></div></div>
+<div class="flag-bottom"><div class="r"></div><div class="b"></div><div class="g"></div></div>
+
+<!-- The parallax stage -->
+<div class="stage" id="stage">
+
+  <!-- Parallax planes, back to front -->
+  <div class="plane plane-sky" id="plane-sky"></div>
+
+  <!-- harbor plane: absent (no good 1919 NY harbor primary source on disk) -->
+  <!-- ship plane: removed from early stage — the SS Yarmouth is reserved
+       for the final reveal below "Grab your ticket" (Mike, Apr 11 2026 build notes) -->
+  <!-- The early scene is carried by sky gradient + parade crowd + foreground vignette -->
+
+  <div class="plane plane-crowd" id="plane-crowd">
+    <img src="public/images/unia_parade_1920.jpg" alt="1920 UNIA Parade, Harlem — UNIA members marching with flags, the mass movement behind the Black Star Line">
+  </div>
+
+  <div class="plane plane-foreground"></div>
+
+  <!-- Scene label -->
+  <div class="scene-label" id="scene-label">
+    <div class="eyebrow">★ New York · Autumn 1919 ★</div>
+    <div class="title">The S.S. Yarmouth, first ship of the Black Star Line, departs</div>
+  </div>
+
+  <!-- Parade photo provenance credit — persists while the crowd plane is visible -->
+  <div class="parade-credit" id="parade-credit">
+    ★ UNIA Parade · Harlem · c. 1920 ★
+    <em>Photograph · provenance pending · candidate archives: Schomburg Photographs &amp; Prints Division / Library of Congress</em>
+  </div>
+
+  <!-- FBI surveillance layer — cold typewriter on dark gray -->
+  <!-- 3D flipper — front = typed synthesis, back = actual 1921 document scan -->
+  <div class="fbi-layer" id="fbi-layer">
+    <div class="fbi-flipper" id="fbi-flipper">
+      <div class="fbi-face front">
+        <div class="fbi-paper">
+          <div class="fbi-header">
+            <span>Bureau of Investigation · Division Five</span>
+            <span class="file-no">190-1781-6</span>
+          </div>
+          <div class="fbi-reconstruction-tag">
+            ✻ Reconstruction ✻<br>
+            Composite of period Bureau voice · not a single document<br>
+            Tap panel for the actual 1921 Hoover letter
+          </div>
+          <div class="fbi-body" id="fbi-body"></div>
+          <div class="stamp confidential" id="confidential-stamp">Confidential</div>
+        </div>
+      </div>
+      <div class="fbi-face back">
+        <div class="fbi-real-scan">
+          <img src="public/images/fbi-vault/hoover-letter-1921-10-23.jpg" alt="FBI Vault — Hoover letter, October 23, 1921">
+          <div class="scan-caption">
+            ★ The actual file ★
+            <em>J. Edgar Hoover · October 23, 1921 · File 190-1781-6 · Public domain</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Garvey prison letter layer — warm sepia on parchment -->
+  <div class="letter-layer" id="letter-layer">
+    <div class="letter-paper">
+      <div class="letter-header">Atlanta Federal Penitentiary · February 1925</div>
+      <div class="letter-body" id="letter-body"></div>
+      <div class="letter-signature" id="letter-signature">— Marcus</div>
+      <div class="letter-source">
+        First Message to the Negroes of the World from Atlanta Prison · Feb. 10, 1925<br>
+        from <em>Philosophy and Opinions of Marcus Garvey</em>, Vol. II<br>
+        Amy Jacques Garvey, ed. (1925) · public domain
+      </div>
+    </div>
+  </div>
+
+  <!-- Phonograph horn — the only voice, visualized -->
+  <div class="phonograph" id="phonograph">
+    <div class="phono-label">
+      ★ His Voice ★
+      <em>1921 phonograph</em>
+    </div>
+    <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+      <!-- Base -->
+      <ellipse cx="65" cy="115" rx="45" ry="6" fill="#2a1a0a" opacity="0.6"/>
+      <!-- Turntable box -->
+      <rect x="20" y="85" width="90" height="28" rx="2" fill="#2a1a0a" stroke="#5a3a1a" stroke-width="1"/>
+      <!-- Record disc (spinning) -->
+      <g class="record-disc">
+        <circle cx="65" cy="85" r="32" fill="#0a0506" stroke="#3a1a0a" stroke-width="1"/>
+        <circle cx="65" cy="85" r="22" fill="none" stroke="#4a2a1a" stroke-width="0.5"/>
+        <circle cx="65" cy="85" r="16" fill="none" stroke="#4a2a1a" stroke-width="0.5"/>
+        <circle cx="65" cy="85" r="10" fill="#c9a227"/>
+        <circle cx="65" cy="85" r="3" fill="#3a1a0a"/>
+      </g>
+      <!-- Horn -->
+      <path d="M 65 85 Q 90 60 110 20 L 130 5 Q 120 40 100 65 Q 85 82 65 85 Z" fill="#c9a227" stroke="#8a6f2d" stroke-width="1"/>
+      <path d="M 65 85 Q 85 65 105 32 L 120 20 Q 115 42 100 60 Q 85 78 65 85 Z" fill="#d4a843" opacity="0.85"/>
+      <!-- Tone arm -->
+      <line x1="90" y1="30" x2="65" y2="85" stroke="#5a3a1a" stroke-width="2"/>
+      <circle cx="65" cy="85" r="2.5" fill="#8a6f2d"/>
+    </svg>
+  </div>
+
+  <!-- Captions layer — live transcript of the 1921 phonograph recording
+       Text source: Wikisource, public domain -->
+  <div class="captions" id="captions" aria-live="polite">
+    <span class="speaker">★ Marcus Garvey · 1921 phonograph · transcript via Wikisource</span>
+    <span id="caption-text">Fellow citizens of Africa, I greet you…</span>
+  </div>
+
+  <!-- Keyboard hint -->
+  <div class="keyboard-hint">
+    <kbd>Esc</kbd> to exit · <kbd>Space</kbd> to pause
+  </div>
+
+  <!-- Final reveal — the CTA sits for the rest of the piece -->
+  <div class="final" id="final">
+    <div class="voyage" id="final-voyage">The voyage departs in '27.</div>
+    <div class="grab" id="final-grab">Grab your ticket.</div>
+    <div class="ship-reveal" id="final-ship">
+      <img src="public/images/ss_yarmouth_1923.jpg" alt="SS Yarmouth (renamed SS Frederick Douglass by the BSL), c. 1919–1922 — Black Star Line">
+      <div class="ship-caption">
+        SS Yarmouth · renamed SS Frederick Douglass by the BSL · 1919–1922
+        <span class="ship-source">
+          Photograph · T.H. Franklin / SSHSA collection, University of Baltimore Library · via Watson, <em style="font-style:italic">Steamboat Bill</em>
+        </span>
+      </div>
+    </div>
+    <div class="date" id="final-coming">
+      ★ <em>The Living Archive</em> — Coming Soon ★
+    </div>
+  </div>
+</div>
+
+<!-- Dev progress bar -->
+<div class="progress"><div class="bar" id="progress-bar"></div></div>
+
+<script>
+// ============================================================
+// THE VOYAGE DEPARTS IN '27 — Scene Controller
+// Total duration: ~3:30
+// Audio: Garvey's 1921 phonograph recording (only voice in piece)
+// Visuals: parallax planes + two typewriter streams + redaction reveal
+// ============================================================
+
+const DURATION = 240 // seconds (4:00) — the CTA sits for ~90s at the end
+const audio = document.getElementById("garvey-audio")
+const gate = document.getElementById("gate")
+const stage = document.getElementById("stage")
+
+// ============================================================
+// FBI REPORT TEXT
+// Extracted from the FBI Vault, file 190-1781-6.
+// The redaction points are marked with [R:N] where N is the length
+// of the redaction bar in characters. The text fills in first, then
+// the redactions animate onto specific [R:N] positions, then later
+// peel away as Garvey's recording reaches key phrases.
+// ============================================================
+
+// The FBI report — a composite of typical Bureau language from
+// agent reports on Garvey and the Black Star Line circa 1919-1921.
+// Every phrase here is in the documented voice of the Bureau; no
+// fabricated quotes are attributed to any named agent.
+// Text is broken into segments that type as continuous prose —
+// the CSS wraps lines naturally based on the panel width.
+const FBI_REPORT = [
+  { text: "MEMO FOR DIRECTOR\n\n", speed: 45 },
+  { text: "IN RE: Marcus [R:8]\n\n", speed: 40 },
+  { text: "The subject, a [R:5] of the Universal [R:5] Improvement Association, was observed this date boarding the vessel known as the S.S. [R:9].\n\n", speed: 22 },
+  { text: "A crowd estimated at [R:6] persons was present on the pier. The crowd sang hymns and cheered the departure. The subject addressed the crowd from the deck with remarks regarding [R:16], [R:12], and the eventual [R:10] of the [R:5] race in Africa.\n\n", speed: 20 },
+  { text: "The Bureau respectfully recommends continued surveillance of the subject and all known associates. Prosecution under [R:18] is advised at the earliest opportunity.\n\n", speed: 22 },
+  { text: "Respectfully submitted,\n\n", speed: 38 },
+  { text: "[R:18]\nSpecial Agent", speed: 40 },
+]
+
+// ============================================================
+// GARVEY PRISON LETTER TEXT
+// From "First Message to the Negroes of the World from Atlanta
+// Prison," February 10, 1925. Public domain. The closing line is
+// the most-quoted passage from the letter and serves as the
+// climax of the scene.
+// ============================================================
+const LETTER = [
+  { text: "Fellow men of the Negro race,\n\n", speed: 60 },
+  { text: "I have been accused, tried, convicted,\n", speed: 55 },
+  { text: "and imprisoned. But the Universal Negro\n", speed: 55 },
+  { text: "Improvement Association lives, and shall live.\n\n", speed: 55 },
+  { text: "Look for me in the whirlwind\n", speed: 60 },
+  { text: "or the storm, look for me all around you,\n", speed: 55 },
+  { text: "for, with God's grace, I shall come and\n", speed: 55 },
+  { text: "bring with me countless millions of Black\n", speed: 55 },
+  { text: "slaves who have died in America and the\n", speed: 55 },
+  { text: "West Indies and the millions in Africa\n", speed: 55 },
+  { text: "to aid you in the fight for Liberty,\n", speed: 55 },
+  { text: "Freedom and Life.\n", speed: 60 },
+]
+
+// ============================================================
+// TYPEWRITER ENGINE
+// ============================================================
+function buildTypewriter(bodyEl, segments, onDone) {
+  let segIdx = 0
+  let charIdx = 0
+  let cursor = document.createElement("span")
+  cursor.className = "typewriter-cursor"
+  bodyEl.appendChild(cursor)
+  const redactionSlots = [] // track redaction positions for later animation
+
+  function type() {
+    if (segIdx >= segments.length) {
+      if (onDone) onDone(redactionSlots)
+      return
+    }
+    const seg = segments[segIdx]
+    const text = seg.text
+
+    if (charIdx >= text.length) {
+      segIdx++
+      charIdx = 0
+      setTimeout(type, 140) // slight pause between segments
+      return
+    }
+
+    // Check for redaction marker [R:N]
+    if (text[charIdx] === "[" && text.substring(charIdx, charIdx + 3) === "[R:") {
+      // Parse [R:N]
+      const closeBracket = text.indexOf("]", charIdx)
+      if (closeBracket !== -1) {
+        const redLen = parseInt(text.substring(charIdx + 3, closeBracket), 10)
+        // Insert placeholder text that will be covered by a redaction bar
+        const placeholder = "x".repeat(redLen)
+        const span = document.createElement("span")
+        span.className = "redaction"
+        span.style.width = redLen * 7 + "px"
+        span.textContent = ""
+        bodyEl.insertBefore(span, cursor)
+        redactionSlots.push(span)
+        charIdx = closeBracket + 1
+        setTimeout(type, seg.speed)
+        return
+      }
+    }
+
+    const char = text[charIdx]
+    const textNode = document.createTextNode(char)
+    bodyEl.insertBefore(textNode, cursor)
+    charIdx++
+
+    // Cold FBI typewriter click on each visible character
+    if (char !== " " && char !== "\n") {
+      typewriterClick()
+    } else if (char === "\n") {
+      // Carriage return bell on newlines (subtle)
+      if (Math.random() > 0.5) carriageReturnSound()
+    }
+
+    // Slight randomness in typing speed
+    const variance = Math.random() * 30 - 15
+    const nextDelay = Math.max(10, seg.speed + variance)
+    setTimeout(type, nextDelay)
+  }
+
+  type()
+}
+
+function buildLetter(bodyEl, segments, onDone) {
+  let segIdx = 0
+  let charIdx = 0
+  const cursor = document.createElement("span")
+  cursor.className = "letter-cursor"
+  bodyEl.appendChild(cursor)
+
+  function type() {
+    if (segIdx >= segments.length) {
+      cursor.remove()
+      if (onDone) onDone()
+      return
+    }
+    const seg = segments[segIdx]
+    const text = seg.text
+
+    if (charIdx >= text.length) {
+      segIdx++
+      charIdx = 0
+      setTimeout(type, 200)
+      return
+    }
+
+    const char = text[charIdx]
+    const textNode = document.createTextNode(char)
+    bodyEl.insertBefore(textNode, cursor)
+    charIdx++
+
+    const variance = Math.random() * 35 - 15
+    const nextDelay = Math.max(15, seg.speed + variance)
+    setTimeout(type, nextDelay)
+  }
+
+  type()
+}
+
+// ============================================================
+// SCENE PROGRESSION (time-based cues)
+// ============================================================
+let sceneStart = 0
+let rafId = 0
+let fbiRedactions = []
+
+function cue(t, fn) {
+  setTimeout(fn, t * 1000)
+}
+
+function runScene() {
+  sceneStart = performance.now()
+
+  // 0-5s: phonograph fades in
+  cue(0, () => {
+    document.getElementById("phonograph").classList.add("visible")
+  })
+
+  // 1s: sky visible
+  cue(1, () => {
+    document.getElementById("plane-sky").classList.add("visible")
+  })
+
+  // 3s: crowd fades in (only remaining parallax plane beyond sky + foreground)
+  // Parade photo provenance credit fades in with the crowd and persists.
+  cue(3, () => {
+    document.getElementById("plane-crowd").classList.add("visible")
+    document.getElementById("parade-credit").classList.add("visible")
+  })
+
+  // 8s: scene label appears
+  cue(8, () => {
+    document.getElementById("scene-label").classList.add("visible")
+  })
+
+  // 16s: scene label fades (replaced with FBI surveillance)
+  cue(16, () => {
+    document.getElementById("scene-label").classList.remove("visible")
+  })
+
+  // 17s: FBI layer fades in and typewriter starts
+  cue(17, () => {
+    document.getElementById("fbi-layer").classList.add("visible")
+    buildTypewriter(
+      document.getElementById("fbi-body"),
+      FBI_REPORT,
+      (reds) => {
+        fbiRedactions = reds
+      }
+    )
+  })
+
+  // 50s: letter layer fades in — Garvey's voice on paper arrives
+  cue(50, () => {
+    document.getElementById("letter-layer").classList.add("visible")
+    buildLetter(
+      document.getElementById("letter-body"),
+      LETTER,
+      () => {
+        document.getElementById("letter-signature").classList.add("visible")
+      }
+    )
+  })
+
+  // 95s: THE FLIP — FBI panel rotates to reveal the actual 1921
+  // Hoover letter. The synthesis becomes the source.
+  cue(95, () => {
+    document.getElementById("fbi-flipper").classList.add("flipped")
+  })
+
+  // 112s: FBI panel flips back — but now with redactions peeling
+  cue(112, () => {
+    document.getElementById("fbi-flipper").classList.remove("flipped")
+  })
+
+  // 115s: redactions start peeling away
+  cue(115, () => {
+    fbiRedactions.forEach((el, i) => {
+      setTimeout(() => {
+        el.classList.add("peeling")
+      }, i * 120)
+    })
+    document.getElementById("confidential-stamp").classList.add("redacted-out")
+  })
+
+  // 130s: FBI layer starts fading — the state recedes
+  cue(130, () => {
+    document.getElementById("fbi-layer").style.transition = "opacity 6s ease"
+    document.getElementById("fbi-layer").style.opacity = "0.22"
+  })
+
+  // 142s: letter layer also begins to soften
+  cue(142, () => {
+    document.getElementById("letter-layer").style.transition = "opacity 6s ease"
+    document.getElementById("letter-layer").style.opacity = "0.4"
+  })
+
+  // 150s: the final reveal begins — sits for the rest of the piece
+  cue(150, () => {
+    document.getElementById("final").classList.add("visible")
+  })
+  cue(151, () => {
+    document.getElementById("final-voyage").classList.add("show")
+  })
+  cue(154, () => {
+    document.getElementById("final-grab").classList.add("show")
+  })
+  cue(158, () => {
+    document.getElementById("final-ship").classList.add("show")
+  })
+  cue(163, () => {
+    document.getElementById("final-coming").classList.add("show")
+  })
+
+  // Progress bar animation
+  const pb = document.getElementById("progress-bar")
+  function updateProgress() {
+    const elapsed = (performance.now() - sceneStart) / 1000
+    const pct = Math.min(100, (elapsed / DURATION) * 100)
+    pb.style.width = pct + "%"
+    if (elapsed < DURATION) rafId = requestAnimationFrame(updateProgress)
+  }
+  updateProgress()
+}
+
+// ============================================================
+// TYPEWRITER SOUND (Web Audio API — synthesized click per char)
+// Generates a short noise-burst envelope for each typed character.
+// Only plays on FBI typewriter strokes (cold state machinery).
+// ============================================================
+let audioCtx = null
+function ensureAudioCtx() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext
+    if (AC) audioCtx = new AC()
+  }
+  return audioCtx
+}
+
+function typewriterClick() {
+  const ctx = ensureAudioCtx()
+  if (!ctx || ctx.state === "closed") return
+  if (ctx.state === "suspended") ctx.resume().catch(() => {})
+
+  // Short noise burst for the key strike
+  const duration = 0.04
+  const bufSize = Math.floor(ctx.sampleRate * duration)
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate)
+  const data = buf.getChannelData(0)
+  for (let i = 0; i < bufSize; i++) {
+    const env = Math.exp(-i / (ctx.sampleRate * 0.008))
+    data[i] = (Math.random() * 2 - 1) * env * 0.35
+  }
+  const src = ctx.createBufferSource()
+  src.buffer = buf
+  // Slight pitch variation
+  src.playbackRate.value = 0.9 + Math.random() * 0.3
+
+  // Bandpass to sound more mechanical
+  const filter = ctx.createBiquadFilter()
+  filter.type = "bandpass"
+  filter.frequency.value = 1200 + Math.random() * 800
+  filter.Q.value = 2
+
+  const gain = ctx.createGain()
+  gain.gain.value = 0.12
+
+  src.connect(filter).connect(gain).connect(ctx.destination)
+  src.start()
+  src.stop(ctx.currentTime + duration)
+}
+
+function carriageReturnSound() {
+  const ctx = ensureAudioCtx()
+  if (!ctx || ctx.state === "closed") return
+
+  // Bell-ding for carriage return — a short sine tone
+  const duration = 0.3
+  const osc = ctx.createOscillator()
+  osc.frequency.value = 1400
+  osc.type = "sine"
+
+  const gain = ctx.createGain()
+  gain.gain.setValueAtTime(0, ctx.currentTime)
+  gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.005)
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration)
+
+  osc.connect(gain).connect(ctx.destination)
+  osc.start()
+  osc.stop(ctx.currentTime + duration)
+}
+
+// ============================================================
+// CAPTIONS — Garvey's actual 1921 phonograph recording text
+// "Explanation of the Objects of the Universal Negro Improvement Association"
+// Verified public-domain transcript from Wikisource:
+// https://en.wikisource.org/wiki/Explanation_of_the_Objects_of_the_Universal_Negro_Improvement_Association
+// The recording is an abridged studio version (~3:44) of his longer
+// "Membership Appeal from Marcus Garvey to the Negro Citizens of New York."
+// Timestamps are approximate — auto-synced to audio.currentTime.
+// If a caption seems off by a second or two, it's because the original
+// audio has no standardized timing metadata. The WORDS are accurate; the
+// MOMENTS are best-effort.
+// ============================================================
+const CAPTION_CUES = [
+  { t: 0, text: "Fellow citizens of Africa, I greet you" },
+  { t: 4, text: "in the name of the Universal Negro Improvement Association" },
+  { t: 10, text: "and African Communities League of the World." },
+  { t: 16, text: "You may ask, what organization is that?" },
+  { t: 21, text: "It is for me to inform you that the Universal Negro Improvement Association" },
+  { t: 28, text: "is an organization that seeks to unite into one solid body" },
+  { t: 34, text: "the 400 million Negroes of the world;" },
+  { t: 39, text: "to link up the 50 million Negroes of the United States of America," },
+  { t: 47, text: "with the 20 million Negroes of the West Indies," },
+  { t: 53, text: "the 40 million Negroes of South and Central America" },
+  { t: 60, text: "with the 280 million Negroes of Africa," },
+  { t: 66, text: "for the purpose of bettering our industrial, commercial," },
+  { t: 72, text: "educational, social and political conditions." },
+  { t: 80, text: "As you are aware, the world in which we live today" },
+  { t: 86, text: "is divided into separate race groups and distinct nationalities." },
+  { t: 94, text: "Each race and each nationality is endeavoring to work out its own destiny" },
+  { t: 102, text: "to the exclusion of other races and other nationalities." },
+  { t: 110, text: "We hear the cry of England for the Englishman," },
+  { t: 115, text: "of France for the Frenchman, of Germany for the Germans…" },
+  { t: 122, text: "We of the Universal Negro Improvement Association" },
+  { t: 128, text: "are raising the cry of Africa for the Africans," },
+  { t: 134, text: "those at home and those abroad." },
+  { t: 139, text: "There are 400 million Africans in the world who have Negro blood" },
+  { t: 146, text: "coursing through their veins." },
+  { t: 151, text: "The great problem of the Negro for the last 500 years" },
+  { t: 157, text: "has been that of disunity." },
+  { t: 162, text: "No one or no organization ever took the lead in uniting the Negro race," },
+  { t: 170, text: "but within the last four years the Universal Negro Improvement Association" },
+  { t: 177, text: "has worked wonders in bringing together in one fold" },
+  { t: 183, text: "four million organized Negroes scattered in all parts of the world." },
+  { t: 192, text: "If anything praiseworthy is to be done, it must be done through unity." },
+  { t: 200, text: "And it is for that reason that the Universal Negro Improvement Association" },
+  { t: 208, text: "calls upon every Negro in the United States to rally to its standard." },
+  { t: 218, text: "— Marcus Garvey, 1921" },
+]
+
+let captionInterval = null
+function startCaptions() {
+  const captionsEl = document.getElementById("captions")
+  const textEl = document.getElementById("caption-text")
+  captionsEl.classList.add("visible")
+
+  let idx = 0
+  captionInterval = setInterval(() => {
+    const audioTime = audio.currentTime
+    // Find the latest cue whose t <= current audio time
+    while (idx < CAPTION_CUES.length - 1 && CAPTION_CUES[idx + 1].t <= audioTime) {
+      idx++
+    }
+    if (CAPTION_CUES[idx]) {
+      textEl.textContent = CAPTION_CUES[idx].text
+    }
+  }, 250)
+}
+
+// ============================================================
+// KEYBOARD CONTROLS
+// ============================================================
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    // Stop audio and return to gate
+    audio.pause()
+    audio.currentTime = 0
+    if (captionInterval) clearInterval(captionInterval)
+    window.location.reload()
+  } else if (e.key === " " || e.code === "Space") {
+    e.preventDefault()
+    if (audio.paused) {
+      audio.play().catch(() => {})
+    } else {
+      audio.pause()
+    }
+  }
+})
+
+// ============================================================
+// START ON CLICK (audio autoplay requires user gesture)
+// ============================================================
+gate.addEventListener("click", () => {
+  audio.volume = 0.75
+  const playPromise = audio.play()
+  if (playPromise && playPromise.catch) {
+    playPromise.catch((err) => {
+      // If autoplay was blocked, show the warning
+      console.warn("Audio blocked:", err)
+      document.getElementById("audio-warning").classList.add("visible")
+    })
+  }
+  // Prime the audio context for typewriter clicks
+  ensureAudioCtx()
+  gate.classList.add("hidden")
+  setTimeout(() => {
+    gate.style.display = "none"
+    runScene()
+    startCaptions()
+  }, 1200)
+})
+
+// Click-anywhere fallback if audio was blocked
+document.getElementById("audio-warning").addEventListener("click", () => {
+  audio.play().then(() => {
+    document.getElementById("audio-warning").classList.remove("visible")
+  }).catch(() => {})
+})
+</script>
+</body>
+</html>

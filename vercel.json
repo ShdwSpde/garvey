@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/yarmouth-departure.html" }
+  ]
+}

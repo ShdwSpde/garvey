@@ -1,0 +1,28 @@
+# Exclude dev / source / unfinished work from the Garvey invitation deploy.
+# First deploy scope: yarmouth-departure.html as the invitation at /.
+# /sam and /vr come in later deploys.
+
+# Node server — not used in first static deploy
+server.mjs
+
+# SAM chat UI — needs server, not ready for /sam yet
+index.html
+
+# Source / build / working dirs
+src/
+scripts/
+corpus/
+poster-studio/
+voyage-3d/
+mockups/
+posters/
+
+# Docs and working notes
+README.md
+COLLABORATION-BRIEF.md
+CORPUS-AUDIT-2026-04-11.md
+
+# Git / OS
+.git/
+.DS_Store
+node_modules/

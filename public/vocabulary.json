@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "figure": "Marcus Garvey",
+  "corpus": "Philosophy and Opinions of Marcus Garvey, Volume I (Amy Jacques Garvey, ed., 1923)",
+  "maintainer": "Mike Spade · Radical Imagination",
+  "last_updated": "2026-04-11",
+  "license": "CC0 — public domain dedication",
+  "principle": "Modern users ask in modern vocabulary. Garvey wrote in 1923 vocabulary. This file maps modern concepts to period-equivalent terms in Garvey's actual writings, with scholarly notes that acknowledge what's lost in translation. The docent uses these mappings to AUGMENT retrieval and to ACKNOWLEDGE the translation in its response — never to substitute paraphrase for direct quotation.",
+  "entries": {
+    "cooperative economics": {
+      "period_terms": ["co-operation", "race enterprise", "Negro industries", "race business"],
+      "scholarly_note": "Garvey predates the Kwanzaa principle Ujamaa (1966) by four decades, but the conceptual lineage is direct. His repeated calls for 'co-operation in the Negro race' and 'race enterprise' are documented antecedents of what later thinkers would call cooperative economics. Note that Garvey wrote 'co-operation' with the 1923 hyphen — modern substring searches for 'cooperation' miss it without hyphen-flexible matching."
+    },
+    "Black capitalism": {
+      "period_terms": ["Negro industries", "industrial commercial enterprise", "race enterprise"],
+      "scholarly_note": "Garvey's economic vision is sometimes flattened to 'Black capitalism' but his project was specifically Pan-African mass-shareholder enterprise — not individual entrepreneurship within a white-dominated market. The Black Star Line was a joint-stock company funded by ordinary shareholders at $5 per share, not a billionaire-led venture."
+    },
+    "Pan-Africanism": {
+      "period_terms": ["Pan-African", "Africa for the Africans", "redemption of Africa", "Universal Negro Improvement Association"],
+      "scholarly_note": "Garvey is one of the foundational figures of Pan-Africanism. The phrase 'Africa for the Africans, those at home and those abroad' is his and recurs throughout Philosophy and Opinions Vol I. He differs from other Pan-Africanists of the era (notably Du Bois) on questions of integration vs separatism."
+    },
+    "structural racism": {
+      "period_terms": ["race prejudice", "race antagonism", "the color line"],
+      "scholarly_note": "Garvey rarely uses 'structure' or 'system' the way modern anti-racism discourse does. He frames oppression primarily as a mass phenomenon answered with mass organizing — not as a system to be dismantled at the institutional level. The 'color line' phrase is more associated with Du Bois than Garvey, but appears in both."
+    },
+    "systemic racism": {
+      "period_terms": ["race prejudice", "race antagonism", "white domination"],
+      "scholarly_note": "Same caveat as structural racism — Garvey frames the problem as race antagonism and the global condition of white domination, not as a system to be reformed."
+    },
+    "white supremacy": {
+      "period_terms": ["white domination", "race antagonism", "the white race"],
+      "scholarly_note": "Garvey writes about white domination as a global phenomenon — colonial occupation of Africa is the central case. His framing is more international than the modern American 'white supremacy' discourse."
+    },
+    "Black liberation": {
+      "period_terms": ["emancipation", "race redemption", "liberty", "freedom of the race"],
+      "scholarly_note": "Garvey's primary frame is RACE REDEMPTION and the recovery of Africa, not the post-Civil Rights frame of individual or group liberation within American institutions."
+    },
+    "Black self-determination": {
+      "period_terms": ["race self-determination", "race government", "Africa for the Africans", "Negro destiny"],
+      "scholarly_note": "Self-determination for Garvey meant a Black-governed nation-state in Africa, not minority autonomy within a multiracial democracy."
+    },
+    "decolonization": {
+      "period_terms": ["redemption of Africa", "freedom from white domination", "race government"],
+      "scholarly_note": "Garvey called for decolonization decades before the term entered common use. His 1923 vocabulary was 'redemption' and 'the freedom of Africa.'"
+    },
+    "repatriation": {
+      "period_terms": ["return to Africa", "back to Africa", "redemption of Africa"],
+      "scholarly_note": "Repatriation is one of the most Garvey-associated concepts in modern memory, but his actual argument was conditional and complicated. He called for the building of a free Black nation in Africa as a DESTINATION for those who chose to return — not a forced or universal repatriation."
+    },
+    "respectability politics": {
+      "period_terms": ["race uplift", "manhood and womanhood", "race honor", "moral elevation"],
+      "scholarly_note": "Garvey's call for race uplift and manhood/womanhood overlaps with what later critics call respectability politics, but he framed it as RACE PRIDE — not as proving Black people deserved white acceptance. The motivation differs even when the surface vocabulary overlaps."
+    },
+    "diaspora": {
+      "period_terms": ["scattered race", "Negro peoples of the world", "race scattered"],
+      "scholarly_note": "Garvey did not use 'diaspora' (the term entered Black studies in the 1960s), but the concept is foundational to his project. His phrase 'the four hundred million of the Negro race scattered throughout the world' is the 1923 statement of diasporic consciousness."
+    },
+    "Black nationalism": {
+      "period_terms": ["race nationalism", "race patriotism", "Africa for the Africans", "Negro destiny"],
+      "scholarly_note": "Garvey is widely considered the father of modern Black nationalism. He predates the term itself as used today; his 1923 vocabulary was 'race nationalism' and 'race patriotism.'"
+    },
+    "race pride": {
+      "period_terms": ["race pride", "race honor", "race greatness", "racial dignity"],
+      "scholarly_note": "Garvey uses 'race pride' as his actual phrase. This entry exists for completeness — direct match between modern term and Garvey's vocabulary."
+    },
+    "mass mobilization": {
+      "period_terms": ["race organization", "mass meeting", "the cause of the race"],
+      "scholarly_note": "Garvey was the first Black mass mobilizer at planetary scale — UNIA claimed six million members across forty countries by the early 1920s. He referred to it as 'organizing the race.'"
+    },
+    "community organizing": {
+      "period_terms": ["race organization", "branch building", "the work of the UNIA"],
+      "scholarly_note": "What modern community organizers call branch-building, Garvey called UNIA branches — the same organizational form, predating the modern professionalized community organizing field by decades."
+    },
+    "identity politics": {
+      "period_terms": ["race consciousness", "race patriotism"],
+      "scholarly_note": "WARNING — partial anachronism. 'Identity politics' is a term from the Combahee River Collective (1977). The closest 1923 analog is 'race consciousness' but the conceptual frame differs. Garvey made a political-sovereignty argument, not an identity argument in the post-1970s sense."
+    },
+    "intersectionality": {
+      "period_terms": [],
+      "scholarly_note": "NO CLEAN ANALOG. Intersectionality is Kimberlé Crenshaw's term from 1989. Garvey wrote in a primarily single-axis race-pride frame and did not theorize the intersection of race, gender, class, and other vectors of oppression. The closest passages reference 'manhood and womanhood' but applying intersectionality back to 1923 Garvey is anachronistic projection. Honesty over appearance."
+    },
+    "economic empowerment": {
+      "period_terms": ["race enterprise", "Negro industries", "financial co-operation"],
+      "scholarly_note": "What modern Black economic empowerment movements call 'building generational wealth,' Garvey called 'race enterprise' and the building of 'Negro industries.' His emphasis was on collective shareholder ownership, not individual wealth accumulation."
+    },
+    "anti-racism": {
+      "period_terms": ["fighting race prejudice", "race defense", "the cause of the race"],
+      "scholarly_note": "Garvey did not use 'anti-racism' (the term entered common use after Ibram X. Kendi's 2019 book). His framing was RACE DEFENSE — defending the race against prejudice and building the race up — not specifically opposing the abstract concept of racism."
+    },
+    "stock issuance": {
+      "period_terms": ["share capital", "joint stock", "stockholder", "BSL share", "five-dollar share"],
+      "scholarly_note": "Direct match. The Black Star Line was incorporated June 27, 1919 under Delaware law as a joint-stock company with $5.00 par-value shares. By 1922 it had issued 151,430 shares to over forty thousand stockholders. The Juneteenth 2026 commemorative share certificates ARE the direct lineage of this."
+    },
+    "Afrofuturism": {
+      "period_terms": [],
+      "scholarly_note": "NO CLEAN ANALOG. 'Afrofuturism' is Mark Dery's term from 1993. Garvey's vision of Africa was forward-looking and emancipatory, but the aesthetic frame of Afrofuturism is post-1970s Black science fiction — applying it back to 1923 is anachronistic. The closest concept is Garvey's call for a 'redeemed Africa' as a future Black-governed continent."
+    },
+    "Black excellence": {
+      "period_terms": ["race uplift", "race honor", "race greatness"],
+      "scholarly_note": "Modern 'Black excellence' discourse overlaps significantly with Garvey's race-uplift language but typically operates within an integrationist frame. Garvey's 'race greatness' was Pan-African and explicitly separatist."
+    },
+    "racial equity": {
+      "period_terms": ["race justice", "the demand for justice"],
+      "scholarly_note": "Garvey rarely framed his project as 'equity' in the modern administrative sense. His call was for RACE GOVERNMENT and RACE INDEPENDENCE — not equitable treatment within white-dominated institutions."
+    },
+    "wealth gap": {
+      "period_terms": ["the poverty of the race", "race economic conditions"],
+      "scholarly_note": "Modern racial wealth gap discourse is statistical and policy-oriented. Garvey's framing was that the race's economic condition was the result of denied access AND of failed co-operation within the race. He held both responsible — a more challenging frame than the modern policy discourse."
+    },
+    "Black women's leadership": {
+      "period_terms": ["race womanhood", "the women of the race"],
+      "scholarly_note": "Garvey's writings in Vol I include limited but important passages on 'race womanhood.' The most prominent Black woman in Garvey's actual orbit was his second wife Amy Jacques Garvey, who EDITED Philosophy and Opinions Vol I — but Vol I is Marcus Garvey's voice, not hers. For Amy Jacques Garvey's own voice, see Philosophy and Opinions Vol II and her later writings."
+    }
+  }
+}
