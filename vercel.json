@@ -1,5 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "builds": [
+    { "src": "api/*.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "sam/**/*", "use": "@vercel/static" },
+    { "src": "vr/**/*", "use": "@vercel/static" },
+    { "src": "public/**/*", "use": "@vercel/static" }
+  ],
   "rewrites": [
     { "source": "/sam", "destination": "/sam/index.html" }
   ]
