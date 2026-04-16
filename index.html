@@ -807,6 +807,39 @@
     text-transform: uppercase;
     color: rgba(212, 168, 67, 0.55);
   }
+  /* ============ MOBILE (375px phone) ============ */
+  @media (max-width: 600px) {
+    /* Gate / hero */
+    .gate h1 { font-size: 52px; }
+    .gate .sub { font-size: 17px; max-width: 90vw; }
+
+    /* Scenes + panels */
+    .scene-panel,
+    .scene-text { max-width: 92vw !important; width: auto !important; padding: 16px !important; }
+
+    /* Fixed-width containers → fluid */
+    .phonograph-card,
+    .letter-container,
+    .fbi-panel { width: 92vw !important; max-width: 400px !important; }
+
+    /* Image frames */
+    img, .ship-reveal { max-width: 92vw !important; }
+
+    /* Final section */
+    .final .voyage { font-size: 52px; }
+    .final .grab { font-size: 38px; }
+    .final .ship-reveal { width: 92vw; }
+
+    /* Generic overflows */
+    body { overflow-x: hidden; }
+    * { max-width: 100vw; }
+  }
+
+  @media (max-width: 420px) {
+    .gate h1 { font-size: 42px; }
+    .final .voyage { font-size: 42px; }
+    .final .grab { font-size: 32px; }
+  }
 </style>
 </head>
 <body>
