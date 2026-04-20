@@ -1,0 +1,853 @@
+{
+  "version": 1,
+  "generated": "2026-04-20T12:05:49.559Z",
+  "spec": "specs/2026-04-19-garvey-sam-search-first-surface.md",
+  "counts": {
+    "photo": 18,
+    "document": 17,
+    "audio": 2
+  },
+  "total": 37,
+  "artifacts": [
+    {
+      "id": "photo-ss-yarmouth-1923",
+      "type": "photo",
+      "title": "SS Yarmouth / SS Frederick Douglass",
+      "year": 1919,
+      "caption": "The first ship of the Black Star Line, purchased as the SS Yarmouth (1887 Nova Scotia build) and publicly renamed the SS Frederick Douglass in fall 1919. Photograph c. 1919–1922.",
+      "asset": "/images/ss_yarmouth_1923.jpg",
+      "thumbnail": "/images/ss_yarmouth_1923.jpg",
+      "bytes": 27511,
+      "source": {
+        "institution": "T.H. Franklin / SSHSA collection, University of Baltimore Library (reproduced in Watson, Steamboat Bill)",
+        "license": "public domain (pre-1928 US publication)",
+        "url": null,
+        "registry": "archives/garvey/sources.md#4-ss-yarmouth--ss-frederick-douglass"
+      },
+      "tags": [
+        "black star line",
+        "ship",
+        "yarmouth",
+        "frederick douglass"
+      ],
+      "haystack": "ss yarmouth / ss frederick douglass the first ship of the black star line, purchased as the ss yarmouth (1887 nova scotia build) and publicly renamed the ss frederick douglass in fall 1919. photograph c. 1919–1922. black star line ship yarmouth frederick douglass    t.h. franklin / sshsa collection, university of baltimore library (reproduced in watson, steamboat bill)"
+    },
+    {
+      "id": "photo-garvey-speaking-1920",
+      "type": "photo",
+      "title": "Marcus Garvey Speaking, 1920",
+      "year": 1920,
+      "caption": "Garvey photographed mid-address in 1920, the year of the first UNIA International Convention at Madison Square Garden.",
+      "asset": "/images/garvey_speaking_1920.png",
+      "thumbnail": "/images/garvey_speaking_1920.png",
+      "bytes": 2163596,
+      "source": {
+        "institution": "provenance pending — likely Bain or Underwood period stock",
+        "license": "public domain (pre-1928 US publication)",
+        "url": null
+      },
+      "tags": [
+        "portrait",
+        "speech",
+        "1920"
+      ],
+      "haystack": "marcus garvey speaking, 1920 garvey photographed mid-address in 1920, the year of the first unia international convention at madison square garden. portrait speech 1920    provenance pending — likely bain or underwood period stock"
+    },
+    {
+      "id": "photo-unia-flag",
+      "type": "photo",
+      "title": "UNIA Flag",
+      "year": 1920,
+      "caption": "The UNIA's red, black, and green tricolor, adopted at the 1920 International Convention. The flag remains in use by UNIA-ACL today and has become the pan-African flag worldwide.",
+      "asset": "/images/unia_flag.png",
+      "thumbnail": "/images/unia_flag.png",
+      "bytes": 2472,
+      "source": {
+        "institution": "UNIA",
+        "license": "public domain (symbol, pre-1928 adoption)",
+        "url": null
+      },
+      "tags": [
+        "unia",
+        "flag",
+        "symbol",
+        "pan-african"
+      ],
+      "haystack": "unia flag the unia's red, black, and green tricolor, adopted at the 1920 international convention. the flag remains in use by unia-acl today and has become the pan-african flag worldwide. unia flag symbol pan-african   unia-acl is a living organization — relational courtesy before public repo flip. unia",
+      "validator_flag": "UNIA-ACL is a living organization — relational courtesy before public repo flip."
+    },
+    {
+      "id": "photo-unia-parade-1920",
+      "type": "photo",
+      "title": "UNIA Parade, Harlem c. 1920",
+      "year": 1920,
+      "caption": "UNIA members marching in Harlem, likely during the August 1920 International Convention held at Liberty Hall with parades through the neighborhood.",
+      "asset": "/images/unia_parade_1920.jpg",
+      "thumbnail": "/images/unia_parade_1920.jpg",
+      "bytes": 1018071,
+      "source": {
+        "institution": "provenance pending — candidate archives: Schomburg Photographs and Prints / Library of Congress",
+        "license": "public domain (pre-1928 US publication)",
+        "url": null,
+        "registry": "archives/garvey/sources.md#3-unia-parade-harlem-c-1920--photograph"
+      },
+      "tags": [
+        "unia",
+        "parade",
+        "harlem",
+        "1920"
+      ],
+      "haystack": "unia parade, harlem c. 1920 unia members marching in harlem, likely during the august 1920 international convention held at liberty hall with parades through the neighborhood. unia parade harlem 1920   living unia — relational courtesy; provenance todo before juneteenth. provenance pending — candidate archives: schomburg photographs and prints / library of congress",
+      "validator_flag": "Living UNIA — relational courtesy; provenance TODO before Juneteenth."
+    },
+    {
+      "id": "photo-negro-world-1920-07-31",
+      "type": "photo",
+      "title": "Negro World — Vol. VIII No. 24, July 31 1920",
+      "year": 1920,
+      "caption": "Front page of the UNIA's official newspaper, the Negro World, published the week before the August 1920 International Convention. Peak circulation reached 200,000 across English, Spanish, and French editions.",
+      "asset": "/archives/garvey/images/negro-world-1920-07-31.jpg",
+      "thumbnail": "/archives/garvey/images/negro-world-1920-07-31.jpg",
+      "bytes": 154341,
+      "source": {
+        "institution": "NYPL Schomburg Center",
+        "license": "public domain",
+        "url": "https://digitalcollections.nypl.org/items/510d47df-a074-a3d9-e040-e00a18064a99",
+        "registry": "archives/garvey/sources.md#phase-a-multimedia-expansion-2026-04-19"
+      },
+      "tags": [
+        "negro world",
+        "newspaper",
+        "masthead",
+        "unia",
+        "1920"
+      ],
+      "haystack": "negro world — vol. viii no. 24, july 31 1920 front page of the unia's official newspaper, the negro world, published the week before the august 1920 international convention. peak circulation reached 200,000 across english, spanish, and french editions. negro world newspaper masthead unia 1920    nypl schomburg center"
+    },
+    {
+      "id": "photo-garvey-keystone-1920",
+      "type": "photo",
+      "title": "Marcus Garvey — Provisional President of Africa, 1920",
+      "year": 1920,
+      "caption": "Keystone View Co. stereoview portrait of Garvey in the regalia of his self-declared title Provisional President of Africa, proclaimed at the August 1920 UNIA Convention. The title was symbolic — a claim staked against colonial rule — not an office he ever held politically.",
+      "asset": "/archives/garvey/images/garvey-keystone-1920.jpg",
+      "thumbnail": "/archives/garvey/images/garvey-keystone-1920.jpg",
+      "bytes": 356886,
+      "source": {
+        "institution": "Library of Congress — Keystone View Company",
+        "license": "public domain",
+        "url": "https://www.loc.gov/item/94509041",
+        "registry": "archives/garvey/sources.md#phase-a-multimedia-expansion-2026-04-19"
+      },
+      "tags": [
+        "portrait",
+        "provisional president",
+        "regalia",
+        "keystone",
+        "1920"
+      ],
+      "haystack": "marcus garvey — provisional president of africa, 1920 keystone view co. stereoview portrait of garvey in the regalia of his self-declared title provisional president of africa, proclaimed at the august 1920 unia convention. the title was symbolic — a claim staked against colonial rule — not an office he ever held politically. portrait provisional president regalia keystone 1920    library of congress — keystone view company"
+    },
+    {
+      "id": "photo-bsl-phyllis-wheatley-brochure",
+      "type": "photo",
+      "title": "SS Phyllis Wheatley Brochure",
+      "year": 1921,
+      "caption": "Black Star Line promotional brochure for the 'Phyllis Wheatley' — a ship Garvey advertised, sold shares for, but never actually owned. The phantom vessel is a central piece of the 1923 mail fraud case.",
+      "asset": "/images/bsl_phyllis_wheatley_brochure.jpg",
+      "thumbnail": "/images/bsl_phyllis_wheatley_brochure.jpg",
+      "bytes": 112628,
+      "source": {
+        "institution": "Black Star Line / UNIA",
+        "license": "public domain (pre-1928 US publication)",
+        "url": null
+      },
+      "tags": [
+        "phyllis wheatley",
+        "brochure",
+        "fraud case",
+        "black star line"
+      ],
+      "haystack": "ss phyllis wheatley brochure black star line promotional brochure for the 'phyllis wheatley' — a ship garvey advertised, sold shares for, but never actually owned. the phantom vessel is a central piece of the 1923 mail fraud case. phyllis wheatley brochure fraud case black star line    black star line / unia"
+    },
+    {
+      "id": "photo-unia-nurses-1922",
+      "type": "photo",
+      "title": "UNIA Black Cross Nurses, 1922",
+      "year": 1922,
+      "caption": "Members of the UNIA's Black Cross Nurses auxiliary, the movement's community-health corps. Full uniform. Photograph 1922.",
+      "asset": "/images/unia_nurses_1922.jpg",
+      "thumbnail": "/images/unia_nurses_1922.jpg",
+      "bytes": 113817,
+      "source": {
+        "institution": "provenance pending — likely Schomburg Photographs and Prints",
+        "license": "public domain (pre-1928 US publication)",
+        "url": null
+      },
+      "tags": [
+        "unia",
+        "nurses",
+        "black cross",
+        "1922"
+      ],
+      "haystack": "unia black cross nurses, 1922 members of the unia's black cross nurses auxiliary, the movement's community-health corps. full uniform. photograph 1922. unia nurses black cross 1922   living unia auxiliary — relational courtesy before public repo flip. provenance pending — likely schomburg photographs and prints",
+      "validator_flag": "Living UNIA auxiliary — relational courtesy before public repo flip."
+    },
+    {
+      "id": "photo-garvey-amy-jacques-1922",
+      "type": "photo",
+      "title": "Marcus Garvey with Amy Jacques Garvey, 1922",
+      "year": 1922,
+      "caption": "Garvey with Amy Jacques Garvey, his second wife, compiler and editor of the 1923 Philosophy and Opinions of Marcus Garvey, and the curator of his legacy for half a century after his 1940 death.",
+      "asset": "/archives/garvey/images/garvey-amy-jacques-1922.png",
+      "thumbnail": "/archives/garvey/images/garvey-amy-jacques-1922.png",
+      "bytes": 442206,
+      "source": {
+        "institution": "Wikimedia Commons (original print digitization)",
+        "license": "public domain (published in US pre-1931)",
+        "url": "https://commons.wikimedia.org/wiki/File:Marcus_Garvey_with_Amy_Jacques_Garvey,_1922.png",
+        "registry": "archives/garvey/sources.md#phase-a-multimedia-expansion-2026-04-19"
+      },
+      "tags": [
+        "amy jacques",
+        "portrait",
+        "1922",
+        "marriage"
+      ],
+      "haystack": "marcus garvey with amy jacques garvey, 1922 garvey with amy jacques garvey, his second wife, compiler and editor of the 1923 philosophy and opinions of marcus garvey, and the curator of his legacy for half a century after his 1940 death. amy jacques portrait 1922 marriage   tag as amy jacques (2nd wife, editor of philosophy and opinions), not amy ashwood (1st wife, divorced 1922). wikimedia commons (original print digitization)",
+      "validator_flag": "Tag as Amy Jacques (2nd wife, editor of Philosophy and Opinions), NOT Amy Ashwood (1st wife, divorced 1922)."
+    },
+    {
+      "id": "photo-garvey-1924",
+      "type": "photo",
+      "title": "Marcus Garvey, 1924",
+      "year": 1924,
+      "caption": "Seated portrait, photographed by the Bain News Service, August 5 1924 in New York. One of the canonical Bain portraits.",
+      "asset": "/images/garvey_1924.jpg",
+      "thumbnail": "/images/garvey_1924.jpg",
+      "bytes": 1247151,
+      "source": {
+        "institution": "Library of Congress — Bain Collection",
+        "license": "public domain",
+        "url": "https://www.loc.gov/pictures/item/2003653533",
+        "rights_note": "No known restrictions on publication (LC-USZ61-1854)."
+      },
+      "tags": [
+        "portrait",
+        "bain",
+        "1924"
+      ],
+      "haystack": "marcus garvey, 1924 seated portrait, photographed by the bain news service, august 5 1924 in new york. one of the canonical bain portraits. portrait bain 1924    library of congress — bain collection"
+    },
+    {
+      "id": "photo-unia-liberia-delegation-1924",
+      "type": "photo",
+      "title": "UNIA Experts Delegation to Liberia, 1924",
+      "year": 1924,
+      "caption": "The UNIA delegation of technical experts sent to Liberia in 1924, part of Garvey's plan to build a Black-governed homeland. The Liberian government reversed its approval of the UNIA settlement project before the delegation could establish itself — a decisive geopolitical defeat for the Back to Africa program.",
+      "asset": "/archives/garvey/images/unia-liberia-delegation-1924.jpg",
+      "thumbnail": "/archives/garvey/images/unia-liberia-delegation-1924.jpg",
+      "bytes": 89229,
+      "source": {
+        "institution": "NYPL Schomburg Center",
+        "license": "public domain",
+        "url": "https://digitalcollections.nypl.org/items/a56b7ab0-c60d-012f-cde3-58d385a7bc34",
+        "registry": "archives/garvey/sources.md#phase-a-multimedia-expansion-2026-04-19"
+      },
+      "tags": [
+        "liberia",
+        "delegation",
+        "1924",
+        "back to africa",
+        "pan-african"
+      ],
+      "haystack": "unia experts delegation to liberia, 1924 the unia delegation of technical experts sent to liberia in 1924, part of garvey's plan to build a black-governed homeland. the liberian government reversed its approval of the unia settlement project before the delegation could establish itself — a decisive geopolitical defeat for the back to africa program. liberia delegation 1924 back to africa pan-african    nypl schomburg center"
+    },
+    {
+      "id": "photo-schomburg-garvey-bruce-grave-1924",
+      "type": "photo",
+      "title": "Garvey, Schomburg, and mourners at John E. Bruce's grave, 1924",
+      "year": 1924,
+      "caption": "Mrs. John E. Bruce, Marcus Garvey, and Arthur Schomburg among mourners at the burial of John E. Bruce, Sr. — the Black journalist whose papers seeded the Schomburg Collection. Direct visual tie between Garvey and the institution that would become the archive of Black intellectual life.",
+      "asset": "/archives/garvey/images/schomburg-garvey-bruce-grave-1924.jpg",
+      "thumbnail": "/archives/garvey/images/schomburg-garvey-bruce-grave-1924.jpg",
+      "bytes": 61546,
+      "source": {
+        "institution": "NYPL Schomburg Center — Photographs and Prints Division",
+        "license": "public domain",
+        "url": "https://digitalcollections.nypl.org/items/2e55dd70-c622-012f-79ac-58d385a7bc34",
+        "registry": "archives/garvey/sources.md#13-garvey-schomburg-and-mourners-at-john-e-bruces-grave-1924"
+      },
+      "tags": [
+        "schomburg",
+        "bruce",
+        "1924",
+        "funeral",
+        "intellectual lineage"
+      ],
+      "haystack": "garvey, schomburg, and mourners at john e. bruce's grave, 1924 mrs. john e. bruce, marcus garvey, and arthur schomburg among mourners at the burial of john e. bruce, sr. — the black journalist whose papers seeded the schomburg collection. direct visual tie between garvey and the institution that would become the archive of black intellectual life. schomburg bruce 1924 funeral intellectual lineage   preserve mrs. bruce in any crop — her presence is the photograph's anchor, not garvey's. nypl schomburg center — photographs and prints division",
+      "validator_flag": "Preserve Mrs. Bruce in any crop — her presence is the photograph's anchor, not Garvey's."
+    },
+    {
+      "id": "photo-garvey-portrait-1",
+      "type": "photo",
+      "title": "Marcus Garvey Portrait (uniform)",
+      "year": null,
+      "caption": "Formal portrait of Garvey in full UNIA regalia with plumed hat, the most recognizable single image of the movement.",
+      "asset": "/images/garvey-portrait-1.jpg",
+      "thumbnail": "/images/garvey-portrait-1.jpg",
+      "bytes": 208346,
+      "source": {
+        "institution": "provenance pending",
+        "license": "public domain (pre-1928 US publication, pending final verification)",
+        "url": null
+      },
+      "tags": [
+        "portrait",
+        "regalia",
+        "uniform"
+      ],
+      "haystack": "marcus garvey portrait (uniform) formal portrait of garvey in full unia regalia with plumed hat, the most recognizable single image of the movement. portrait regalia uniform    provenance pending"
+    },
+    {
+      "id": "photo-garvey-portrait-2",
+      "type": "photo",
+      "title": "Marcus Garvey Portrait (studio)",
+      "year": null,
+      "caption": "Studio portrait of Garvey, date uncertain.",
+      "asset": "/images/garvey-portrait-2.jpg",
+      "thumbnail": "/images/garvey-portrait-2.jpg",
+      "bytes": 149752,
+      "source": {
+        "institution": "provenance pending",
+        "license": "public domain (pre-1928 US publication, pending final verification)",
+        "url": null
+      },
+      "tags": [
+        "portrait"
+      ],
+      "haystack": "marcus garvey portrait (studio) studio portrait of garvey, date uncertain. portrait    provenance pending"
+    },
+    {
+      "id": "photo-black-star-liner",
+      "type": "photo",
+      "title": "Black Star Line Steamer",
+      "year": null,
+      "caption": "A Black Star Line vessel. Context: the BSL operated the Yarmouth (renamed Frederick Douglass), the Shadyside, and the Kanawha between 1919 and 1922.",
+      "asset": "/images/black_star_liner.jpg",
+      "thumbnail": "/images/black_star_liner.jpg",
+      "bytes": 10833,
+      "source": {
+        "institution": "provenance pending",
+        "license": "public domain (pre-1928 US publication, pending final verification)",
+        "url": null
+      },
+      "tags": [
+        "black star line",
+        "ship"
+      ],
+      "haystack": "black star line steamer a black star line vessel. context: the bsl operated the yarmouth (renamed frederick douglass), the shadyside, and the kanawha between 1919 and 1922. black star line ship    provenance pending"
+    },
+    {
+      "id": "photo-black-star-line-action",
+      "type": "photo",
+      "title": "Black Star Line — Dockside",
+      "year": null,
+      "caption": "Black Star Line crew or dock workers alongside a BSL vessel.",
+      "asset": "/images/black-star-line-action.jpg",
+      "thumbnail": "/images/black-star-line-action.jpg",
+      "bytes": 239581,
+      "source": {
+        "institution": "provenance pending",
+        "license": "public domain (pre-1928 US publication, pending final verification)",
+        "url": null
+      },
+      "tags": [
+        "black star line",
+        "ship",
+        "labor"
+      ],
+      "haystack": "black star line — dockside black star line crew or dock workers alongside a bsl vessel. black star line ship labor    provenance pending"
+    },
+    {
+      "id": "photo-bsl-poster",
+      "type": "photo",
+      "title": "Black Star Line Stock Offering Poster",
+      "year": null,
+      "caption": "BSL shareholder-offering poster from the 1919-1922 period.",
+      "asset": "/images/bsl-poster.webp",
+      "thumbnail": "/images/bsl-poster.webp",
+      "bytes": 176104,
+      "source": {
+        "institution": "UNIA / Black Star Line",
+        "license": "public domain (pre-1928 US publication)",
+        "url": null
+      },
+      "tags": [
+        "black star line",
+        "poster",
+        "stock"
+      ],
+      "haystack": "black star line stock offering poster bsl shareholder-offering poster from the 1919-1922 period. black star line poster stock    unia / black star line"
+    },
+    {
+      "id": "photo-nmaahc-2009-9-9-001-scaled-1",
+      "type": "photo",
+      "title": "Black Star Line Broadside (NMAAHC)",
+      "year": null,
+      "caption": "Black Star Line promotional broadside held by the Smithsonian National Museum of African American History and Culture.",
+      "asset": "/archives/garvey/images/NMAAHC-2009_9_9_001-scaled-1.jpg",
+      "thumbnail": "/archives/garvey/images/NMAAHC-2009_9_9_001-scaled-1.jpg",
+      "bytes": 821603,
+      "source": {
+        "institution": "Smithsonian NMAAHC",
+        "license": "Check NMAAHC Open Access status (CC0 for objects owned outright). Accession 2009.9.9.",
+        "url": null
+      },
+      "tags": [
+        "black star line",
+        "broadside",
+        "nmaahc"
+      ],
+      "haystack": "black star line broadside (nmaahc) black star line promotional broadside held by the smithsonian national museum of african american history and culture. black star line broadside nmaahc    smithsonian nmaahc"
+    },
+    {
+      "id": "document-draft-registration-card-front",
+      "type": "document",
+      "title": "WWI Draft Registration Card — Marcus Garvey (Front)",
+      "year": 1917,
+      "caption": "Garvey's World War I draft registration, June 5 1917. Physical description: 5 ft 4 in, medium build, black eyes, black hair. Address: 235 W 131st, New York. Occupation: Journalist, Universal Negro Association. Alien status: citizen of British Jamaica.",
+      "asset": "/archives/garvey/nara/draft-registration-card-front.jpg",
+      "thumbnail": "/archives/garvey/nara/draft-registration-card-front.jpg",
+      "bytes": 208346,
+      "source": {
+        "institution": "National Archives and Records Administration — Atlanta",
+        "license": "public domain — US Government work",
+        "url": "https://www.archives.gov/atlanta/wwi-draft/garvey.html",
+        "registry": "archives/garvey/sources.md#1-wwi-draft-registration-card"
+      },
+      "tags": [
+        "nara",
+        "1917",
+        "draft card",
+        "pre-UNIA",
+        "alien status"
+      ],
+      "haystack": "wwi draft registration card — marcus garvey (front) garvey's world war i draft registration, june 5 1917. physical description: 5 ft 4 in, medium build, black eyes, black hair. address: 235 w 131st, new york. occupation: journalist, universal negro association. alien status: citizen of british jamaica. nara 1917 draft card pre-unia alien status    national archives and records administration — atlanta"
+    },
+    {
+      "id": "document-draft-registration-card-back",
+      "type": "document",
+      "title": "WWI Draft Registration Card — Marcus Garvey (Back)",
+      "year": 1917,
+      "caption": "Back of Garvey's WWI draft card. Race: Colored. Registrar: William Cunningham, Precinct 38. File 31-9-139-A.",
+      "asset": "/archives/garvey/nara/draft-registration-card-back.jpg",
+      "thumbnail": "/archives/garvey/nara/draft-registration-card-back.jpg",
+      "bytes": 149752,
+      "source": {
+        "institution": "National Archives and Records Administration — Atlanta",
+        "license": "public domain — US Government work",
+        "url": "https://www.archives.gov/atlanta/wwi-draft/garvey.html"
+      },
+      "tags": [
+        "nara",
+        "1917",
+        "draft card"
+      ],
+      "haystack": "wwi draft registration card — marcus garvey (back) back of garvey's wwi draft card. race: colored. registrar: william cunningham, precinct 38. file 31-9-139-a. nara 1917 draft card    national archives and records administration — atlanta"
+    },
+    {
+      "id": "document-section-1a",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 1A",
+      "year": 1919,
+      "caption": "Bureau of Investigation file 190-1781-6, Section 1A (128 pages). Contains the foundational surveillance memos, the October 1921 Hoover letter, and the UNIA O Street Armory event flyer. The file number itself is a story — Garvey was investigated as a foreign agent years before he was prosecuted as a domestic criminal.",
+      "asset": "/archives/garvey/fbi-vault/section-1A.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-1A.pdf",
+      "bytes": 3631357,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey",
+        "registry": "archives/garvey/sources.md#archive-2-fbi-vault"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1919",
+        "1921",
+        "hoover"
+      ],
+      "haystack": "fbi file on marcus garvey — section 1a bureau of investigation file 190-1781-6, section 1a (128 pages). contains the foundational surveillance memos, the october 1921 hoover letter, and the unia o street armory event flyer. the file number itself is a story — garvey was investigated as a foreign agent years before he was prosecuted as a domestic criminal. fbi surveillance 1919 1921 hoover   frame as evidence of the surveillance state, not evidence against garvey. the 1927 deportation was the bureau's intended outcome from the start. federal bureau of investigation / fbi vault",
+      "validator_flag": "Frame as evidence OF the surveillance state, not evidence against Garvey. The 1927 deportation was the Bureau's intended outcome from the start."
+    },
+    {
+      "id": "document-section-1b",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 1B",
+      "year": 1920,
+      "caption": "FBI surveillance file Section 1B (130 pages) — continues the early-period memos. James Wormley Jones, the Bureau's first Black agent, was hired specifically to infiltrate the UNIA. His reports are here.",
+      "asset": "/archives/garvey/fbi-vault/section-1B.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-1B.pdf",
+      "bytes": 5039949,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "jones",
+        "infiltration"
+      ],
+      "haystack": "fbi file on marcus garvey — section 1b fbi surveillance file section 1b (130 pages) — continues the early-period memos. james wormley jones, the bureau's first black agent, was hired specifically to infiltrate the unia. his reports are here. fbi surveillance jones infiltration    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-2a",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 2A",
+      "year": 1921,
+      "caption": "FBI surveillance file Section 2A (139 pages). 1921 period — the year of Garvey's only known voice recording and the height of UNIA public mobilization.",
+      "asset": "/archives/garvey/fbi-vault/section-2A.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-2A.pdf",
+      "bytes": 4350758,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1921"
+      ],
+      "haystack": "fbi file on marcus garvey — section 2a fbi surveillance file section 2a (139 pages). 1921 period — the year of garvey's only known voice recording and the height of unia public mobilization. fbi surveillance 1921    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-2b",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 2B",
+      "year": 1921,
+      "caption": "FBI surveillance file Section 2B (138 pages).",
+      "asset": "/archives/garvey/fbi-vault/section-2B.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-2B.pdf",
+      "bytes": 4611930,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance"
+      ],
+      "haystack": "fbi file on marcus garvey — section 2b fbi surveillance file section 2b (138 pages). fbi surveillance    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-3a",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 3A",
+      "year": 1922,
+      "caption": "FBI surveillance file Section 3A (130 pages). 1922 — the year of Garvey's mail fraud indictment.",
+      "asset": "/archives/garvey/fbi-vault/section-3A.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-3A.pdf",
+      "bytes": 4872937,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1922",
+        "prosecution"
+      ],
+      "haystack": "fbi file on marcus garvey — section 3a fbi surveillance file section 3a (130 pages). 1922 — the year of garvey's mail fraud indictment. fbi surveillance 1922 prosecution    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-3b",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 3B",
+      "year": 1922,
+      "caption": "FBI surveillance file Section 3B (129 pages).",
+      "asset": "/archives/garvey/fbi-vault/section-3B.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-3B.pdf",
+      "bytes": 4717228,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1922"
+      ],
+      "haystack": "fbi file on marcus garvey — section 3b fbi surveillance file section 3b (129 pages). fbi surveillance 1922    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-mail-fraud-indictment-c33-688",
+      "type": "document",
+      "title": "Mail Fraud Indictment — US v. Garvey, Case C 33-688",
+      "year": 1922,
+      "caption": "The canonical indictment that sent Garvey to federal prison. Eight counts of mail fraud plus conspiracy. The case turned on a single letter to shareholder Benny Dancy advertising the 'Phyllis Wheatley' — a ship the BSL never actually owned. Garvey alone convicted; all three co-defendants acquitted.",
+      "asset": "/archives/garvey/nara/mail-fraud-indictment-C33-688.pdf",
+      "thumbnail": "/archives/garvey/nara/mail-fraud-indictment-C33-688.pdf",
+      "bytes": 23629356,
+      "source": {
+        "institution": "NARA / US District Court, Southern District of New York (RG 21)",
+        "license": "public domain — US Government work",
+        "url": null,
+        "registry": "archives/garvey/sources.md#3-mail-fraud-indictment--case-c-33-688-indictment-no-31-37"
+      },
+      "tags": [
+        "nara",
+        "1922",
+        "mail fraud",
+        "prosecution",
+        "trial",
+        "phyllis wheatley",
+        "dancy"
+      ],
+      "haystack": "mail fraud indictment — us v. garvey, case c 33-688 the canonical indictment that sent garvey to federal prison. eight counts of mail fraud plus conspiracy. the case turned on a single letter to shareholder benny dancy advertising the 'phyllis wheatley' — a ship the bsl never actually owned. garvey alone convicted; all three co-defendants acquitted. nara 1922 mail fraud prosecution trial phyllis wheatley dancy   the mail fraud conviction is widely treated as political prosecution. biden pardoned garvey posthumously in january 2025. nara / us district court, southern district of new york (rg 21)",
+      "validator_flag": "The mail fraud conviction is widely treated as political prosecution. Biden pardoned Garvey posthumously in January 2025."
+    },
+    {
+      "id": "document-dubois-crisis-black-star-line-1922",
+      "type": "document",
+      "title": "W.E.B. Du Bois — 'The Black Star Line' (Crisis, September 1922)",
+      "year": 1922,
+      "caption": "Du Bois's real-time public critique of the Black Star Line's collapse, published in The Crisis. Details the failures of each BSL ship, names the phantom Phyllis Wheatley, and delivers the famous line: 'Here then is the collapse of the only thing in the Garvey movement which was original or promising.' The primary document of the Du Bois–Garvey feud.",
+      "asset": "/archives/garvey/nara/dubois-crisis-black-star-line-1922.pdf",
+      "thumbnail": "/archives/garvey/nara/dubois-crisis-black-star-line-1922.pdf",
+      "bytes": 150502,
+      "source": {
+        "institution": "The Crisis magazine / NAACP",
+        "license": "public domain (pre-1928 US publication)",
+        "url": "http://historymatters.gmu.edu/d/5121",
+        "registry": "archives/garvey/sources.md#published--accessible-sources-no-residency-required"
+      },
+      "tags": [
+        "du bois",
+        "crisis",
+        "1922",
+        "black star line",
+        "critique",
+        "feud"
+      ],
+      "haystack": "w.e.b. du bois — 'the black star line' (crisis, september 1922) du bois's real-time public critique of the black star line's collapse, published in the crisis. details the failures of each bsl ship, names the phantom phyllis wheatley, and delivers the famous line: 'here then is the collapse of the only thing in the garvey movement which was original or promising.' the primary document of the du bois–garvey feud. du bois crisis 1922 black star line critique feud   source conflict with garvey's own writings. surface the conflict — do not silently resolve the du bois vs garvey argument. both must coexist in the archive. the crisis magazine / naacp",
+      "validator_flag": "Source CONFLICT with Garvey's own writings. Surface the conflict — do not silently resolve the Du Bois vs Garvey argument. Both must coexist in the archive."
+    },
+    {
+      "id": "document-section-4a",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 4A",
+      "year": 1923,
+      "caption": "FBI surveillance file Section 4A (179 pages). 1923 — trial year. Garvey was convicted on one count of mail fraud in June 1923; his co-defendants were all acquitted.",
+      "asset": "/archives/garvey/fbi-vault/section-4A.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-4A.pdf",
+      "bytes": 5431947,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1923",
+        "trial"
+      ],
+      "haystack": "fbi file on marcus garvey — section 4a fbi surveillance file section 4a (179 pages). 1923 — trial year. garvey was convicted on one count of mail fraud in june 1923; his co-defendants were all acquitted. fbi surveillance 1923 trial    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-4b",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 4B",
+      "year": 1923,
+      "caption": "FBI surveillance file Section 4B (178 pages).",
+      "asset": "/archives/garvey/fbi-vault/section-4B.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-4B.pdf",
+      "bytes": 5210463,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1923",
+        "trial"
+      ],
+      "haystack": "fbi file on marcus garvey — section 4b fbi surveillance file section 4b (178 pages). fbi surveillance 1923 trial    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-income-tax-indictment-c38-771",
+      "type": "document",
+      "title": "Income Tax Indictment — US v. Garvey, Case C 38-771",
+      "year": 1923,
+      "caption": "The SECOND prosecution against Garvey, separate from the mail fraud case. Filed 1923, Nolle Prosequi entered June 9 1932. Alleged false income tax return for 1921 (reported $4,000, actual $10,000) plus perjury. Contains Amy Jacques Garvey's affidavit requesting bail cancellation while Garvey was at Atlanta Federal Penitentiary.",
+      "asset": "/archives/garvey/nara/income-tax-indictment-C38-771.pdf",
+      "thumbnail": "/archives/garvey/nara/income-tax-indictment-C38-771.pdf",
+      "bytes": 22741531,
+      "source": {
+        "institution": "NARA / US District Court, Southern District of New York (RG 21)",
+        "license": "public domain — US Government work",
+        "url": null,
+        "registry": "archives/garvey/sources.md#2-income-tax-indictment--case-c-38-771"
+      },
+      "tags": [
+        "nara",
+        "1923",
+        "tax evasion",
+        "prosecution",
+        "amy jacques"
+      ],
+      "haystack": "income tax indictment — us v. garvey, case c 38-771 the second prosecution against garvey, separate from the mail fraud case. filed 1923, nolle prosequi entered june 9 1932. alleged false income tax return for 1921 (reported $4,000, actual $10,000) plus perjury. contains amy jacques garvey's affidavit requesting bail cancellation while garvey was at atlanta federal penitentiary. nara 1923 tax evasion prosecution amy jacques    nara / us district court, southern district of new york (rg 21)"
+    },
+    {
+      "id": "document-section-5a",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 5A",
+      "year": 1925,
+      "caption": "FBI surveillance file Section 5A (129 pages). Post-conviction period. Garvey entered Atlanta Federal Penitentiary in February 1925.",
+      "asset": "/archives/garvey/fbi-vault/section-5A.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-5A.pdf",
+      "bytes": 4015394,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1925",
+        "prison"
+      ],
+      "haystack": "fbi file on marcus garvey — section 5a fbi surveillance file section 5a (129 pages). post-conviction period. garvey entered atlanta federal penitentiary in february 1925. fbi surveillance 1925 prison    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-5b",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 5B",
+      "year": 1925,
+      "caption": "FBI surveillance file Section 5B (129 pages).",
+      "asset": "/archives/garvey/fbi-vault/section-5B.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-5B.pdf",
+      "bytes": 4338925,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1925"
+      ],
+      "haystack": "fbi file on marcus garvey — section 5b fbi surveillance file section 5b (129 pages). fbi surveillance 1925    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-6a",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 6A",
+      "year": 1927,
+      "caption": "FBI surveillance file Section 6A (137 pages). 1927 — Coolidge commuted the mail fraud sentence in November 1927, immediately followed by deportation to Jamaica. The Bureau continued surveillance after Garvey was out of the country.",
+      "asset": "/archives/garvey/fbi-vault/section-6A.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-6A.pdf",
+      "bytes": 3733653,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1927",
+        "deportation",
+        "commutation"
+      ],
+      "haystack": "fbi file on marcus garvey — section 6a fbi surveillance file section 6a (137 pages). 1927 — coolidge commuted the mail fraud sentence in november 1927, immediately followed by deportation to jamaica. the bureau continued surveillance after garvey was out of the country. fbi surveillance 1927 deportation commutation    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "document-section-6b",
+      "type": "document",
+      "title": "FBI File on Marcus Garvey — Section 6B",
+      "year": 1927,
+      "caption": "FBI surveillance file Section 6B (137 pages). The final section of the Bureau's Garvey investigation.",
+      "asset": "/archives/garvey/fbi-vault/section-6B.pdf",
+      "thumbnail": "/archives/garvey/fbi-vault/section-6B.pdf",
+      "bytes": 4212016,
+      "source": {
+        "institution": "Federal Bureau of Investigation / FBI Vault",
+        "license": "public domain — US Government work",
+        "url": "https://vault.fbi.gov/marcus-garvey"
+      },
+      "tags": [
+        "fbi",
+        "surveillance",
+        "1927"
+      ],
+      "haystack": "fbi file on marcus garvey — section 6b fbi surveillance file section 6b (137 pages). the final section of the bureau's garvey investigation. fbi surveillance 1927    federal bureau of investigation / fbi vault"
+    },
+    {
+      "id": "audio-garvey-1921-full",
+      "type": "audio",
+      "title": "Explanation of the Objects of the UNIA (1921 phonograph)",
+      "year": 1921,
+      "caption": "Marcus Garvey's voice, recorded on phonograph in New York, July 1921. An abridged version (~3:44) of 'A Membership Appeal from Marcus Garvey to the Negro Citizens of New York.' This is one of only two surviving recordings of Garvey's voice.",
+      "asset": "/audio/garvey-1921/garvey_1921_full.mp3",
+      "thumbnail": "/audio/garvey-1921/garvey_1921_full.mp3",
+      "bytes": 3523427,
+      "source": {
+        "institution": "Internet Archive (community upload) / Wikimedia Commons",
+        "license": "public domain (pre-1928 US publication)",
+        "url": "https://archive.org/details/MarcusGarveySpeech1921",
+        "registry": "archives/garvey/sources.md#1-marcus-garvey--explanation-of-the-objects-of-the-universal-negro-improvement-association-1921-phonograph-recording"
+      },
+      "tags": [
+        "audio",
+        "1921",
+        "garvey's voice",
+        "phonograph",
+        "A-side",
+        "UNIA"
+      ],
+      "haystack": "explanation of the objects of the unia (1921 phonograph) marcus garvey's voice, recorded on phonograph in new york, july 1921. an abridged version (~3:44) of 'a membership appeal from marcus garvey to the negro citizens of new york.' this is one of only two surviving recordings of garvey's voice. audio 1921 garvey's voice phonograph a-side unia    internet archive (community upload) / wikimedia commons",
+      "duration_sec": 224,
+      "transcript_url": "https://en.wikisource.org/wiki/Explanation_of_the_Objects_of_the_Universal_Negro_Improvement_Association"
+    },
+    {
+      "id": "audio-garvey-1921-return",
+      "type": "audio",
+      "title": "Hon. Marcus Garvey on His Return to the U.S.A. (1921)",
+      "year": 1921,
+      "caption": "B-side of the same July 1921 recording session. Garvey addresses federal efforts to deny him re-entry to the United States after his Caribbean and Central America tour. The second of only two surviving recordings of Garvey's voice in existence — no Jamaica-era recordings, no BBC recordings, no UNIA band masters.",
+      "asset": "/audio/garvey-1921/garvey_1921_return.wav",
+      "thumbnail": "/audio/garvey-1921/garvey_1921_return.wav",
+      "bytes": 1645501,
+      "source": {
+        "institution": "UCLA Marcus Garvey and UNIA Papers Project (Robert A. Hill)",
+        "license": "public domain (pre-1923 US publication)",
+        "url": "https://www.international.ucla.edu/asc/mgpp/audio",
+        "registry": "archives/garvey/sources.md#phase-a-multimedia-expansion-2026-04-19"
+      },
+      "tags": [
+        "audio",
+        "1921",
+        "garvey's voice",
+        "phonograph",
+        "B-side",
+        "surveillance"
+      ],
+      "haystack": "hon. marcus garvey on his return to the u.s.a. (1921) b-side of the same july 1921 recording session. garvey addresses federal efforts to deny him re-entry to the united states after his caribbean and central america tour. the second of only two surviving recordings of garvey's voice in existence — no jamaica-era recordings, no bbc recordings, no unia band masters. audio 1921 garvey's voice phonograph b-side surveillance  across ucla mgpp, loc, american radioworks, and wikimedia: these two sides are the only known recordings of garvey's voice. that scarcity is part of the story.  ucla marcus garvey and unia papers project (robert a. hill)",
+      "duration_sec": 90,
+      "scarcity_note": "Across UCLA MGPP, LoC, American RadioWorks, and Wikimedia: these two sides are the ONLY known recordings of Garvey's voice. That scarcity is part of the story."
+    }
+  ]
+}

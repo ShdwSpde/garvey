@@ -9,6 +9,7 @@
   ],
   "rewrites": [
     { "source": "/sam", "destination": "/sam/index.html" },
+    { "source": "/sam/chat", "destination": "/sam/chat.html" },
     { "source": "/api/embed", "destination": "/api/embed.js" },
     { "source": "/api/chat", "destination": "/api/chat.js" }
   ]

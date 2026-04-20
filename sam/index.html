@@ -3,31 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Marcus Garvey Living Archive — Radical Imagination</title>
+<title>The Marcus Garvey Living Archive — search the archive</title>
+<meta name="description" content="Search Marcus Garvey's archive — photographs, surveillance documents, audio, and 618 passages from Philosophy and Opinions. A Small Archive Model from Radical Imagination.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Caveat:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500;1,700&family=Bodoni+Moda:ital,wght@1,400;1,500;1,700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    /* Pan-African Flag Palette — Garvey's own design (1920) */
-    --red: #C8102E;        /* blood of the slain */
+    --red: #C8102E;
     --red-deep: #8B0A1D;
     --red-glow: #ff3048;
-    --black: #0a0a0a;      /* skin of the people */
-    --green: #2E8B3E;      /* land of Africa */
+    --black: #0a0a0a;
+    --green: #2E8B3E;
     --green-deep: #1f5e2a;
 
     --bg: #0a0a0a;
     --bg-2: #121212;
     --bg-3: #1a1a1a;
-    --gold: #c9a227;       /* UNIA regalia gold — accent only */
-    --text: #f0ebe1;       /* off-white, parchment */
+    --gold: #c9a227;
+    --gold-warm: #d4a843;
+    --text: #f0ebe1;
     --text-dim: #9a8f7f;
     --text-faint: #555045;
     --border: #262017;
     --border-red: rgba(200, 16, 46, 0.35);
+    --card-bg: #f5efe1;
+    --card-ink: #0f0a06;
+    --card-dim: #5c5045;
   }
 
   body {
@@ -42,7 +46,6 @@
     position: relative;
   }
 
-  /* Subtle parchment/canvas noise */
   body::before {
     content: '';
     position: fixed;
@@ -54,7 +57,7 @@
     z-index: 1;
   }
 
-  /* Pan-African flag bar — top edge */
+  /* ─── Pan-African flag bar ─────────────────────────────────────────── */
   .flag-bar {
     height: 4px;
     display: flex;
@@ -65,10 +68,10 @@
   .flag-bar .b { flex: 1; background: var(--black); border-top: 1px solid #222; border-bottom: 1px solid #222; }
   .flag-bar .g { flex: 1; background: var(--green); }
 
-  /* HEADER */
+  /* ─── header ───────────────────────────────────────────────────────── */
   header {
     border-bottom: 1px solid var(--border);
-    padding: 32px 40px 28px;
+    padding: 28px 40px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,50 +82,23 @@
       radial-gradient(ellipse at 85% 120%, rgba(46, 139, 62, 0.08) 0%, transparent 60%);
   }
 
-  header .brand-row {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
+  header .brand-row { display: flex; align-items: center; gap: 22px; }
 
-  .black-star {
-    width: 56px;
-    height: 56px;
-    flex-shrink: 0;
-    filter: drop-shadow(0 0 12px rgba(200, 16, 46, 0.4));
-  }
-
-  .black-star polygon {
-    fill: var(--black);
-    stroke: var(--red);
-    stroke-width: 1.5;
-  }
-
-  .black-star circle {
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 1;
-    opacity: 0.6;
-  }
+  .black-star { width: 52px; height: 52px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(200, 16, 46, 0.4)); }
+  .black-star polygon { fill: var(--black); stroke: var(--red); stroke-width: 1.5; }
+  .black-star circle { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.6; }
 
   header h1 {
     font-family: 'Libre Caslon Display', 'Playfair Display', serif;
     font-weight: 400;
-    font-size: 34px;
+    font-size: 30px;
     color: var(--text);
     letter-spacing: 0.5px;
     line-height: 1;
     margin-bottom: 6px;
   }
-
-  header h1 .mark {
-    color: var(--red);
-  }
-
-  header h1 .amp {
-    color: var(--gold);
-    font-style: italic;
-  }
+  header h1 .mark { color: var(--red); }
+  header h1 .amp { color: var(--gold); font-style: italic; }
 
   header .subtitle {
     font-family: 'Oswald', sans-serif;
@@ -133,32 +109,33 @@
     text-transform: uppercase;
   }
 
-  header .ri-mark {
+  header nav {
+    display: flex;
+    gap: 22px;
+    align-items: baseline;
     font-family: 'Oswald', sans-serif;
-    font-size: 10px;
-    color: var(--text-faint);
+    font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    text-align: right;
-    line-height: 1.6;
   }
-
-  header .ri-mark .prototype-tag {
-    display: inline-block;
-    padding: 4px 10px;
-    background: var(--red);
-    color: #fff;
-    font-weight: 600;
-    margin-bottom: 6px;
+  header nav button,
+  header nav a {
+    background: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 4px 0;
+    color: var(--text-dim);
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
   }
+  header nav button:hover,
+  header nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+  header nav a.chat { color: var(--red); }
+  header nav a.chat:hover { color: var(--red-glow); border-bottom-color: var(--red); }
 
-  header .ri-mark span.dim {
-    color: var(--green);
-    display: block;
-    font-weight: 600;
-  }
-
-  /* STATUS BAR */
+  /* ─── status bar ───────────────────────────────────────────────────── */
   .status-bar {
     padding: 10px 40px;
     background: #000;
@@ -174,7 +151,6 @@
     position: relative;
     z-index: 2;
   }
-
   .status-bar .signal {
     display: inline-block;
     width: 8px;
@@ -186,108 +162,43 @@
     box-shadow: 0 0 10px var(--red);
     animation: pulse 2s ease-in-out infinite;
   }
+  .status-bar #statusText { color: var(--text-dim); }
+  .status-bar #statsText { color: var(--gold); font-weight: 500; }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(0.85); }
   }
 
-  /* MAIN */
+  /* ─── main ─────────────────────────────────────────────────────────── */
   main {
     flex: 1;
     display: flex;
-    overflow: hidden;
+    flex-direction: column;
     position: relative;
     z-index: 2;
   }
 
-  .chat-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid var(--border);
-    min-width: 0;
-  }
-
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 40px 48px;
-  }
-
-  /* When the welcome hero is showing, let it go full-bleed */
-  .chat-messages:has(#welcomeScreen) {
-    padding: 0;
-  }
-
-  /* ============================================================
-     WELCOME SCREEN — CINEMATIC HERO
-     A full-bleed atmospheric scene. Script type integrates with
-     the horizon like a land-form. Inspired by the Amazonia composition.
-     ============================================================ */
-  .welcome {
-    max-width: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    min-height: calc(100vh - 280px);
-    display: flex;
-    flex-direction: column;
-  }
-
+  /* ─── hero stage ───────────────────────────────────────────────────── */
   .hero-stage {
     position: relative;
-    flex: 1;
-    min-height: 540px;
+    min-height: 600px;
     overflow: hidden;
-  }
-
-  .hero-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  /* Atmosphere overlay — warms the bottom, darkens the edges */
-  .hero-vignette {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse at 50% 120%, rgba(200, 16, 46, 0.25) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.4) 0%, transparent 60%),
-      linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 40%, rgba(0,0,0,0.35) 100%);
-  }
-
-  /* ============================================================
-     SOURCE-IS-THE-FORM HERO
-     Mass Movement backdrop (UNIA parade 1920) +
-     The wordmark "Garvey" made of his own writings.
-     The archive spells its own name in its own words.
-     ============================================================ */
-  .hero-stage.source-hero {
     background: #0a0506;
-    overflow: hidden;
-    min-height: 680px;
-    position: relative;
+    border-bottom: 1px solid var(--border);
   }
 
-  /* The Mass Movement — 1920 UNIA Parade in Harlem as backdrop */
-  .hero-stage.source-hero::before {
+  .hero-stage::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("public/images/unia_parade_1920.jpg");
+    background-image: url("/images/unia_parade_1920.jpg");
     background-size: cover;
     background-position: center 30%;
     filter: contrast(1.5) brightness(0.38) sepia(0.55) saturate(1.4) hue-rotate(-8deg);
     z-index: 0;
   }
-
-  /* Red wash to unify everything under the movement's color */
-  .hero-stage.source-hero::after {
+  .hero-stage::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -301,8 +212,6 @@
     z-index: 1;
   }
 
-  /* Ambient archive — Garvey's text filling the whole stage, VERY subtle.
-     A whisper, not a shout — so the wordmark can dominate. */
   .ambient-archive {
     position: absolute;
     inset: 0;
@@ -321,67 +230,109 @@
     z-index: 2;
     mix-blend-mode: screen;
   }
+  .ambient-archive p { margin: 0 0 6px; break-inside: avoid-column; }
 
-  .ambient-archive p {
-    margin: 0 0 6px;
-    break-inside: avoid-column;
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    background:
+      radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(10, 5, 6, 0.5) 75%, rgba(10, 5, 6, 0.92) 100%),
+      radial-gradient(ellipse at 50% 100%, rgba(200, 16, 46, 0.12) 0%, transparent 55%);
   }
 
-  /* THE WORDMARK — giant Caveat script.
-     Filled with a background image of the SAME Garvey text at full brightness.
-     The letter shapes act as a spotlight on the archive. */
-  .wordmark-source {
+  /* ─── signature hero (replaces old Caveat wordmark) ───────────────── */
+  .sig-stage {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -46%);
-    font-family: 'Caveat', cursive;
-    font-weight: 700;
-    font-size: clamp(220px, 25vw, 440px);
-    line-height: 0.82;
-    letter-spacing: -4px;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-repeat: repeat;
-    background-size: auto;
-    text-shadow: none;
-    filter:
-      drop-shadow(0 0 40px rgba(255, 230, 160, 0.25))
-      drop-shadow(0 0 80px rgba(200, 16, 46, 0.35))
-      drop-shadow(0 8px 30px rgba(0, 0, 0, 0.85));
-    z-index: 4;
-    white-space: nowrap;
-    pointer-events: none;
-    /* Fallback until JS sets background-image: cream → gold gradient */
-    background-image:
-      linear-gradient(180deg, #f5efe1 0%, #f5efe1 60%, #d4a843 100%);
+    transform: translate(-50%, -52%);
+    width: min(78vw, 980px);
+    z-index: 5;
+    cursor: crosshair;
   }
-
-  /* Subtle halo behind the wordmark to make it pop off the parade photo */
-  .wordmark-source::before {
+  .sig-stage::before {
     content: '';
     position: absolute;
-    inset: -12%;
+    inset: -14% -6%;
     background: radial-gradient(ellipse at center,
-      rgba(200, 16, 46, 0.15) 0%,
-      rgba(200, 16, 46, 0.05) 30%,
-      transparent 60%);
+      rgba(255, 230, 160, 0.18) 0%,
+      rgba(200, 16, 46, 0.08) 35%,
+      transparent 70%);
     z-index: -1;
     pointer-events: none;
+    transition: background 0.5s ease;
+  }
+  .sig-stage:hover::before {
+    background: radial-gradient(ellipse at center,
+      rgba(255, 218, 120, 0.32) 0%,
+      rgba(212, 175, 55, 0.15) 35%,
+      rgba(200, 16, 46, 0.06) 60%,
+      transparent 78%);
   }
 
-  .wordmark-source.ready { /* no animation — static for screenshot performance */ }
+  /* Two-state coronation: matte cream (observed) → gold metallic (crowned) on attention.
+     Uses mask-image so background-color/gradient can be swapped for the material shift. */
+  .sig-ink {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2040 / 192;
+    background-color: #f5efe1;
+    background-image: none;
+    -webkit-mask-image: url('/sig/signature-v2.svg');
+            mask-image: url('/sig/signature-v2.svg');
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+            mask-position: center center;
+    clip-path: inset(0 100% 0 0);
+    animation: sign 2.8s 0.6s cubic-bezier(0.65, 0.02, 0.4, 0.98) forwards;
+    transition:
+      background 0.55s ease,
+      filter 0.55s ease;
+    filter:
+      drop-shadow(0 0 24px rgba(255, 230, 160, 0.22))
+      drop-shadow(0 0 48px rgba(200, 16, 46, 0.28))
+      drop-shadow(0 6px 22px rgba(0, 0, 0, 0.75));
+  }
+  .sig-stage:hover .sig-ink {
+    background-color: #c9a227;
+    background-image: linear-gradient(180deg,
+      #fff3bf 0%,
+      #f0d26a 18%,
+      #d4a843 38%,
+      #b3861e 58%,
+      #8f6a12 72%,
+      #d4a843 88%,
+      #f0d26a 100%);
+    filter:
+      drop-shadow(0 0 28px rgba(255, 218, 120, 0.55))
+      drop-shadow(0 0 64px rgba(212, 175, 55, 0.38))
+      drop-shadow(0 0 120px rgba(200, 16, 46, 0.22))
+      drop-shadow(0 6px 22px rgba(0, 0, 0, 0.75));
+  }
+  @keyframes sign {
+    0%   { clip-path: inset(0 100% 0 0); }
+    22%  { clip-path: inset(0 72% 0 0); }
+    52%  { clip-path: inset(0 40% 0 0); }
+    80%  { clip-path: inset(0 12% 0 0); }
+    100% { clip-path: inset(0 0% 0 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sig-ink { animation: none; clip-path: none; }
+  }
 
-  /* Pan-African flag accent bars — thin vertical strokes on the wordmark sides */
+  /* Pan-African flag accent bars — flanking the signature */
   .flag-accent {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 4px;
     height: 260px;
-    z-index: 3;
+    z-index: 4;
     background: linear-gradient(180deg,
       var(--red) 0%, var(--red) 33%,
       var(--black) 33%, var(--black) 66%,
@@ -391,39 +342,26 @@
   .flag-accent.left { left: 4%; }
   .flag-accent.right { right: 4%; }
 
-  /* The Black Star mark — small navigation element upper right */
   .black-star-mark {
     position: absolute;
-    top: 46px;
-    right: 48px;
+    top: 40px;
+    right: 42px;
     width: 52px;
     height: 52px;
-    z-index: 3;
+    z-index: 4;
     filter: drop-shadow(0 0 14px rgba(200, 16, 46, 0.4));
-  }
-
-  /* Hero vignette specifically for source-hero */
-  .hero-vignette.source {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-    background:
-      radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(10, 5, 6, 0.5) 75%, rgba(10, 5, 6, 0.92) 100%),
-      radial-gradient(ellipse at 50% 100%, rgba(200, 16, 46, 0.12) 0%, transparent 55%);
   }
 
   /* Over-the-horizon small type */
   .hero-upper {
     position: absolute;
-    top: 48px;
+    top: 44px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    z-index: 4;
+    z-index: 5;
     padding: 0 100px;
   }
-
   .hero-upper .rally {
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
@@ -433,43 +371,42 @@
     color: rgba(240, 235, 225, 0.78);
     margin-bottom: 10px;
   }
-
-  .hero-upper .rally span {
-    color: var(--red);
-  }
-
-  .hero-upper .subhead {
+  .hero-upper .rally span { color: var(--red); }
+  .hero-upper .kicker {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 400;
-    font-size: 15px;
-    color: rgba(240, 235, 225, 0.6);
-    max-width: 480px;
-    line-height: 1.5;
+    font-size: 14px;
+    color: rgba(240, 235, 225, 0.55);
+    letter-spacing: 0.6px;
   }
 
-  /* Lower legend under the script */
   .hero-lower {
     position: absolute;
-    bottom: 56px;
+    bottom: 44px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    z-index: 4;
+    z-index: 5;
     width: 90%;
     max-width: 820px;
+    opacity: 0;
+    animation: fade 0.9s 3.0s ease-out forwards;
   }
-
+  @keyframes fade { to { opacity: 1; } }
   .hero-lower .the-archive {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 400;
     font-size: 22px;
-    color: rgba(240, 235, 225, 0.85);
+    color: rgba(240, 235, 225, 0.88);
     letter-spacing: 1px;
     margin-bottom: 8px;
   }
-
+  .hero-lower .the-archive strong {
+    color: var(--gold);
+    font-weight: 700;
+  }
   .hero-lower .attribution {
     font-family: 'Oswald', sans-serif;
     font-weight: 500;
@@ -478,457 +415,425 @@
     text-transform: uppercase;
     color: rgba(240, 235, 225, 0.4);
   }
+  .hero-lower .attribution strong { color: var(--red); font-weight: 700; }
 
-  .hero-lower .attribution strong {
-    color: var(--red);
-    font-weight: 700;
+  /* ─── search surface ───────────────────────────────────────────────── */
+  .search-surface {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 64px 40px 120px;
+    width: 100%;
   }
 
-  /* Suggestions drawer below the hero */
-  .hero-footer {
-    background: #000;
-    border-top: 1px solid var(--border);
-    padding: 28px 48px 32px;
+  .query-row {
     position: relative;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 22px;
   }
 
-  .hero-footer::before {
+  .q-echo {
+    display: block;
+    font-family: 'Bodoni Moda', 'Didot', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 1;
+    color: var(--text);
+    margin: 0;
+    min-height: 1em;
+    word-break: break-word;
+    letter-spacing: -0.01em;
+  }
+  .q-echo.is-empty::before {
+    content: 'search the archive';
+    color: var(--text-faint);
+    opacity: 0.7;
+  }
+
+  input#q {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    font: inherit;
+    cursor: text;
+    background: transparent;
+    border: none;
+  }
+  input#q:focus { outline: none; }
+  .query-row:focus-within .q-echo { color: var(--red); }
+  .query-row:focus-within::after {
     content: '';
     position: absolute;
-    top: -1px;
+    bottom: -1px;
     left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, var(--red) 50%, transparent 100%);
-    opacity: 0.5;
+    height: 2px;
+    width: 64px;
+    background: var(--red);
+    box-shadow: 0 0 14px rgba(200, 16, 46, 0.55);
   }
 
-  .suggestions-label {
+  /* ─── filter chips ─────────────────────────────────────────────────── */
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filters button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 7px 16px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .filters button:hover {
+    background: rgba(200, 16, 46, 0.08);
+    color: var(--text);
+    border-color: var(--border-red);
+  }
+  .filters button.active {
+    background: var(--red);
+    color: #fff;
+    border-color: var(--red);
+    box-shadow: 0 0 16px rgba(200, 16, 46, 0.35);
+  }
+  .filters .count {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+    margin-left: 6px;
+    letter-spacing: 0;
+  }
+
+  /* ─── vocabulary banner ────────────────────────────────────────────── */
+  .vocab-banner {
+    padding: 18px 22px;
+    margin-bottom: 28px;
+    background: rgba(18, 12, 8, 0.7);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+  }
+  .vocab-banner .modern {
     font-family: 'Oswald', sans-serif;
     font-size: 10px;
-    color: var(--gold);
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 18px;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .vocab-banner .period {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.3;
+    margin: 4px 0 10px;
+    color: var(--text);
+  }
+  .vocab-banner .period em {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 700;
+  }
+  .vocab-banner .note {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text);
+    opacity: 0.72;
+  }
+
+  /* ─── grid + cards ─────────────────────────────────────────────────── */
+  .grid {
+    column-count: 5;
+    column-gap: 20px;
+  }
+  @media (max-width: 1280px) { .grid { column-count: 4; } }
+  @media (max-width: 980px)  { .grid { column-count: 3; } }
+  @media (max-width: 680px)  { .grid { column-count: 2; column-gap: 12px; } header { padding: 20px 18px; } .status-bar { padding: 8px 18px; } .search-surface { padding: 44px 18px 80px; } }
+  @media (max-width: 420px)  { .grid { column-count: 1; } }
+
+  /* Two-state coronation on cards:
+     matte + slightly desaturated (observed, archival) → full color + gold edge (crowned). */
+  .card {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    background: var(--card-bg);
+    color: var(--card-ink);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    display: block;
+    text-decoration: none;
+    position: relative;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 4px 14px rgba(0, 0, 0, 0.55);
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(201, 162, 39, 0.65);
+    box-shadow:
+      0 1px 0 rgba(255, 235, 180, 0.08) inset,
+      0 10px 30px rgba(0, 0, 0, 0.7),
+      0 0 0 1px rgba(201, 162, 39, 0.7),
+      0 0 28px rgba(201, 162, 39, 0.28);
+  }
+
+  .card img,
+  .card .poster-frame {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #e6dfce;
+    filter: saturate(0.82) contrast(1.02);
+    transition: filter 0.4s ease;
+  }
+  .card:hover img,
+  .card:hover .poster-frame {
+    filter: saturate(1.05) contrast(1.05);
+  }
+  .card .poster-frame {
+    aspect-ratio: 3/4;
+    border: 0;
+    pointer-events: none;
+  }
+
+  .card .doc-thumb {
+    aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ece4d2;
+    color: var(--card-dim);
+    padding: 22px 14px;
     text-align: center;
   }
-
-  .suggestions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    max-width: 860px;
-    margin: 0 auto;
+  .card .doc-thumb .doc-icon {
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--card-ink);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .card .doc-thumb .doc-kind {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .card .doc-thumb .doc-pages {
+    font-size: 11px;
+    margin-top: 8px;
+    font-variant-numeric: tabular-nums;
   }
 
-  .suggestion {
-    padding: 16px 22px;
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--red);
-    background: var(--bg-2);
+  .card .audio-thumb {
+    aspect-ratio: 3/4;
+    background: #120b08;
+    color: var(--text);
+    padding: 22px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card .audio-thumb .wave {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 20px 0;
+  }
+  .card .audio-thumb .wave span {
+    flex: 1;
+    background: var(--gold);
+    opacity: 0.45;
+  }
+  .card .audio-thumb .year {
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .card .audio-thumb .length {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+
+  .card .meta { padding: 12px 14px 14px; }
+  .card .meta .title {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0 0 4px;
+    color: var(--card-ink);
+  }
+  .card .meta .source {
+    font-size: 11px;
+    color: var(--card-dim);
+    font-style: italic;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .card .meta .year-line {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--card-dim);
+    margin: 0 0 4px;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+  }
+
+  .card .type-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: rgba(10, 10, 10, 0.82);
+    color: var(--text);
+    padding: 3px 8px;
+    border: 1px solid rgba(240, 235, 225, 0.18);
+    backdrop-filter: blur(4px);
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .card .type-badge.audio { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .card .type-badge.document { background: rgba(30, 20, 12, 0.88); }
+  .card .type-badge.quote { background: var(--red); color: #fff; border-color: var(--red); }
+  .card:hover .type-badge {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+  .card:hover .type-badge.quote { background: var(--red); color: #fff; border-color: var(--red); }
+  .card:hover .meta .title { color: var(--red-deep); }
+
+  /* ─── scarcity note ────────────────────────────────────────────────── */
+  .scarcity-note {
+    padding: 16px 20px;
+    font-size: 13px;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text);
+    border-left: 3px solid var(--red);
+    background: rgba(200, 16, 46, 0.06);
+    margin-bottom: 24px;
+    break-inside: avoid;
+    line-height: 1.55;
+  }
+
+  /* ─── section divider ──────────────────────────────────────────────── */
+  .section-divider {
+    margin: 12px 0 20px;
+    padding: 10px 0 8px;
+    border-top: 1px solid var(--border);
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    break-inside: avoid;
+    break-before: column;
+  }
+
+  /* ─── quote cards (on dark) ────────────────────────────────────────── */
+  .card.quote {
+    background: linear-gradient(180deg, #f5efe1 0%, #ebe3d0 100%);
+    padding: 22px 20px 18px;
+    border: 1px solid rgba(201, 162, 39, 0.3);
+  }
+  .card.quote .quote-mark {
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+    font-size: 62px;
+    line-height: 0.5;
+    color: var(--red);
+    opacity: 0.55;
+    margin-bottom: -6px;
+  }
+  .card.quote .quote-text {
+    font-family: 'Cormorant Garamond', 'Bodoni Moda', serif;
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--card-ink);
+    margin: 8px 0 14px;
+  }
+  .card.quote .quote-attribution {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    color: var(--card-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(10, 10, 10, 0.15);
+    padding-top: 10px;
+  }
+
+  /* ─── empty state ──────────────────────────────────────────────────── */
+  .empty {
+    padding: 80px 0;
+    text-align: center;
     color: var(--text-dim);
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 15px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.25s;
-    font-weight: 400;
+    font-size: 22px;
+    display: none;
     line-height: 1.4;
   }
+  .empty.visible { display: block; }
+  .empty em { color: var(--gold); font-style: italic; }
 
-  .suggestion:hover {
-    border-color: var(--red);
-    border-left-color: var(--green);
-    color: var(--text);
-    background: var(--bg-3);
-    transform: translateX(2px);
-  }
-
-  .suggestion::before {
-    content: '★';
-    color: var(--red);
-    margin-right: 10px;
-    font-size: 11px;
-    font-style: normal;
-  }
-
-  @media (max-width: 780px) {
-    .suggestions { grid-template-columns: 1fr; }
-  }
-
-  /* MESSAGES */
-  .message {
-    max-width: 760px;
-    margin: 0 auto 28px;
-  }
-
-  .message-role {
+  /* ─── footer ───────────────────────────────────────────────────────── */
+  footer {
+    padding: 36px 40px;
+    background: #000;
+    border-top: 1px solid var(--border);
     font-family: 'Oswald', sans-serif;
     font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .message.user .message-role {
-    color: var(--text-dim);
-  }
-  .message.user .message-role::before {
-    content: '◆ ';
-    color: var(--text-dim);
-  }
-
-  .message.assistant .message-role {
-    color: var(--red);
-  }
-  .message.assistant .message-role::before {
-    content: '★ ';
-    color: var(--red);
-  }
-
-  .message-content {
-    padding: 22px 28px;
-    font-size: 15px;
-    line-height: 1.75;
-    color: var(--text);
-    white-space: pre-wrap;
-    font-weight: 300;
-  }
-
-  .message.user .message-content {
-    background: var(--bg-2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--gold);
-    font-family: 'Libre Caslon Display', serif;
-    font-style: italic;
-  }
-
-  .message.assistant .message-content {
-    background: #0e0a08;
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--red);
-    box-shadow: inset 0 0 40px rgba(200, 16, 46, 0.05);
-  }
-
-  .message.loading .message-content {
     color: var(--text-faint);
-    font-style: italic;
-  }
-
-  .message.loading .message-content::after {
-    content: '';
-    display: inline-block;
-    width: 10px;
-    height: 14px;
-    background: var(--red);
-    margin-left: 6px;
-    animation: signal 1s ease-in-out infinite;
-    vertical-align: middle;
-    box-shadow: 0 0 8px var(--red);
-  }
-
-  @keyframes signal {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0.1; }
-  }
-
-  /* INPUT */
-  .chat-input-wrap {
-    padding: 22px 48px;
-    border-top: 1px solid var(--border);
-    background: #000;
-    position: relative;
-  }
-
-  .chat-input-wrap::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, var(--red) 0%, var(--black) 50%, var(--green) 100%);
-    opacity: 0.4;
-  }
-
-  .chat-input-inner {
-    max-width: 760px;
-    margin: 0 auto;
-    display: flex;
-    gap: 12px;
-  }
-
-  .chat-input {
-    flex: 1;
-    background: var(--bg-2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 16px 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .chat-input:focus { border-color: var(--red); }
-
-  .chat-input::placeholder {
-    color: var(--text-faint);
-    font-style: italic;
-  }
-
-  .chat-send {
-    background: var(--red);
-    color: #fff;
-    border: none;
-    padding: 16px 32px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-
-  .chat-send:hover {
-    background: var(--red-glow);
-    box-shadow: 0 0 16px rgba(200, 16, 46, 0.4);
-  }
-
-  .chat-send:disabled {
-    background: var(--red-deep);
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-
-  /* SOURCES PANEL */
-  .sources-panel {
-    width: 400px;
-    overflow-y: auto;
-    padding: 36px 28px;
-    background: #080808;
-    border-left: 1px solid var(--border);
-    position: relative;
-  }
-
-  .sources-panel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--red), var(--black), var(--green));
-    opacity: 0.5;
-  }
-
-  .sources-panel h3 {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 8px;
-  }
-
-  .sources-panel h3 + .subhead {
-    font-family: 'Libre Caslon Display', serif;
-    font-size: 12px;
-    color: var(--text-faint);
-    font-style: italic;
-    margin-bottom: 24px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .sources-empty {
-    color: var(--text-faint);
-    font-size: 13px;
-    font-style: italic;
     text-align: center;
-    padding: 60px 20px;
-    line-height: 1.7;
-  }
-
-  .sources-empty::before {
-    content: '★';
-    display: block;
-    font-size: 32px;
-    color: var(--red);
-    opacity: 0.3;
-    margin-bottom: 16px;
-    font-style: normal;
-  }
-
-  .source-card {
-    padding: 18px;
-    margin-bottom: 14px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .source-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, var(--red) 0%, var(--black) 50%, var(--green) 100%);
-  }
-
-  .source-card .source-index {
-    font-family: 'Oswald', sans-serif;
-    font-size: 9px;
-    color: var(--gold);
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .source-card .source-title {
-    font-family: 'Libre Caslon Display', serif;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--text);
-    margin-bottom: 8px;
-    line-height: 1.4;
-  }
-
-  .source-card .source-similarity {
-    font-family: 'Oswald', sans-serif;
-    font-size: 10px;
-    color: var(--red);
-    letter-spacing: 1.5px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
-
-  .source-card .source-excerpt {
-    font-size: 12px;
-    color: var(--text-dim);
-    line-height: 1.65;
-    font-style: italic;
-    border-left: 1px solid var(--border);
-    padding-left: 12px;
-  }
-
-  /* MODAL */
-  .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.93);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    backdrop-filter: blur(6px);
-  }
-
-  .modal-backdrop.hidden { display: none; }
-
-  .modal {
-    background: var(--bg);
-    border: 1px solid var(--red);
-    max-width: 540px;
-    padding: 44px;
+    line-height: 1.9;
     position: relative;
+    z-index: 2;
   }
+  footer a { color: var(--gold); text-decoration: none; border-bottom: 1px solid transparent; }
+  footer a:hover { border-bottom-color: var(--gold); }
+  footer .ri-rule { color: var(--text-dim); }
 
-  .modal::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--red), var(--black), var(--green));
-  }
-
-  .modal .modal-star {
-    width: 32px;
-    height: 32px;
-    display: block;
-    margin: 0 auto 16px;
-  }
-
-  .modal h2 {
-    font-family: 'Libre Caslon Display', serif;
-    font-weight: 400;
-    font-size: 26px;
-    color: var(--red);
-    margin-bottom: 10px;
-    text-align: center;
-  }
-
-  .modal .modal-sub {
-    font-family: 'Oswald', sans-serif;
-    font-size: 10px;
-    color: var(--gold);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-
-  .modal p {
-    color: var(--text-dim);
-    font-size: 13px;
-    line-height: 1.7;
-    margin-bottom: 18px;
-  }
-
-  .modal p a {
-    color: var(--red);
-    text-decoration: underline;
-  }
-
-  .modal input {
-    width: 100%;
-    background: var(--bg-2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 14px 16px;
-    font-family: 'Inter', monospace;
-    font-size: 13px;
-    outline: none;
-    margin-bottom: 18px;
-  }
-
-  .modal input:focus { border-color: var(--red); }
-
-  .modal button {
-    background: var(--red);
-    color: #fff;
-    border: none;
-    padding: 14px 24px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    width: 100%;
-  }
-  .modal button:hover { background: var(--red-glow); }
-
-  .modal .small-note {
-    font-size: 11px;
-    color: var(--text-faint);
-    margin-top: 16px;
-    text-align: center;
-    font-style: italic;
-  }
-
-  @media (max-width: 960px) {
-    .sources-panel { display: none; }
+  @media (max-width: 680px) {
+    .hero-stage { min-height: 440px; }
+    .sig-stage { width: 88vw; }
+    .hero-upper { top: 28px; padding: 0 24px; }
+    .hero-upper .rally { letter-spacing: 5px; font-size: 10px; }
+    .hero-upper .kicker { font-size: 12px; }
+    .hero-lower { bottom: 28px; }
+    .hero-lower .the-archive { font-size: 18px; }
+    .flag-accent { height: 160px; }
+    .black-star-mark { top: 24px; right: 24px; width: 40px; height: 40px; }
+    .q-echo { font-size: 44px; }
   }
 </style>
 </head>
@@ -937,7 +842,6 @@
 <div class="flag-bar">
   <div class="r"></div><div class="b"></div><div class="g"></div>
 </div>
-
 
 <header>
   <div class="brand-row">
@@ -950,10 +854,11 @@
       <div class="subtitle">★ One God · One Aim · One Destiny ★</div>
     </div>
   </div>
-  <div class="ri-mark">
-    <div class="prototype-tag">Prototype v1</div><br>
-    A Demo by<span class="dim">Radical Imagination</span>
-  </div>
+  <nav>
+    <button id="random-btn" title="Show random artifacts">Random</button>
+    <button id="history-btn" title="Recent queries">History</button>
+    <a href="/sam/chat" class="chat">Ask the Archive</a>
+  </nav>
 </header>
 
 <div class="status-bar">
@@ -962,75 +867,61 @@
 </div>
 
 <main>
-  <div class="chat-panel">
-    <div class="chat-messages" id="chatMessages">
-      <div class="welcome" id="welcomeScreen">
-        <div class="hero-stage source-hero">
-          <!-- AMBIENT ARCHIVE LAYER — Garvey's text filling the canvas at low opacity -->
-          <div class="ambient-archive" id="ambientArchive"></div>
 
-          <!-- The vignette gently darkens the edges, focusing the eye -->
-          <div class="hero-vignette source"></div>
+  <!-- HERO: cinematic source-hero with signature signing in place of the Caveat wordmark -->
+  <section class="hero-stage" aria-label="Marcus Garvey's signature from his 1917 WWI draft registration card">
+    <div class="ambient-archive" id="ambientArchive" aria-hidden="true"></div>
+    <div class="hero-vignette"></div>
 
-          <!-- THE WORDMARK — literally made from Garvey's own words -->
-          <!-- Caveat script, giant, filled with micro-text from Philosophy and Opinions -->
-          <h1 class="wordmark-source" id="wordmarkSource">Garvey</h1>
+    <div class="flag-accent left" aria-hidden="true"></div>
+    <div class="flag-accent right" aria-hidden="true"></div>
 
-          <!-- Pan-African flag accent bars on the wordmark sides -->
-          <div class="flag-accent left"></div>
-          <div class="flag-accent right"></div>
+    <svg class="black-star-mark" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="44" fill="none" stroke="#d4a843" stroke-width="0.6" opacity="0.5"/>
+      <circle cx="50" cy="50" r="26" fill="none" stroke="#d4a843" stroke-width="0.8" opacity="0.7"/>
+      <polygon points="50,18 58,42 84,42 63,58 71,84 50,68 29,84 37,58 16,42 42,42" fill="#0a0506" stroke="#C8102E" stroke-width="2"/>
+    </svg>
 
-          <!-- The Black Star — small, upper right, a navigation mark -->
-          <svg class="black-star-mark" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#d4a843" stroke-width="0.6" opacity="0.5"/>
-            <circle cx="50" cy="50" r="26" fill="none" stroke="#d4a843" stroke-width="0.8" opacity="0.7"/>
-            <polygon points="50,18 58,42 84,42 63,58 71,84 50,68 29,84 37,58 16,42 42,42" fill="#0a0506" stroke="#C8102E" stroke-width="2"/>
-          </svg>
+    <div class="hero-upper">
+      <div class="rally">★ <span>One God</span> · <span>One Aim</span> · <span>One Destiny</span> ★</div>
+      <div class="kicker">signed into the archive — June 5, 1917</div>
+    </div>
 
-          <!-- Over-the-horizon small type -->
-          <div class="hero-upper">
-            <div class="rally">★ <span>One God</span> · <span>One Aim</span> · <span>One Destiny</span> ★</div>
-            <div class="subhead">Every letter you see is built from his own writings. Lean in.</div>
-          </div>
+    <!-- THE SIGNATURE: in Garvey's own hand, from his WWI draft registration card.
+         Two-state: matte cream at rest, gold metallic on attention (Wild Week Athens pattern). -->
+    <div class="sig-stage" role="img" aria-label="Marcus Garvey's signature, from his 1917 WWI draft registration card, NARA Atlanta">
+      <div class="sig-ink"></div>
+    </div>
 
-          <!-- Lower legend -->
-          <div class="hero-lower">
-            <div class="the-archive">The Living Archive</div>
-            <div class="attribution">
-              The archive spells its own name in its own words &nbsp;·&nbsp; A <strong>Radical Imagination</strong> prototype
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-footer">
-          <div class="suggestions-label">★ Ask the Archive ★</div>
-          <div class="suggestions">
-            <button class="suggestion" data-q="What did Marcus Garvey mean by 'Africa for the Africans'?">What did Garvey mean by "Africa for the Africans"?</button>
-            <button class="suggestion" data-q="Why did Garvey say the Negro race needed a nation of their own?">Why did Garvey say the Negro race needed a nation of their own?</button>
-            <button class="suggestion" data-q="What was Garvey's answer to those who called him a dreamer?">What was Garvey's answer to those who called him a dreamer?</button>
-            <button class="suggestion" data-q="How did Garvey describe the purpose of the Black Star Line?">How did Garvey describe the purpose of the Black Star Line?</button>
-            <button class="suggestion" data-q="What did Garvey say about prejudice between races in America?">What did Garvey say about prejudice between races in America?</button>
-            <button class="suggestion" data-q="How did Garvey respond to those who said the UNIA was impossible?">How did Garvey respond to those who said the UNIA was impossible?</button>
-          </div>
-        </div>
+    <div class="hero-lower">
+      <div class="the-archive">Search the archive <strong>in his own words</strong>.</div>
+      <div class="attribution">
+        A <strong>Radical Imagination</strong> Small Archive Model &nbsp;·&nbsp; 37 primary sources &nbsp;·&nbsp; 618 passages
       </div>
     </div>
-    <div class="chat-input-wrap">
-      <div class="chat-input-inner">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Ask the movement a question..." />
-        <button class="chat-send" id="sendBtn">★ Signal</button>
-      </div>
-    </div>
-  </div>
+  </section>
 
-  <div class="sources-panel">
-    <h3>★ Dispatches from the Archive</h3>
-    <div class="subhead">Every answer is grounded in Garvey's own words.</div>
-    <div id="sourcesContainer">
-      <div class="sources-empty">
-        Ask a question of the archive. The passages of Garvey's own writing most relevant to your query will arrive here — with similarity rankings, like signals from the flagship.
-      </div>
+  <!-- SEARCH SURFACE -->
+  <div class="search-surface">
+
+    <div class="query-row" id="query-row">
+      <span class="q-echo is-empty" id="q-echo" aria-hidden="true"></span>
+      <input id="q" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="search the Garvey archive">
     </div>
+
+    <div class="filters" id="filters">
+      <button data-type="all" class="active">All <span class="count" id="count-all"></span></button>
+      <button data-type="photo">Photo <span class="count" id="count-photo"></span></button>
+      <button data-type="document">Document <span class="count" id="count-document"></span></button>
+      <button data-type="audio">Audio <span class="count" id="count-audio"></span></button>
+      <button data-type="quote">Quote <span class="count" id="count-quote"></span></button>
+    </div>
+
+    <div class="vocab-banner" id="vocab-banner" style="display:none" aria-live="polite"></div>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">no results. try <em>africa</em>, <em>1921</em>, or <em>liberia</em>.</div>
+
   </div>
 </main>
 
@@ -1038,334 +929,415 @@
   <div class="r"></div><div class="b"></div><div class="g"></div>
 </div>
 
+<footer>
+  A Small Archive Model for Marcus Garvey &nbsp;·&nbsp;
+  Part of the <a href="https://radicalimagination.xyz">Radical Imagination</a> Constellation.<br>
+  <span class="ri-rule">All artifacts are public domain or CC-licensed · Provenance registered in <code>archives/garvey/sources.md</code></span><br>
+  <a href="/sam/chat">Ask the archive →</a>
+</footer>
+
 <script>
-// ============================================================
-// Marcus Garvey Living Archive — Standalone Demo
-// Pure client-side RAG: loads pre-computed embeddings, queries Gemini
-// ============================================================
+  const state = {
+    manifest: null,
+    quotes: null,
+    vocabulary: null,
+    query: '',
+    type: 'all',
+    history: JSON.parse(localStorage.getItem('garvey-sam-history') || '[]'),
+  };
 
-let embeddings = null
+  const MAX_QUOTE_RESULTS = 18;
 
-// Local server proxies Gemini API — keeps the key off the frontend
-const API_EMBED = "/api/embed"
-const API_CHAT = "/api/chat"
+  const el = {
+    q: document.getElementById('q'),
+    qEcho: document.getElementById('q-echo'),
+    queryRow: document.getElementById('query-row'),
+    grid: document.getElementById('grid'),
+    empty: document.getElementById('empty'),
+    filters: document.getElementById('filters'),
+    randomBtn: document.getElementById('random-btn'),
+    historyBtn: document.getElementById('history-btn'),
+    vocabBanner: document.getElementById('vocab-banner'),
+    statusText: document.getElementById('statusText'),
+    statsText: document.getElementById('statsText'),
+    ambient: document.getElementById('ambientArchive'),
+  };
 
-const SYSTEM_PROMPT = `You are a scholar-docent for the Marcus Garvey Living Archive — a conversational interface over the writings of Marcus Garvey (1887-1940), founder of the Universal Negro Improvement Association (UNIA) and the Black Star Line.
+  // ─── data ───────────────────────────────────────────────────────────
+  async function loadData() {
+    el.statusText.textContent = 'Hailing the flagship...';
+    const [m, q, v] = await Promise.all([
+      fetch('/manifest.json').then(r => r.ok ? r.json() : Promise.reject(new Error('manifest ' + r.status))),
+      fetch('/quotes.json').then(r => r.ok ? r.json() : null),
+      fetch('/vocabulary.json').then(r => r.ok ? r.json() : null),
+    ]);
+    state.manifest = m;
+    state.quotes = q;
+    state.vocabulary = v;
+    updateCounts();
+    el.statusText.textContent = 'Archive on deck · search to hail a passage';
+    populateAmbient();
+  }
 
-You speak with the care of a historian and the directness of a community member. Your voice carries the cadence of oratory — Garvey was a mass-movement speaker, and the words you present should feel like they are being delivered, not academically analyzed.
+  function updateCounts() {
+    const counts = state.manifest.counts;
+    const qCount = state.quotes ? state.quotes.total : 0;
+    document.getElementById('count-all').textContent = state.manifest.total + (qCount ? '+' : '');
+    document.getElementById('count-photo').textContent = counts.photo || 0;
+    document.getElementById('count-document').textContent = counts.document || 0;
+    document.getElementById('count-audio').textContent = counts.audio || 0;
+    document.getElementById('count-quote').textContent = qCount;
+    el.statsText.textContent = `${state.manifest.total} artifacts · ${qCount} passages`;
+  }
 
-STRICT RULES:
-1. Answer using ONLY the provided excerpts from Garvey's own writings. Never invent quotes or claims.
-2. If the excerpts don't answer the question, say so honestly. Do not fill gaps with speculation.
-3. When you cite Garvey, use phrases like "Garvey wrote..." or "In Philosophy and Opinions, Garvey argued..." Quote sparingly but precisely.
-4. The OCR is imperfect — occasional typos or odd characters come from the 1923 scanning, not Garvey himself. Silently correct obvious errors in quotes without flagging them.
-5. Keep responses to 2-4 paragraphs. Ground every claim. Honor the archive.
-6. Do NOT add disclaimers about being an AI. You are a docent speaking for the archive.`
-
-// ============================================================
-// SOURCE-IS-THE-FORM HERO
-// The wordmark "Garvey" is filled with Garvey's own text,
-// pulled from the 689-sentence cleaned corpus.
-// ============================================================
-async function buildSourceHero() {
-  try {
-    // Try loading the pre-generated clean sentences.
-    let sentences = []
-    try {
-      const res = await fetch("/public/garvey_sentences.json")
-      if (res.ok) sentences = await res.json()
-    } catch {}
-    // Fallback: extract from embeddings chunks
-    if (!sentences.length) {
-      try {
-        const res2 = await fetch("/public/embeddings.json")
-        if (res2.ok) {
-          const data = await res2.json()
-          const allText = data.chunks.map((c) => c.content).join(" ")
-          sentences = allText
-            .split(/(?<=[.!?])\s+/)
-            .map((s) => s.replace(/\s+/g, " ").trim())
-            .filter((s) => {
-              if (s.length < 40 || s.length > 220) return false
-              const alpha = (s.match(/[a-zA-Z]/g) || []).length
-              if (alpha / s.length < 0.75) return false
-              const weird = (s.match(/[^a-zA-Z0-9 ,.!?';:"()\-]/g) || []).length
-              if (weird > 2) return false
-              return true
-            })
-        }
-      } catch {}
+  // Build the ambient archive layer — Garvey's own words filling the hero at 0.075 opacity
+  function populateAmbient() {
+    if (!el.ambient || !state.quotes || !state.quotes.quotes) return;
+    const sentences = state.quotes.quotes.map(q => q.text);
+    if (sentences.length === 0) return;
+    const paragraphs = [];
+    let idx = Math.floor(Math.random() * sentences.length);
+    for (let i = 0; i < 120; i++) {
+      const s = sentences[idx++ % sentences.length];
+      paragraphs.push(`<p>${escape(s)}</p>`);
     }
-    if (!sentences.length) {
-      // Hard fallback: hand-picked canonical Garvey quotes
-      sentences = [
-        "Up, you mighty race! You can accomplish what you will.",
-        "A people without the knowledge of their past history, origin and culture is like a tree without roots.",
-        "If you have no confidence in self, you are twice defeated in the race of life.",
-        "We declare to the world that Africa must be free, that the Negro race must be emancipated.",
-        "The Black skin is not a badge of shame, but rather a glorious symbol of national greatness.",
-        "Intelligence rules the world, ignorance carries the burden.",
-        "God and Nature first made us what we are, and then out of our own created genius we make ourselves what we want to be.",
-      ]
+    el.ambient.innerHTML = paragraphs.join('');
+  }
+
+  // ─── search ─────────────────────────────────────────────────────────
+  function filteredArtifacts() {
+    const q = state.query.trim().toLowerCase();
+    let items = state.manifest.artifacts;
+    if (state.type !== 'all' && state.type !== 'quote') items = items.filter(a => a.type === state.type);
+    if (state.type === 'quote') items = [];
+    if (q) {
+      const tokens = q.split(/\s+/).filter(Boolean);
+      items = items.filter(a => tokens.every(t => a.haystack.includes(t)));
+    }
+    return items;
+  }
+
+  function filteredQuotes() {
+    if (!state.quotes) return [];
+    const q = state.query.trim().toLowerCase();
+    if (!q && state.type !== 'quote') return [];
+    if (state.type !== 'all' && state.type !== 'quote') return [];
+
+    const tokens = (q + ' ' + vocabPeriodTerms(q)).toLowerCase().split(/\s+/).filter(Boolean);
+    if (tokens.length === 0) {
+      return state.quotes.quotes.slice(0, MAX_QUOTE_RESULTS);
     }
 
-    // Fill the AMBIENT archive layer with paragraphs
-    const ambient = document.getElementById("ambientArchive")
-    if (ambient) {
-      const paragraphs = []
-      let idx = 0
-      // Enough sentences to fill ~8 columns at small font size
-      for (let i = 0; i < 90; i++) {
-        const s = sentences[idx++ % sentences.length]
-        paragraphs.push(`<p>${escapeHtml(s)}</p>`)
+    const scored = [];
+    for (const quote of state.quotes.quotes) {
+      let score = 0;
+      for (const t of tokens) {
+        if (quote.haystack.includes(t)) score++;
       }
-      ambient.innerHTML = paragraphs.join("")
+      if (score > 0) scored.push({ quote, score });
     }
+    scored.sort((a, b) => b.score - a.score || a.quote.text.length - b.quote.text.length);
+    return scored.slice(0, MAX_QUOTE_RESULTS).map(s => s.quote);
+  }
 
-    // Build a SMALL, repeating SVG text tile for the wordmark background.
-    // The tile tiles across the wordmark's bounding box so the text stays
-    // at its native, legible size regardless of font-size.
-    const TILE_W = 480
-    const TILE_H = 240
-    const FONT_SIZE = 13
-    const LINE_HEIGHT = 17
-    const COLS = 2
-    const COL_PADDING = 12
-    const COL_WIDTH = (TILE_W - COL_PADDING * (COLS + 1)) / COLS
-    const ROWS = Math.floor((TILE_H - 20) / LINE_HEIGHT)
-    const CHARS_PER_LINE = Math.floor(COL_WIDTH / 7.4) // approx for monospace
+  function curated() {
+    const items = state.manifest.artifacts.filter(a => {
+      if (a.type !== 'document') return true;
+      const keepDocs = ['income-tax', 'mail-fraud', 'dubois-crisis', 'draft-registration', 'section-1a'];
+      return keepDocs.some(k => a.id.includes(k));
+    });
+    return items;
+  }
 
-    function wrap(text, width) {
-      const words = text.split(/\s+/)
-      const lines = []
-      let cur = ""
-      for (const w of words) {
-        if ((cur + " " + w).trim().length > width) {
-          if (cur) lines.push(cur)
-          cur = w
-        } else {
-          cur = (cur ? cur + " " : "") + w
-        }
-      }
-      if (cur) lines.push(cur)
-      return lines
-    }
-
-    const allLines = []
-    let sIdx = Math.floor(Math.random() * sentences.length)
-    while (allLines.length < ROWS * COLS * 1.4) {
-      const sentence = sentences[sIdx++ % sentences.length]
-      for (const line of wrap(sentence, CHARS_PER_LINE)) {
-        allLines.push(line)
-      }
-    }
-
-    const textElements = []
-    let lineIdx = 0
-    for (let col = 0; col < COLS; col++) {
-      const x = COL_PADDING + col * (COL_WIDTH + COL_PADDING)
-      for (let row = 0; row < ROWS; row++) {
-        const y = 14 + row * LINE_HEIGHT
-        const line = allLines[lineIdx++]
-        if (!line) continue
-        textElements.push(
-          `<text x="${x.toFixed(1)}" y="${y}" font-family="'Courier Prime','SF Mono',Menlo,monospace" font-size="${FONT_SIZE}" font-weight="600" fill="#f5efe1">${escapeXml(
-            line
-          )}</text>`
-        )
+  // ─── vocabulary translation ─────────────────────────────────────────
+  function vocabMatch(q) {
+    if (!state.vocabulary || !q) return null;
+    const query = q.toLowerCase().trim();
+    const entries = state.vocabulary.entries || {};
+    if (entries[query]) return { term: query, entry: entries[query] };
+    for (const [term, entry] of Object.entries(entries)) {
+      if (query.includes(term.toLowerCase()) || term.toLowerCase().includes(query)) {
+        if (query.length >= 4) return { term, entry };
       }
     }
+    return null;
+  }
 
-    const svgText =
-      `<svg xmlns="http://www.w3.org/2000/svg" width="${TILE_W}" height="${TILE_H}" viewBox="0 0 ${TILE_W} ${TILE_H}">` +
-      `<rect width="${TILE_W}" height="${TILE_H}" fill="#14080a"/>` +
-      textElements.join("") +
-      `</svg>`
+  function vocabPeriodTerms(q) {
+    const match = vocabMatch(q);
+    if (!match || !match.entry.period_terms) return '';
+    return match.entry.period_terms.join(' ');
+  }
 
-    const dataUrl =
-      "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgText)
-
-    const wordmark = document.getElementById("wordmarkSource")
-    if (wordmark) {
-      wordmark.style.backgroundImage = `url("${dataUrl}")`
-      wordmark.style.backgroundRepeat = "repeat"
-      wordmark.style.backgroundSize = "auto"
-      wordmark.classList.add("ready")
+  function renderVocabBanner(q) {
+    const match = vocabMatch(q);
+    if (!match || !match.entry.period_terms || match.entry.period_terms.length === 0) {
+      if (match && match.entry.scholarly_note) {
+        el.vocabBanner.style.display = 'block';
+        el.vocabBanner.innerHTML = `
+          <div class="modern">${escape(match.term)}</div>
+          <div class="period"><em>no clean period analog in Garvey's vocabulary</em></div>
+          <div class="note">${escape(match.entry.scholarly_note)}</div>
+        `;
+        return;
+      }
+      el.vocabBanner.style.display = 'none';
+      return;
     }
-  } catch (err) {
-    console.warn("[source-hero] build failed:", err)
+    const periodList = match.entry.period_terms.map(t => `<em>${escape(t)}</em>`).join(' · ');
+    el.vocabBanner.style.display = 'block';
+    el.vocabBanner.innerHTML = `
+      <div class="modern">modern: ${escape(match.term)}</div>
+      <div class="period">Garvey's period vocabulary: ${periodList}</div>
+      <div class="note">${escape(match.entry.scholarly_note || '')}</div>
+    `;
   }
-}
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;")
-}
-
-function escapeXml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;")
-}
-
-async function init() {
-  buildSourceHero()
-  document.getElementById("sendBtn").addEventListener("click", handleSubmit)
-  document.getElementById("chatInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleSubmit()
-  })
-
-  document.querySelectorAll(".suggestion").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.getElementById("chatInput").value = btn.dataset.q
-      handleSubmit()
-    })
-  })
-
-  try {
-    const statusEl = document.getElementById("statusText")
-    statusEl.textContent = "Hailing the flagship..."
-    const res = await fetch("/public/embeddings.json")
-    if (!res.ok) throw new Error("Failed to load embeddings — run `node scripts/ingest.mjs` first")
-    embeddings = await res.json()
-    statusEl.innerHTML = `Signal locked · <strong style="color:#c9a227">${embeddings.chunks.length}</strong> passages indexed`
-    const sources = new Set(embeddings.chunks.map((c) => c.source_title))
-    document.getElementById("statsText").textContent = `${sources.size} primary source · 1923 edition · OCR from Archive.org`
-  } catch (err) {
-    document.getElementById("statusText").textContent = `Error: ${err.message}`
-    console.error(err)
+  function escape(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
-}
 
-function cosineSim(a, b) {
-  let dot = 0, na = 0, nb = 0
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i]
-    na += a[i] * a[i]
-    nb += b[i] * b[i]
+  // ─── render ─────────────────────────────────────────────────────────
+  function render() {
+    const hasQuery = !!state.query.trim();
+    const artifacts = hasQuery || state.type !== 'all' ? filteredArtifacts() : curated();
+    const quotes = filteredQuotes();
+    el.grid.innerHTML = '';
+
+    if (hasQuery) renderVocabBanner(state.query);
+    else el.vocabBanner.style.display = 'none';
+
+    if (state.type === 'audio' && !hasQuery) {
+      const note = document.createElement('div');
+      note.className = 'scarcity-note';
+      note.textContent = 'Across every archive we surveyed — UCLA MGPP, Library of Congress, Wikimedia, American RadioWorks — these two recordings are the only known surviving audio of Marcus Garvey\'s voice. No Jamaica recordings. No BBC. No UNIA band masters. The scarcity is part of the story.';
+      el.grid.appendChild(note);
+    }
+
+    const total = artifacts.length + quotes.length;
+    el.empty.classList.toggle('visible', total === 0);
+
+    for (const item of artifacts) el.grid.appendChild(renderCard(item));
+
+    if (quotes.length > 0) {
+      if (artifacts.length > 0) {
+        const div = document.createElement('div');
+        div.className = 'section-divider';
+        div.textContent = `from Philosophy and Opinions (1923) · ${quotes.length} passage${quotes.length === 1 ? '' : 's'}`;
+        el.grid.appendChild(div);
+      }
+      for (const q of quotes) el.grid.appendChild(renderQuoteCard(q));
+    }
+
+    // Update status bar stats with current results
+    if (hasQuery || state.type !== 'all') {
+      el.statsText.textContent = `${total} result${total === 1 ? '' : 's'} · ${state.query.trim() || state.type}`;
+    } else {
+      const qCount = state.quotes ? state.quotes.total : 0;
+      el.statsText.textContent = `${state.manifest.total} artifacts · ${qCount} passages`;
+    }
   }
-  return dot / (Math.sqrt(na) * Math.sqrt(nb))
-}
 
-function topK(queryEmbedding, k = 6) {
-  const scored = embeddings.chunks.map((c) => ({
-    ...c,
-    similarity: cosineSim(queryEmbedding, c.embedding),
-  }))
-  scored.sort((a, b) => b.similarity - a.similarity)
-  return scored.slice(0, k)
-}
+  function renderQuoteCard(q) {
+    const card = document.createElement('div');
+    card.className = 'card quote';
 
-async function embedQuery(text) {
-  const res = await fetch(API_EMBED, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
-  })
-  if (!res.ok) throw new Error(`Embedding failed: ${await res.text()}`)
-  const data = await res.json()
-  return data.embedding
-}
+    const badge = document.createElement('span');
+    badge.className = 'type-badge quote';
+    badge.textContent = 'quote';
+    card.appendChild(badge);
 
-async function generateAnswer(question, sources) {
-  const context = sources
-    .map((s, i) => `[Source ${i + 1}: ${s.source_title}]\n${s.content}`)
-    .join("\n\n---\n\n")
+    const mark = document.createElement('div');
+    mark.className = 'quote-mark';
+    mark.textContent = '\u201C';
+    card.appendChild(mark);
 
-  const prompt = `${SYSTEM_PROMPT}\n\n=== PROVIDED EXCERPTS ===\n${context}\n\n=== USER QUESTION ===\n${question}\n\n=== YOUR ANSWER (grounded in the excerpts above) ===`
+    const text = document.createElement('div');
+    text.className = 'quote-text';
+    text.textContent = q.text;
+    card.appendChild(text);
 
-  const res = await fetch(API_CHAT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt }),
-  })
-  if (!res.ok) throw new Error(`Chat completion failed: ${await res.text()}`)
-  const data = await res.json()
-  return data.answer || "(no response)"
-}
+    const attr = document.createElement('div');
+    attr.className = 'quote-attribution';
+    attr.textContent = 'Philosophy & Opinions · 1923';
+    card.appendChild(attr);
 
-async function handleSubmit() {
-  const input = document.getElementById("chatInput")
-  const question = input.value.trim()
-  if (!question) return
-  if (!embeddings) { alert("Corpus still loading..."); return }
-
-  const welcome = document.getElementById("welcomeScreen")
-  if (welcome) welcome.remove()
-
-  input.value = ""
-  document.getElementById("sendBtn").disabled = true
-
-  addMessage("user", question)
-  const loadingId = addMessage("assistant", "Signaling the flagship...", true)
-
-  try {
-    const queryEmbedding = await embedQuery(question)
-    const sources = topK(queryEmbedding, 6)
-    const answer = await generateAnswer(question, sources)
-    updateMessage(loadingId, answer)
-    renderSources(sources)
-  } catch (err) {
-    console.error(err)
-    updateMessage(loadingId, `★ Signal lost: ${err.message}`)
-  } finally {
-    document.getElementById("sendBtn").disabled = false
+    return card;
   }
-}
 
-let messageCounter = 0
-function addMessage(role, content, loading = false) {
-  const container = document.getElementById("chatMessages")
-  const id = `msg-${++messageCounter}`
-  const div = document.createElement("div")
-  div.id = id
-  div.className = `message ${role}${loading ? " loading" : ""}`
-  const label = role === "user" ? "The Inquirer" : "Garvey Archive"
-  div.innerHTML = `
-    <div class="message-role">${label}</div>
-    <div class="message-content"></div>
-  `
-  div.querySelector(".message-content").textContent = content
-  container.appendChild(div)
-  container.scrollTop = container.scrollHeight
-  return id
-}
+  function renderCard(a) {
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = a.asset;
+    card.target = a.type === 'document' ? '_blank' : '_self';
+    card.rel = 'noopener';
 
-function updateMessage(id, content) {
-  const el = document.getElementById(id)
-  if (!el) return
-  el.classList.remove("loading")
-  el.querySelector(".message-content").textContent = content
-  document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight
-}
+    const badge = document.createElement('span');
+    badge.className = 'type-badge ' + a.type;
+    badge.textContent = a.type;
+    card.appendChild(badge);
 
-function renderSources(sources) {
-  const container = document.getElementById("sourcesContainer")
-  container.innerHTML = ""
-  sources.forEach((s, idx) => {
-    const card = document.createElement("div")
-    card.className = "source-card"
-    const excerpt = s.content.length > 200 ? s.content.slice(0, 200) + "..." : s.content
-    card.innerHTML = `
-      <div class="source-index">Dispatch №${String(idx + 1).padStart(2, '0')}</div>
-      <div class="source-title"></div>
-      <div class="source-similarity">★ Signal Strength: ${(s.similarity * 100).toFixed(1)}%</div>
-      <div class="source-excerpt"></div>
-    `
-    card.querySelector(".source-title").textContent = s.source_title
-    card.querySelector(".source-excerpt").textContent = `"${excerpt}"`
-    container.appendChild(card)
-  })
-}
+    if (a.type === 'photo') {
+      const img = document.createElement('img');
+      img.src = a.thumbnail;
+      img.alt = a.title;
+      img.loading = 'lazy';
+      card.appendChild(img);
+    } else if (a.type === 'poster') {
+      const frame = document.createElement('iframe');
+      frame.className = 'poster-frame';
+      frame.src = a.asset;
+      frame.title = a.title;
+      frame.setAttribute('loading', 'lazy');
+      card.appendChild(frame);
+    } else if (a.type === 'document') {
+      const thumb = document.createElement('div');
+      thumb.className = 'doc-thumb';
+      const ext = a.asset.toLowerCase().endsWith('.pdf') ? 'PDF' : 'DOC';
+      thumb.innerHTML = `
+        <div class="doc-icon">${escape(a.title.split(/[,—:-]/)[0].trim())}</div>
+        <div class="doc-kind">${ext}</div>
+        ${a.year ? `<div class="doc-pages">${a.year}</div>` : ''}
+      `;
+      card.appendChild(thumb);
+    } else if (a.type === 'audio') {
+      const thumb = document.createElement('div');
+      thumb.className = 'audio-thumb';
+      const bars = Array.from({ length: 40 }, () =>
+        `<span style="height: ${20 + Math.random() * 80}%"></span>`
+      ).join('');
+      const dur = a.duration_sec ? `${Math.floor(a.duration_sec / 60)}:${String(a.duration_sec % 60).padStart(2, '0')}` : '';
+      thumb.innerHTML = `
+        <div class="year">${a.year || ''}</div>
+        <div class="wave">${bars}</div>
+        <div class="length">${dur}</div>
+      `;
+      card.appendChild(thumb);
+    }
 
-init()
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    if (a.year && a.type !== 'audio') {
+      const yearLine = document.createElement('div');
+      yearLine.className = 'year-line';
+      yearLine.textContent = a.year;
+      meta.appendChild(yearLine);
+    }
+    const title = document.createElement('h3');
+    title.className = 'title';
+    title.textContent = a.title;
+    meta.appendChild(title);
+    if (a.source && a.source.institution) {
+      const src = document.createElement('p');
+      src.className = 'source';
+      src.textContent = a.source.institution;
+      meta.appendChild(src);
+    }
+    card.appendChild(meta);
+
+    return card;
+  }
+
+  // ─── interactions ──────────────────────────────────────────────────
+  let debounceTimer;
+  el.q.addEventListener('input', (e) => {
+    const v = e.target.value;
+    state.query = v;
+    el.qEcho.textContent = v || '';
+    el.qEcho.classList.toggle('is-empty', !v);
+
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      render();
+      writeUrl();
+    }, 80);
+  });
+
+  el.q.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && state.query.trim()) {
+      addToHistory(state.query.trim());
+    }
+  });
+
+  el.queryRow.addEventListener('click', () => el.q.focus());
+
+  el.filters.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-type]');
+    if (!btn) return;
+    for (const b of el.filters.querySelectorAll('button')) b.classList.remove('active');
+    btn.classList.add('active');
+    state.type = btn.dataset.type;
+    render();
+    writeUrl();
+  });
+
+  el.randomBtn.addEventListener('click', () => {
+    el.q.value = '';
+    state.query = '';
+    el.qEcho.textContent = '';
+    el.qEcho.classList.add('is-empty');
+    const shuffled = [...state.manifest.artifacts].sort(() => Math.random() - 0.5);
+    el.grid.innerHTML = '';
+    shuffled.slice(0, 24).forEach(a => el.grid.appendChild(renderCard(a)));
+    el.empty.classList.remove('visible');
+    el.statsText.textContent = `random 24 · shuffled`;
+  });
+
+  el.historyBtn.addEventListener('click', () => {
+    if (state.history.length === 0) {
+      alert('no searches yet — try typing something first');
+      return;
+    }
+    const choice = prompt('recent searches:\n\n' + state.history.join('\n') + '\n\n(type one to run it)');
+    if (choice && state.history.includes(choice)) {
+      el.q.value = choice;
+      state.query = choice;
+      el.qEcho.textContent = choice;
+      el.qEcho.classList.remove('is-empty');
+      render();
+      writeUrl();
+    }
+  });
+
+  function addToHistory(q) {
+    state.history = [q, ...state.history.filter(h => h !== q)].slice(0, 12);
+    localStorage.setItem('garvey-sam-history', JSON.stringify(state.history));
+  }
+
+  function readUrl() {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q') || '';
+    const t = params.get('t') || 'all';
+    if (q) {
+      el.q.value = q;
+      state.query = q;
+      el.qEcho.textContent = q;
+      el.qEcho.classList.remove('is-empty');
+    }
+    if (t && ['all', 'photo', 'document', 'audio', 'quote'].includes(t)) {
+      state.type = t;
+      for (const b of el.filters.querySelectorAll('button')) {
+        b.classList.toggle('active', b.dataset.type === t);
+      }
+    }
+  }
+
+  function writeUrl() {
+    const params = new URLSearchParams();
+    if (state.query.trim()) params.set('q', state.query.trim());
+    if (state.type !== 'all') params.set('t', state.type);
+    const qs = params.toString();
+    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+  }
+
+  loadData().then(() => {
+    readUrl();
+    render();
+  }).catch(err => {
+    el.statusText.textContent = 'Signal lost';
+    el.grid.innerHTML = `<div class="scarcity-note">manifest failed to load: ${err.message}</div>`;
+  });
 </script>
+
 </body>
 </html>

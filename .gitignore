@@ -11,6 +11,12 @@ scripts/
 corpus/
 node_modules/
 
+# Build output — manifest.json lands in public/ via scripts/build-manifest.mjs
+# plus staged copies of archive + poster assets. Source of truth lives in
+# /archives/ and /posters/ at the demo/repo roots, not here.
+public/archives/
+public/posters/
+
 # Not-yet-ready
 server.mjs
 
@@ -24,3 +30,4 @@ CORPUS-AUDIT-2026-04-11.md
 .env
 .env.local
 *.log
+.vercel
