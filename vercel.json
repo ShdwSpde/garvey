@@ -11,6 +11,12 @@
     { "source": "/sam", "destination": "/sam/index.html" },
     { "source": "/sam/chat", "destination": "/sam/chat.html" },
     { "source": "/api/embed", "destination": "/api/embed.js" },
-    { "source": "/api/chat", "destination": "/api/chat.js" }
+    { "source": "/api/chat", "destination": "/api/chat.js" },
+    { "source": "/manifest.json", "destination": "/public/manifest.json" },
+    { "source": "/quotes.json", "destination": "/public/quotes.json" },
+    { "source": "/vocabulary.json", "destination": "/public/vocabulary.json" },
+    { "source": "/sig/:path*", "destination": "/public/sig/:path*" },
+    { "source": "/images/:path*", "destination": "/public/images/:path*" },
+    { "source": "/audio/:path*", "destination": "/public/audio/:path*" }
   ]
 }
