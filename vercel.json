@@ -17,6 +17,7 @@
     { "source": "/vocabulary.json", "destination": "/public/vocabulary.json" },
     { "source": "/sig/:path*", "destination": "/public/sig/:path*" },
     { "source": "/images/:path*", "destination": "/public/images/:path*" },
-    { "source": "/audio/:path*", "destination": "/public/audio/:path*" }
+    { "source": "/audio/:path*", "destination": "/public/audio/:path*" },
+    { "source": "/archives/:path*", "destination": "/public/archives/:path*" }
   ]
 }
