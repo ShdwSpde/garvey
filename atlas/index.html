@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Black Star Atlas · voyages of the Black Star Line · Garvey Living Archive</title>
+<meta name="description" content="An interactive chart of the Black Star Line's actual voyages, 1919-1923. Built with Jewell Humphrey of the Black Star Archive.">
+<meta name="author" content="Radical Imagination">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="canonical" href="https://garvey.radicalimagination.xyz/atlas">
+
+<meta property="og:site_name" content="Marcus Garvey Living Archive">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://garvey.radicalimagination.xyz/atlas">
+<meta property="og:title" content="The Black Star Atlas · voyages of the Black Star Line">
+<meta property="og:description" content="Interactive chart of the BSL fleet, 1919-1923.">
+<meta property="og:image" content="https://garvey.radicalimagination.xyz/images/ss_yarmouth_1923.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+<!-- Leaflet for the actual map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --red: #C8102E;
+    --red-deep: #8B0A1D;
+    --black: #0a0a0a;
+    --green: #2E8B3E;
+
+    --bg: #0a0a0a;
+    --bg-2: #121212;
+    --bg-3: #1a1a1a;
+    --gold: #c9a227;
+    --gold-warm: #d4a843;
+    --text: #f0ebe1;
+    --text-dim: #9a8f7f;
+    --text-faint: #555045;
+    --border: #262017;
+    --card-bg: #f5efe1;
+    --card-ink: #0f0a06;
+    --card-dim: #5c5045;
+  }
+
+  html, body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif; }
+  body { font-weight: 300; line-height: 1.6; min-height: 100vh; position: relative; }
+
+  /* Ambient ship layer: SS Yarmouth bleeding through behind the whole experience */
+  .ship-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url('/images/ss_yarmouth_1923.jpg');
+    background-size: cover;
+    background-position: center 35%;
+    background-repeat: no-repeat;
+    opacity: 0.16;
+    filter: sepia(0.4) contrast(1.15) brightness(0.55) saturate(0.6);
+    mix-blend-mode: screen;
+  }
+  .ship-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 40%, transparent 0%, rgba(10, 10, 10, 0.55) 60%, rgba(10, 10, 10, 0.92) 100%),
+      linear-gradient(180deg, rgba(10, 10, 10, 0.45) 0%, transparent 30%, transparent 70%, rgba(10, 10, 10, 0.7) 100%);
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.05; z-index: 2;
+  }
+
+  /* Make sure all real content sits above the ship layer */
+  header, .hero, .map-frame, .scrubber, .answer-panel, .fleet-section, .voices-section, .liberty-hall, footer, .legend-strip { position: relative; z-index: 3; }
+
+  a { color: var(--gold); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 200ms; }
+  a:hover { border-bottom-color: var(--gold); }
+
+  /* === Header === */
+  header {
+    position: relative; z-index: 5;
+    padding: 24px 32px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .black-star { width: 32px; height: 32px; }
+  .black-star svg { width: 100%; height: 100%; }
+  .black-star path { fill: var(--gold); }
+  .black-star circle { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.6; }
+  .wordmark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600; letter-spacing: 0.01em;
+    color: var(--text);
+  }
+  .wordmark .amp { color: var(--gold); font-style: italic; font-weight: 400; }
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; color: var(--text-dim);
+    font-size: 14px; letter-spacing: 0.04em;
+  }
+  header nav { display: flex; gap: 24px; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+  header nav a { color: var(--text-dim); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+  header nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* === Hero === */
+  .hero { padding: 36px 32px 8px; max-width: 1100px; }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.1; letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+  .hero h1 .gold { color: var(--gold); font-style: italic; font-weight: 500; }
+  .hero p { font-size: 15px; color: var(--text-dim); max-width: 640px; }
+  .hero p em { color: var(--text); font-style: italic; }
+
+  /* === Map (Leaflet) === */
+  .map-frame {
+    margin: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    background: #060606;
+  }
+  /* Chart title + compass chips removed: redundant with header, collide with Leaflet zoom controls */
+
+  #map {
+    width: 100%;
+    height: 70vh;
+    min-height: 520px;
+    background: #060606;
+  }
+
+  /* Leaflet override — match RI dark + gold */
+  .leaflet-container {
+    background: #060606 !important;
+    font-family: 'Cormorant Garamond', serif !important;
+  }
+  .leaflet-control-attribution {
+    background: rgba(10, 10, 10, 0.85) !important;
+    color: var(--text-faint) !important;
+    font-size: 10px !important;
+    border: 1px solid var(--border);
+  }
+  .leaflet-control-attribution a { color: var(--gold) !important; }
+  .leaflet-control-zoom a {
+    background: rgba(10, 10, 10, 0.92) !important;
+    color: var(--gold) !important;
+    border: 1px solid rgba(201, 162, 39, 0.4) !important;
+  }
+  .leaflet-control-zoom a:hover {
+    background: var(--gold) !important;
+    color: var(--black) !important;
+  }
+
+  /* Custom port marker */
+  .port-marker {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 0 0 rgba(201, 162, 39, 0);
+    transition: box-shadow 300ms, background 300ms;
+    cursor: pointer;
+  }
+  .port-marker.lit { background: var(--gold); }
+  .port-marker.failed { border-color: var(--red); }
+  .port-marker.failed.lit { background: var(--red); }
+  .port-marker:hover { box-shadow: 0 0 0 6px rgba(201, 162, 39, 0.25); }
+
+  .port-label-leaflet {
+    background: rgba(10, 10, 10, 0.86) !important;
+    border: 1px solid rgba(201, 162, 39, 0.35) !important;
+    border-radius: 2px !important;
+    padding: 4px 10px !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-style: italic !important;
+    font-size: 13px !important;
+    color: var(--text) !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+  }
+  .port-label-leaflet.faint { color: var(--text-dim) !important; font-style: normal !important; font-size: 11px !important; }
+  .port-label-leaflet::before { display: none !important; }
+
+  /* === Scrubber === */
+  .scrubber {
+    margin: 22px 32px 0;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 22px;
+  }
+  .scrubber-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .scrubber-label {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-dim); min-width: 90px;
+  }
+  .scrubber-input {
+    flex: 1; min-width: 220px;
+    -webkit-appearance: none; appearance: none;
+    height: 2px;
+    background: var(--border);
+    outline: none;
+    border-radius: 2px;
+  }
+  .scrubber-input::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.18);
+  }
+  .scrubber-input::-moz-range-thumb {
+    width: 14px; height: 14px; background: var(--gold);
+    border-radius: 50%; border: none; cursor: grab;
+  }
+  .scrubber-readout {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 500;
+    color: var(--gold);
+    min-width: 110px; text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .scrubber-readout .month {
+    font-size: 13px; color: var(--text-dim);
+    font-style: italic; font-weight: 400; margin-right: 6px;
+  }
+  .stockholder-strip {
+    margin-top: 14px;
+    display: flex; align-items: baseline; gap: 12px;
+    font-size: 12px; color: var(--text-dim); letter-spacing: 0.04em;
+  }
+  .stockholder-count {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold); font-size: 18px; font-weight: 600;
+    font-variant-numeric: tabular-nums; min-width: 80px;
+  }
+  .cargo-log {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(201, 162, 39, 0.04);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 3px 3px 0;
+    min-height: 44px;
+    transition: opacity 350ms;
+  }
+  .cargo-log .cl-eyebrow {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold-warm); font-weight: 600; margin-bottom: 4px;
+  }
+  .cargo-log .cl-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text);
+    font-size: 15px; line-height: 1.45;
+  }
+  .cargo-log.empty .cl-text {
+    color: var(--text-faint); font-size: 13px;
+  }
+  .cargo-log .cl-source {
+    font-size: 10px; color: var(--text-faint);
+    letter-spacing: 0.04em; margin-top: 4px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* Cargo tags floating on the map — color by ship */
+  .cargo-tag {
+    background: rgba(10, 10, 10, 0.85) !important;
+    border: 1px solid var(--tag-color, rgba(201, 162, 39, 0.55)) !important;
+    border-radius: 2px !important;
+    padding: 6px 10px !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-style: italic !important;
+    font-size: 12px !important;
+    color: var(--tag-color, var(--gold-warm)) !important;
+    white-space: nowrap !important;
+    box-shadow: 0 0 12px var(--tag-glow, rgba(201, 162, 39, 0.22)) !important;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 600ms ease-out;
+  }
+  .cargo-tag.ship-yarmouth  { --tag-color: #d4a843; --tag-glow: rgba(201, 162, 39, 0.25); }
+  .cargo-tag.ship-kanawha   { --tag-color: #ff5566; --tag-glow: rgba(200, 16, 46, 0.28); }
+  .cargo-tag.ship-shadyside { --tag-color: #5cc26d; --tag-glow: rgba(46, 139, 62, 0.25); }
+  .cargo-tag.ship-phyllis   { --tag-color: #f0ebe1; --tag-glow: rgba(240, 235, 225, 0.18); }
+  .cargo-tag.visible { opacity: 0.95; }
+  .cargo-tag.fading { opacity: 0; transition: opacity 1100ms ease-in; }
+
+  /* === Ship glide marker (animates along routes) === */
+  .ship-glide {
+    width: 28px; height: 28px;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px var(--ship-glow, rgba(201, 162, 39, 0.65)));
+  }
+  .ship-glide.ship-yarmouth   { --ship-glow: rgba(201, 162, 39, 0.7); }
+  .ship-glide.ship-kanawha    { --ship-glow: rgba(200, 16, 46, 0.7); }
+  .ship-glide.ship-shadyside  { --ship-glow: rgba(46, 139, 62, 0.6); }
+  .ship-glide svg { width: 100%; height: 100%; }
+
+  /* === Moment-marker headline (cinematic flash on key dates) === */
+  .moment-marker {
+    position: absolute;
+    inset: 0;
+    z-index: 850;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at center, rgba(10, 10, 10, 0.55) 0%, transparent 65%);
+    opacity: 0;
+    transition: opacity 700ms ease-in-out;
+  }
+  .moment-marker.show { opacity: 1; }
+  .moment-marker .mm-date {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+  }
+  .moment-marker .mm-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--text);
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
+    text-align: center;
+    max-width: 80%;
+    text-shadow: 0 0 40px rgba(0, 0, 0, 0.95);
+  }
+  .moment-marker .mm-headline em { color: var(--gold); font-style: italic; }
+  .moment-marker .mm-rule {
+    width: 80px; height: 1px;
+    background: var(--gold);
+    margin: 18px 0;
+    opacity: 0.7;
+  }
+
+  /* === Answer panel: typographic synthesis with Hammons flag underlay === */
+  .answer-panel {
+    margin: 56px 32px 0;
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 56px 48px 64px;
+    background: #050505;
+  }
+  .ap-flag-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    /* Hammons "African American Flag" (1990): Pan-African colors over US-flag pattern.
+       Red + black stripes (replacing red + white), green canton (replacing blue),
+       white stars. Visual quotation per Studio Museum installation. */
+    background:
+      linear-gradient(180deg,
+        #C8102E 0%, #C8102E 7.69%,
+        #0a0a0a 7.69%, #0a0a0a 15.38%,
+        #C8102E 15.38%, #C8102E 23.07%,
+        #0a0a0a 23.07%, #0a0a0a 30.76%,
+        #C8102E 30.76%, #C8102E 38.45%,
+        #0a0a0a 38.45%, #0a0a0a 46.14%,
+        #C8102E 46.14%, #C8102E 53.83%,
+        #0a0a0a 53.83%, #0a0a0a 61.52%,
+        #C8102E 61.52%, #C8102E 69.21%,
+        #0a0a0a 69.21%, #0a0a0a 76.90%,
+        #C8102E 76.90%, #C8102E 84.59%,
+        #0a0a0a 84.59%, #0a0a0a 92.28%,
+        #C8102E 92.28%, #C8102E 100%
+      );
+  }
+  .ap-flag-bg::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 40%; height: 53.83%;
+    background: #2E8B3E;
+    background-image:
+      radial-gradient(circle, #f0ebe1 1.2px, transparent 1.4px);
+    background-size: 14% 12%;
+    background-position: 7% 10%;
+  }
+  .ap-flag-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 30%, rgba(5, 5, 5, 0.65) 75%, rgba(5, 5, 5, 0.92) 100%);
+  }
+  .ap-content {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .ap-eyebrow {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 14px;
+    font-family: 'Inter', sans-serif;
+  }
+  .ap-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 36px;
+    letter-spacing: 0.005em;
+  }
+  .ap-question .gold { color: var(--gold); }
+  .ap-answers {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    gap: 22px;
+  }
+  .ap-answers li {
+    display: grid;
+    grid-template-columns: minmax(160px, 1.2fr) 2fr;
+    gap: 28px;
+    align-items: start;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ap-answers li:last-child { border-bottom: none; padding-bottom: 0; }
+  .ap-word {
+    font-family: 'Anton', 'Oswald', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6vw, 84px);
+    line-height: 0.95;
+    letter-spacing: 0.005em;
+    color: var(--text);
+    text-transform: uppercase;
+    -webkit-text-stroke: 0.5px var(--gold);
+  }
+  .ap-word.gold { color: var(--gold); -webkit-text-stroke: 0; }
+  .ap-word.red { color: var(--red); -webkit-text-stroke: 0; }
+  .ap-word.green { color: #5cc26d; -webkit-text-stroke: 0; }
+  .ap-word.cream { color: var(--text); -webkit-text-stroke: 0; }
+  .ap-gloss {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text-dim);
+    padding-top: 12px;
+  }
+  .ap-gloss em { color: var(--text); font-style: italic; }
+  @media (max-width: 720px) {
+    .answer-panel { padding: 36px 22px 44px; margin: 36px 16px 0; }
+    .ap-answers li { grid-template-columns: 1fr; gap: 6px; padding-bottom: 18px; }
+    .ap-word { font-size: clamp(36px, 12vw, 56px); }
+  }
+
+  /* === Color legend === */
+  .legend-strip {
+    margin: 14px 32px 0;
+    padding: 10px 16px;
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex; flex-wrap: wrap; gap: 18px;
+    align-items: center;
+    font-size: 11px; color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+  .legend-eyebrow {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-faint); margin-right: 8px;
+  }
+  .legend-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .legend-chip::before {
+    content: ''; display: inline-block;
+    width: 12px; height: 2px; border-radius: 1px;
+    background: var(--chip-color, var(--gold));
+    box-shadow: 0 0 8px var(--chip-color, var(--gold));
+  }
+  .legend-chip.yarmouth   { --chip-color: #c9a227; }
+  .legend-chip.kanawha    { --chip-color: #C8102E; }
+  .legend-chip.shadyside  { --chip-color: #2E8B3E; }
+  .legend-chip.phyllis    { --chip-color: #f0ebe1; }
+  .legend-chip .ls-renamed {
+    color: var(--text-dim); font-style: normal;
+    font-size: 11px; letter-spacing: 0.04em; margin-left: 4px;
+  }
+
+  /* === Playback controls === */
+  .playback-controls {
+    display: flex; align-items: center; gap: 10px;
+    margin-right: 14px;
+  }
+  .pb-btn {
+    width: 30px; height: 30px;
+    border: 1px solid rgba(201, 162, 39, 0.35);
+    background: rgba(10, 10, 10, 0.55);
+    color: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 200ms, border-color 200ms;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 600;
+    padding: 0;
+  }
+  .pb-btn:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .pb-btn svg { width: 12px; height: 12px; fill: currentColor; }
+  .cargo-tag .cargo-date {
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-style: normal;
+    font-size: 9px;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .ticks { display: flex; justify-content: space-between; margin-top: 8px; padding: 0 4px; }
+  .tick { font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; }
+
+  /* === Fleet roster === */
+  .fleet-section { margin: 36px 32px 0; }
+  .fleet-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600; font-size: 22px;
+    color: var(--text); margin-bottom: 4px;
+  }
+  .fleet-section .section-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; color: var(--text-dim);
+    font-size: 14px; margin-bottom: 18px;
+  }
+  .fleet-roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+  }
+  .ship-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--ship-color, var(--gold));
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 200ms, transform 200ms, box-shadow 200ms;
+    position: relative;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .ship-card:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--ship-color, var(--gold)) inset; }
+  .ship-card[data-ship="yarmouth"]   { --ship-color: #c9a227; }
+  .ship-card[data-ship="kanawha"]    { --ship-color: #C8102E; }
+  .ship-card[data-ship="shadyside"]  { --ship-color: #2E8B3E; }
+  .ship-card[data-ship="phyllis"]    { --ship-color: #f0ebe1; }
+  .ship-card.ghost { opacity: 0.78; }
+  .ship-card.ghost::after {
+    content: 'never sailed';
+    position: absolute; right: 12px; top: 12px;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ship-color, var(--gold)); background: rgba(10, 10, 10, 0.7);
+    padding: 4px 8px; border-radius: 2px;
+    font-style: italic; font-family: 'Cormorant Garamond', serif;
+  }
+  /* Ship name accent uses the ship's color */
+  .ship-card[data-ship="yarmouth"]   .ship-name .renamed { color: #c9a227; }
+  .ship-card[data-ship="kanawha"]    .ship-name .renamed { color: #C8102E; }
+  .ship-card[data-ship="shadyside"]  .ship-name .renamed { color: #2E8B3E; }
+  .ship-card[data-ship="phyllis"]    .ship-name { color: #f0ebe1; }
+  .ship-photo {
+    width: 100%; aspect-ratio: 16/9;
+    background: var(--bg-3);
+    background-size: cover; background-position: center;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  .ship-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(10, 10, 10, 0.8));
+    pointer-events: none;
+  }
+  .ship-photo .photo-credit {
+    position: absolute; bottom: 6px; left: 10px; right: 10px;
+    z-index: 2;
+    font-size: 10px; color: var(--text-dim);
+    letter-spacing: 0.04em; font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .ship-card-body { padding: 14px 18px 16px; }
+  .ship-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--text); margin-bottom: 4px;
+  }
+  .ship-name .renamed {
+    color: var(--gold); font-style: italic; font-weight: 400;
+    font-size: 14px; display: block; margin-top: 2px;
+  }
+  .ship-meta {
+    font-size: 12px; color: var(--text-dim); line-height: 1.55;
+  }
+  .ship-meta .label {
+    color: var(--text-faint); letter-spacing: 0.06em;
+    text-transform: uppercase; font-size: 10px; margin-right: 4px;
+  }
+  .ship-card .quip {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; color: var(--text-dim);
+    font-size: 13px; margin-top: 12px;
+    padding-top: 10px; border-top: 1px solid var(--border);
+    line-height: 1.4;
+  }
+
+  /* === Liberty Hall lineage === */
+  .liberty-hall {
+    margin: 32px 32px 0;
+    padding: 22px 24px;
+    background: linear-gradient(90deg, var(--bg-2), rgba(201, 162, 39, 0.05), var(--bg-2));
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+  }
+  .liberty-hall .lh-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .liberty-hall .lh-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px; color: var(--text);
+    font-weight: 500; letter-spacing: 0.02em;
+  }
+  .liberty-hall .lh-line .arrow { color: var(--gold); margin: 0 8px; }
+  .liberty-hall .lh-quip {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; color: var(--text-dim);
+    font-size: 14px; margin-top: 8px;
+  }
+  .liberty-hall .lh-quip .gold { color: var(--gold); }
+
+  /* === Modal === */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(10, 10, 10, 0.82);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none; align-items: flex-start; justify-content: center;
+    z-index: 9999;
+    padding: 24px; overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-card {
+    background: var(--card-bg); color: var(--card-ink);
+    max-width: 640px; width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+    position: relative;
+    margin: auto; overflow: hidden;
+  }
+  .modal-card .close {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(10, 10, 10, 0.6); color: var(--text);
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    cursor: pointer; width: 32px; height: 32px; border-radius: 50%;
+    font-size: 18px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 5; transition: background 200ms;
+  }
+  .modal-card .close:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
+
+  /* Ship modal — has hero image */
+  .modal-hero-image {
+    width: 100%; aspect-ratio: 16/10;
+    background: var(--bg-3);
+    background-size: cover; background-position: center;
+    position: relative;
+    border-bottom: 3px solid var(--gold);
+    display: none;
+  }
+  .modal-hero-image.show { display: block; }
+  .modal-hero-image .hero-credit {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 28px 16px 10px;
+    z-index: 2;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--text);
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Port modal — typographic hero, no random photos */
+  .modal-hero-typographic {
+    background: linear-gradient(180deg, #0a0a0a, #181410);
+    padding: 32px 36px 24px;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.35);
+    display: none;
+  }
+  .modal-hero-typographic.show { display: block; }
+  .modal-hero-typographic .typo-mark {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .modal-hero-typographic .typo-coords {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .modal-hero-typographic .typo-rule {
+    width: 56px; height: 1px;
+    background: var(--gold);
+    margin: 16px 0 10px;
+    opacity: 0.7;
+  }
+  .modal-hero-typographic .typo-meta {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+
+  .modal-content { padding: 28px 36px 32px; }
+  .modal-card .pc-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px; font-weight: 500;
+  }
+  .modal-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 600;
+    line-height: 1.1; margin-bottom: 6px;
+  }
+  .modal-card .pc-coords {
+    font-size: 12px; color: var(--card-dim);
+    letter-spacing: 0.08em; font-variant-numeric: tabular-nums;
+    margin-bottom: 20px;
+  }
+  .modal-card .pc-body { font-size: 15px; line-height: 1.7; color: var(--card-ink); }
+  .modal-card .pc-body p { margin-bottom: 14px; }
+  .modal-card .pc-body em { color: var(--card-ink); font-style: italic; }
+  .modal-card blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px; line-height: 1.5;
+    color: var(--card-ink);
+    border-left: 3px solid var(--gold);
+    padding-left: 16px;
+    margin: 16px 0;
+  }
+  .modal-card blockquote cite {
+    display: block; font-style: normal; font-size: 12px;
+    color: var(--card-dim); margin-top: 8px; letter-spacing: 0.04em;
+  }
+  .modal-card .pc-source {
+    margin-top: 22px; padding-top: 16px;
+    border-top: 1px solid rgba(15, 10, 6, 0.12);
+    font-size: 11px; color: var(--card-dim); letter-spacing: 0.04em;
+  }
+  .modal-card .pc-source a { color: var(--card-ink); border-bottom: 1px solid var(--gold); }
+
+  .audio-embed {
+    margin: 18px 0 8px;
+    padding: 14px 16px;
+    background: rgba(15, 10, 6, 0.05);
+    border: 1px solid rgba(201, 162, 39, 0.5);
+    border-radius: 4px;
+  }
+  .audio-embed .audio-label {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold-warm); font-weight: 600; margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+  }
+  .audio-embed audio { width: 100%; height: 36px; }
+  .audio-embed .audio-cap {
+    font-size: 11px; color: var(--card-dim);
+    margin-top: 6px; font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* === Voyage meta strip (captain / cargo / on board) === */
+  .voyage-meta {
+    margin: 4px 0 18px;
+    padding: 14px 16px;
+    background: rgba(15, 10, 6, 0.04);
+    border-left: 2px solid rgba(201, 162, 39, 0.55);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--card-ink);
+  }
+  .voyage-meta dl {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 6px 14px;
+    margin: 0;
+  }
+  .voyage-meta dt {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600;
+    align-self: start; padding-top: 3px;
+  }
+  .voyage-meta dd { margin: 0; color: var(--card-ink); }
+  .voyage-meta dd .src {
+    display: block; font-size: 10px; color: var(--card-dim);
+    font-style: italic; margin-top: 2px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .voyage-meta dd.pending {
+    color: var(--card-dim); font-style: italic;
+  }
+
+  /* === Primary source slot === */
+  .primary-slot {
+    margin: 18px 0;
+    padding: 16px 18px;
+    border: 1px solid rgba(201, 162, 39, 0.35);
+    border-radius: 4px;
+    background: rgba(15, 10, 6, 0.04);
+  }
+  .primary-slot.pending {
+    border-style: dashed;
+    background: transparent;
+  }
+  .primary-slot .ps-eyebrow {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+  }
+  .primary-slot.pending .ps-pending-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--card-dim);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .primary-slot.pending .ps-pending-note {
+    font-size: 12px; color: var(--card-dim);
+    margin-top: 6px; line-height: 1.5;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .primary-slot blockquote { margin: 0; }
+  .primary-slot img {
+    width: 100%; height: auto; display: block;
+    border-radius: 2px; margin-bottom: 8px;
+    border: 1px solid rgba(15, 10, 6, 0.15);
+  }
+  .primary-slot .ps-caption {
+    font-size: 11px; color: var(--card-dim);
+    margin-top: 6px; font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.5;
+  }
+
+  /* === Voices section (figures behind the voyages) === */
+  .voices-section { margin: 36px 32px 0; }
+  .voices-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 14px;
+  }
+  .voices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .voice-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 18px;
+    position: relative;
+    transition: border-color 200ms;
+  }
+  .voice-card.scaffold { cursor: pointer; }
+  .voice-card.scaffold:hover { border-color: var(--gold); }
+  .voice-card.pending { opacity: 0.7; border-style: dashed; }
+  .voice-card.pending::after {
+    content: 'pending'; position: absolute; right: 12px; top: 12px;
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .voice-monogram {
+    width: 44px; height: 44px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .voice-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--text); margin-bottom: 2px;
+  }
+  .voice-role {
+    font-size: 12px; color: var(--text-dim);
+    line-height: 1.5; margin-bottom: 6px;
+  }
+  .voice-dates {
+    font-size: 11px; color: var(--text-faint);
+    letter-spacing: 0.04em; margin-bottom: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .voice-quip {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; color: var(--text-dim);
+    font-size: 13px; line-height: 1.45;
+    margin-bottom: 10px;
+  }
+  .voice-source-line {
+    font-size: 11px; color: var(--text-faint);
+    letter-spacing: 0.04em; padding-top: 8px;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .voice-source-line.gold { color: var(--gold-warm); font-style: normal; letter-spacing: 0.06em; }
+
+  /* === Footer === */
+  footer {
+    margin: 56px 32px 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  footer .credit {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px; color: var(--text);
+  }
+  footer .credit .gold { color: var(--gold); }
+  footer .meta-line { margin-top: 8px; }
+  footer .meta-line a { color: var(--text); border-bottom: 1px dotted var(--text-dim); }
+
+  @media (max-width: 720px) {
+    header { padding: 18px 20px 14px; }
+    .hero, .map-frame, .scrubber, .fleet-section, .liberty-hall, footer { margin-left: 16px; margin-right: 16px; }
+    header nav { gap: 14px; font-size: 11px; }
+    .scrubber-row { flex-direction: column; align-items: stretch; }
+    .scrubber-readout { text-align: left; min-width: 0; }
+    .modal-content { padding: 22px 22px 24px; }
+    .modal-hero-typographic { padding: 24px 24px 18px; }
+    #map { height: 460px; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="ship-bg" aria-hidden="true"></div>
+
+<header>
+  <div class="brand">
+    <div class="black-star" aria-hidden="true">
+      <svg viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M 16 4 L 19.5 13 L 28 13 L 21 19 L 24 28 L 16 22 L 8 28 L 11 19 L 4 13 L 12.5 13 Z"/>
+      </svg>
+    </div>
+    <div>
+      <div class="wordmark">The Black Star <span class="amp">Atlas</span></div>
+      <div class="subtitle">voyages of the Black Star Line · 1919–1923</div>
+    </div>
+  </div>
+  <nav>
+    <a href="/sam">Search the Archive</a>
+    <a href="/">Living Archive</a>
+    <a href="https://radicalimagination.xyz">Radical Imagination</a>
+  </nav>
+</header>
+
+<!-- === The Map === -->
+<div class="map-frame">
+  <div id="map"></div>
+  <div class="moment-marker" id="momentMarker">
+    <div class="mm-date" id="mmDate"></div>
+    <div class="mm-headline" id="mmHeadline"></div>
+    <div class="mm-rule"></div>
+  </div>
+</div>
+
+<!-- === Color legend === -->
+<div class="legend-strip">
+  <span class="legend-eyebrow">Fleet</span>
+  <span class="legend-chip yarmouth"><em>Yarmouth</em><span class="ls-renamed">→ Frederick Douglass</span></span>
+  <span class="legend-chip kanawha"><em>Kanawha</em><span class="ls-renamed">→ Antonio Maceo</span></span>
+  <span class="legend-chip shadyside"><em>Shadyside</em><span class="ls-renamed">→ Booker T. Washington</span></span>
+  <span class="legend-chip phyllis"><em>Phyllis Wheatley</em><span class="ls-renamed">never sailed</span></span>
+</div>
+
+<!-- === Scrubber === -->
+<div class="scrubber">
+  <div class="scrubber-row">
+    <div class="playback-controls">
+      <button class="pb-btn" id="playBtn" aria-label="Play timeline">
+        <svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>
+      </button>
+      <button class="pb-btn" id="resetBtn" aria-label="Reset to start" title="Reset">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M 1 6 a 5 5 0 1 0 1.5 -3.5 M 1 1 v 3 h 3"/></svg>
+      </button>
+    </div>
+    <input type="range" id="scrubber" class="scrubber-input" min="0" max="48" value="0" step="1">
+    <div class="scrubber-readout"><span class="month" id="readoutMonth">Sep</span><span id="readoutYear">1919</span></div>
+  </div>
+  <div class="stockholder-strip">
+    <span>Stockholders enrolled in the BSL</span>
+    <span class="stockholder-count" id="stockholderCount">0</span>
+    <span>of 96,285 by Sept 1922</span>
+  </div>
+  <div class="cargo-log empty" id="cargoLog">
+    <div class="cl-eyebrow">In the hold</div>
+    <div class="cl-text" id="cargoLogText">Drag the year forward to follow what was actually moving on the ships.</div>
+    <div class="cl-source" id="cargoLogSource"></div>
+  </div>
+  <div class="ticks">
+    <span class="tick">1919</span>
+    <span class="tick">1920</span>
+    <span class="tick">1921</span>
+    <span class="tick">1922</span>
+    <span class="tick">1923</span>
+  </div>
+</div>
+
+<!-- === Answer panel: typographic synthesis with Hammons flag underlay === -->
+<section class="answer-panel">
+  <div class="ap-flag-bg" aria-hidden="true"></div>
+  <div class="ap-content">
+    <div class="ap-eyebrow">In the hold · 1919-1923</div>
+    <h2 class="ap-question">What did the Black Star Line <span class="gold">carry?</span></h2>
+    <ol class="ap-answers">
+      <li>
+        <span class="ap-word gold">ASPIRATION</span>
+        <p class="ap-gloss"><em>96,285 stockholders.</em> The largest mass movement of African-descended people in the 20th century. Every voyage's hold carried people's idea of themselves first, then onions or whisky or lumber after.</p>
+      </li>
+      <li>
+        <span class="ap-word red">FRAUD</span>
+        <p class="ap-gloss">A doctored photograph of someone else's ship. A 32-year-old hull purchased at six times appraisal. A federal indictment, a conviction, five years at Atlanta. <em>The crime was the cargo.</em></p>
+      </li>
+      <li>
+        <span class="ap-word">WHISKY</span>
+        <p class="ap-gloss"><em>800,000 bottles to Havana</em> on the Yarmouth's maiden voyage, ahead of US Prohibition. Cuba had no Prohibition. New York had a tax loophole. Aspiration paid for the boiler with a tax loophole.</p>
+      </li>
+      <li>
+        <span class="ap-word red">FIRE</span>
+        <p class="ap-gloss">A boiler that exploded three days out of Norfolk. A ship abandoned in <em>Santiago de Cuba</em>. Winter ice in 1922 that took the Shadyside down quietly at her mooring. The end was written into the beginning.</p>
+      </li>
+      <li>
+        <span class="ap-word green">A NAME</span>
+        <p class="ap-gloss">Liberty Hall, Dublin 1916. Liberty Hall, Harlem 1919. Liberty Hall, Port Limón 1922. Liberty Hall, Puerto Viejo 2026. <em>The room kept moving.</em></p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- === Fleet roster === -->
+<div class="fleet-section">
+  <div class="fleet-roster">
+
+    <div class="ship-card" data-ship="yarmouth">
+      <div class="ship-photo" style="background-image: url('/images/ss_yarmouth_1923.jpg');">
+        <div class="photo-credit">SS Yarmouth · c. 1919–1922</div>
+      </div>
+      <div class="ship-card-body">
+        <div class="ship-name">SS Yarmouth <span class="renamed">→ Frederick Douglass</span></div>
+        <div class="ship-meta">
+          <span class="label">Built</span> 1887 · 1,452 tons<br>
+          <span class="label">Bought</span> 17 Sept 1919 · $165,000<br>
+          <span class="label">Routes</span> NYC → Havana → Kingston → Limón → Colón<br>
+          <span class="label">Fate</span> Sold for scrap, 1922
+        </div>
+        <p class="quip">Independent valuation said $25,000. The federal prosecutor noticed.</p>
+      </div>
+    </div>
+
+    <div class="ship-card failed" data-ship="kanawha">
+      <div class="ship-photo" style="background-image: url('/images/black-star-line-action.jpg');">
+        <div class="photo-credit">Black Star Line vessel · period photograph</div>
+      </div>
+      <div class="ship-card-body">
+        <div class="ship-name">SS Kanawha <span class="renamed">→ Antonio Maceo</span></div>
+        <div class="ship-meta">
+          <span class="label">Built</span> 1899 steam yacht<br>
+          <span class="label">Maiden</span> 26 Aug 1920 · Norfolk → Havana<br>
+          <span class="label">Cargo</span> Crew of 39, no passengers, onions<br>
+          <span class="label">Fate</span> Boiler exploded day 3. Later abandoned at Santiago de Cuba.
+        </div>
+        <p class="quip">The boiler had thoughts. The voyage did not.</p>
+      </div>
+    </div>
+
+    <div class="ship-card" data-ship="shadyside">
+      <div class="ship-photo" style="background-image: url('/images/bsl-poster.webp');">
+        <div class="photo-credit">BSL promotional poster · UNIA, c. 1920</div>
+      </div>
+      <div class="ship-card-body">
+        <div class="ship-name">SS Shadyside <span class="renamed">→ Booker T. Washington</span></div>
+        <div class="ship-meta">
+          <span class="label">Built</span> 1873 sidewheel steamer<br>
+          <span class="label">Routes</span> Hudson River excursions<br>
+          <span class="label">Fate</span> Damaged in winter ice; sank 1922
+        </div>
+        <p class="quip">The fleet's family minivan. Never crossed open water. Sank quietly anyway.</p>
+      </div>
+    </div>
+
+    <div class="ship-card ghost" data-ship="phyllis">
+      <div class="ship-photo" style="background-image: url('/images/bsl_phyllis_wheatley_brochure.jpg'); background-size: contain; background-color: #1a1410; background-repeat: no-repeat;">
+        <div class="photo-credit">BSL Phyllis Wheatley fundraising brochure · doctored photograph of SS Orion</div>
+      </div>
+      <div class="ship-card-body">
+        <div class="ship-name">SS Phyllis Wheatley</div>
+        <div class="ship-meta">
+          <span class="label">Built</span> Never. Doctored photo of SS Orion.<br>
+          <span class="label">Indictment</span> 15 Feb 1922 · mail fraud<br>
+          <span class="label">Conviction</span> 18 June 1923<br>
+          <span class="label">Sentence</span> 5 years · Atlanta Federal Pen
+        </div>
+        <p class="quip">She was painted onto someone else's hull. The federal prosecutor noticed that too.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- === Voices: figures behind the voyages === -->
+<section class="voices-section">
+  <div class="voices-eyebrow">Voices · primary sources</div>
+  <div class="voices-grid">
+
+    <div class="voice-card scaffold" data-figure="mulzac">
+      <div class="voice-monogram">HM</div>
+      <div class="voice-name">Hugh Mulzac</div>
+      <div class="voice-role">Chief officer, then captain · SS Yarmouth</div>
+      <div class="voice-dates">b. 1886, St. Vincent · d. 1971</div>
+      <p class="voice-quip">Sailed every Caribbean leg under Cockburn, then took the wheel. Wrote <em>A Star to Steer By</em> (1963), the only firsthand book-length account from the bridge. Later: first Black captain in the WWII US Merchant Marine.</p>
+      <div class="voice-source-line gold">Oral history · pending Black Star Archive</div>
+    </div>
+
+    <div class="voice-card scaffold" data-figure="cockburn">
+      <div class="voice-monogram">JC</div>
+      <div class="voice-name">Joshua Cockburn</div>
+      <div class="voice-role">Captain · SS Yarmouth maiden voyage, Nov 1919</div>
+      <div class="voice-dates">Bahamian · first BSL master mariner</div>
+      <p class="voice-quip">Commissioned the ship and ran the Havana whisky cargo. Eventually sidelined in financial disputes and fired. The complicated first hand on the wheel.</p>
+      <div class="voice-source-line">Source: Hill, <em>UNIA Papers</em> Vol. II</div>
+    </div>
+
+    <div class="voice-card pending" data-figure="davis">
+      <div class="voice-monogram">HD</div>
+      <div class="voice-name">Henrietta Vinton Davis</div>
+      <div class="voice-role">"Lady Commander" · highest-ranking woman in the UNIA</div>
+      <p class="voice-quip">Spoke at Liberty Hall openings across the diaspora. Specific BSL voyages she sailed: pending cross-reference of <em>Negro World</em> arrival columns + Hill critical edition.</p>
+      <div class="voice-source-line">Voyage roster · pending Jewell + Hill</div>
+    </div>
+
+    <div class="voice-card pending" data-figure="demena">
+      <div class="voice-monogram">MdM</div>
+      <div class="voice-name">Maymie de Mena</div>
+      <div class="voice-role">UNIA international organizer · Central America</div>
+      <p class="voice-quip">Born Nicaragua. The figure most likely to have sailed the Limón and Colón legs given her organizing geography. Specific manifests pending.</p>
+      <div class="voice-source-line">Voyage roster · pending</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- === Liberty Hall lineage === -->
+<div class="liberty-hall">
+  <div class="lh-line">
+    Dublin 1916 <span class="arrow">→</span> Harlem 1919 <span class="arrow">→</span> Port Limón 1922 <span class="arrow">→</span> Puerto Viejo 2026
+  </div>
+  <p class="lh-quip"><span class="gold">The room kept moving.</span> Solo Nos's Liberty Hall in Puerto Viejo is named after UNIA's Liberty Hall in Limón. Same province, same diasporic community, a century later, still the room.</p>
+</div>
+
+<footer>
+  <p class="credit"><span class="gold">Built with Jewell Humphrey of the Black Star Archive.</span></p>
+  <p class="meta-line">
+    NARA · Mariners' Museum · Negro World, 1919-1923 · NYPL Schomburg · <a href="/sam">search the corpus</a>
+  </p>
+  <p class="meta-line" style="color: var(--text-faint); margin-top: 14px;">
+    A people's art is a weapon of their liberation. (Claudia Jones)
+  </p>
+</footer>
+
+<!-- === Modal === -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <button class="close" aria-label="Close" onclick="closeModal()">×</button>
+    <div class="modal-hero-image" id="heroImage">
+      <div class="hero-credit" id="heroCredit"></div>
+    </div>
+    <div class="modal-hero-typographic" id="heroTypo">
+      <div class="typo-mark" id="typoMark">PORT</div>
+      <div class="typo-coords" id="typoCoords">—</div>
+      <div class="typo-rule"></div>
+      <div class="typo-meta" id="typoMeta">—</div>
+    </div>
+    <div class="modal-content">
+      <div class="pc-eyebrow" id="modalEyebrow">Port</div>
+      <h2 id="modalTitle">—</h2>
+      <div class="pc-coords" id="modalCoords">—</div>
+      <div class="pc-body" id="modalBody">—</div>
+      <div class="pc-source" id="modalSource">—</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // === Render helpers for voyage meta + primary source slots ===
+  function renderVoyageMeta(d) {
+    const rows = [];
+    if (d.captain) {
+      const src = d.captain.source ? `<span class="src">${d.captain.source}</span>` : '';
+      rows.push(`<dt>Captain</dt><dd${d.captain.pending ? ' class="pending"' : ''}>${d.captain.text}${src}</dd>`);
+    }
+    if (d.cargoNote) {
+      const src = d.cargoNote.source ? `<span class="src">${d.cargoNote.source}</span>` : '';
+      rows.push(`<dt>Cargo</dt><dd${d.cargoNote.pending ? ' class="pending"' : ''}>${d.cargoNote.text}${src}</dd>`);
+    }
+    if (d.onBoard) {
+      const src = d.onBoard.source ? `<span class="src">${d.onBoard.source}</span>` : '';
+      rows.push(`<dt>On board</dt><dd${d.onBoard.pending ? ' class="pending"' : ''}>${d.onBoard.text}${src}</dd>`);
+    }
+    if (!rows.length) return '';
+    return `<div class="voyage-meta"><dl>${rows.join('')}</dl></div>`;
+  }
+
+  function renderPrimarySlot(p) {
+    if (!p) return '';
+    if (p.pending) {
+      return `<div class="primary-slot pending">
+        <div class="ps-eyebrow">Primary source</div>
+        <p class="ps-pending-label">${p.label || 'Pending Black Star Archive'}</p>
+        ${p.note ? `<p class="ps-pending-note">${p.note}</p>` : ''}
+      </div>`;
+    }
+    let inner = '';
+    if (p.type === 'audio') {
+      inner = `<audio controls preload="metadata"><source src="${p.asset}" type="audio/mpeg"></audio>`;
+      if (p.altAsset) inner = `<audio controls preload="metadata"><source src="${p.asset}" type="audio/mpeg"><source src="${p.altAsset}" type="audio/ogg"></audio>`;
+    } else if (p.type === 'image') {
+      inner = `<img src="${p.asset}" alt="${p.alt || ''}">`;
+    } else if (p.type === 'quote') {
+      inner = `<blockquote>${p.quote}<cite>${p.cite || ''}</cite></blockquote>`;
+    }
+    return `<div class="primary-slot">
+      <div class="ps-eyebrow">Primary source</div>
+      ${inner}
+      ${p.caption ? `<p class="ps-caption">${p.caption}</p>` : ''}
+    </div>`;
+  }
+
+  // === Real-coordinate port data ===
+  const PORTS = {
+    nyc: {
+      coords: [40.7128, -74.0060],
+      coordLabel: '40.71°N · 74.00°W',
+      typoMark: 'PORT · UNIA HEADQUARTERS',
+      typoMeta: 'New York City, USA',
+      labelText: 'New York · UNIA HQ',
+      eyebrow: 'Port · UNIA Headquarters',
+      title: 'New York City',
+      failed: false,
+      captain: { text: 'Port of departure for the entire fleet (not a voyage destination).' },
+      onBoard: {
+        text: 'Garvey himself, all UNIA central leadership, Negro World editorial staff, stockholder enrollment delegations.',
+        source: 'Hill, <em>UNIA Papers</em> Vol. I'
+      },
+      primarySource: {
+        pending: true,
+        label: 'Negro World article or oral history clip · pending Black Star Archive',
+        note: 'Jewell Humphrey\'s holdings: a Negro World feature on a specific NYC departure ceremony, or Hugh Mulzac speaking on tape about the Yarmouth\'s NYC base. Drops in here.'
+      },
+      body: `
+        <p>The Black Star Line was incorporated in Delaware on 27 June 1919 with offices at <em>56 West 135th Street</em>, Harlem. By autumn ~36,000 stockholders had bought in at $5 a share. The fleet's flag, captain, and most of its mail fraud lived here.</p>
+        <p style="margin: 18px 0;">
+          <img src="/images/garvey_speaking_1920.png" alt="Marcus Garvey at the UNIA podium, Liberty Hall Harlem, c. 1920" style="width: 100%; height: auto; display: block; border-radius: 2px; border: 1px solid rgba(15,10,6,0.15);">
+          <span style="display: block; font-size: 11px; color: var(--card-dim); margin-top: 6px; font-style: italic; font-family: 'Cormorant Garamond', serif;">Marcus Garvey at the Liberty Hall podium, Harlem, c. 1920. NYPL Schomburg.</span>
+        </p>
+        <p><em>Liberty Hall</em> at 138th and Lenox was the UNIA's roof, a former church seating 6,000. Garvey opened every annual convention from this stage. The 1920 First International Convention ran four weeks out of this building. Liberty Hall's name traveled south with the ships; we'll pick it up again in Limón. <a href="javascript:openLibertyHallModal('harlem')">See Harlem Liberty Hall →</a></p>
+        <p style="margin: 18px 0;">
+          <img src="/images/unia_parade_1920.jpg" alt="UNIA First International Convention parade, Harlem, August 1920" style="width: 100%; height: auto; display: block; border-radius: 2px; border: 1px solid rgba(15,10,6,0.15);">
+          <span style="display: block; font-size: 11px; color: var(--card-dim); margin-top: 6px; font-style: italic; font-family: 'Cormorant Garamond', serif;">UNIA First International Convention parade, Harlem, August 1920. The mass movement that put 96,285 stockholders behind the BSL.</span>
+        </p>
+        <blockquote>"Up, you mighty race! You can accomplish what you will."<cite>Marcus Garvey, Liberty Hall, c. 1920</cite></blockquote>
+        <div class="audio-embed">
+          <div class="audio-label">▸ Garvey speaks · 1921 phonograph recording</div>
+          <audio controls preload="metadata">
+            <source src="/audio/garvey-1921/garvey_1921_full.mp3" type="audio/mpeg">
+            <source src="/audio/garvey-1921/garvey_1921_full.ogg" type="audio/ogg">
+          </audio>
+          <p class="audio-cap">From the 1921 phonograph address. Public domain · archive.org.</p>
+        </div>
+      `,
+      source: 'Source: <a href="/sam">Garvey SAM corpus</a> · NYPL Schomburg UNIA Collection · Hill, <em>UNIA Papers</em> Vol. I'
+    },
+    norfolk: {
+      coords: [36.8508, -76.2859],
+      coordLabel: '36.85°N · 76.29°W',
+      typoMark: 'PORT · KANAWHA · BOILER EXPLOSION · AUG 1920',
+      typoMeta: 'Off Norfolk, Virginia, USA',
+      labelText: 'off Norfolk · Aug 1920',
+      labelFaint: true,
+      eyebrow: 'Port · Kanawha departure',
+      title: 'Off Norfolk, Virginia',
+      failed: true,
+      captain: {
+        text: 'Likely Adrian Richardson · Kanawha, Aug 26, 1920 (verification pending)',
+        source: 'Mariners\' Museum BSL personnel records · pending Hill cross-reference'
+      },
+      cargoNote: {
+        text: 'Crew of 39, no passengers, hold of onions. Boiler exploded day three.',
+        source: 'Mariners\' Museum'
+      },
+      onBoard: { text: 'Crew only.', pending: false },
+      primarySource: {
+        pending: true,
+        label: 'NARA crew manifest or contemporary press coverage · pending',
+        note: 'A scan of the Kanawha\'s August 1920 crew manifest, or a Negro World account of the boiler explosion, would land here.'
+      },
+      body: `
+        <p>On <em>26 August 1920</em>, the SS <em>Kanawha</em> left Norfolk for Havana with a crew of 39, no passengers, and a hold full of onions. Three days out, a boiler exploded. One crew member died. The ship was towed back to New York.</p>
+        <p>It was the Kanawha's <em>first</em> Black Star Line voyage. It was effectively the last one too. A later voyage ended with the ship abandoned in Santiago de Cuba and the US government repatriating its crew.</p>
+        <p style="color: var(--card-dim); font-style: italic;">⚠ Source conflict: some accounts treat the Santiago de Cuba terminus as part of the maiden voyage. Most likely the Kanawha had multiple disastrous voyages. Open question for the Hill critical edition.</p>
+      `,
+      source: 'Source: Mariners\' Museum BSL records · BlackPast · Wikipedia (cross-referenced)'
+    },
+    havana: {
+      coords: [23.1136, -82.3666],
+      coordLabel: '23.13°N · 82.36°W',
+      typoMark: 'PORT · YARMOUTH MAIDEN VOYAGE · NOV 1919',
+      typoMeta: 'Havana, Cuba',
+      labelText: 'Havana',
+      eyebrow: 'Port · Yarmouth maiden voyage',
+      title: 'Havana, Cuba',
+      failed: false,
+      captain: {
+        text: 'Joshua Cockburn (Nov 1919 maiden); Hugh Mulzac took the wheel on later Caribbean runs.',
+        source: 'Hill, <em>UNIA Papers</em> Vol. II'
+      },
+      cargoNote: {
+        text: 'Maiden voyage Nov 1919: ~800,000 bottles of whisky, ahead of US Prohibition. Cuba had no Prohibition; New York had a tax loophole.',
+        source: 'Hill, <em>UNIA Papers</em> Vol. II'
+      },
+      onBoard: {
+        text: 'Henrietta Vinton Davis likely on at least one Caribbean leg; specific voyage manifest pending Negro World cross-reference.',
+        source: 'pending Jewell + Hill',
+        pending: true
+      },
+      primarySource: {
+        pending: true,
+        label: 'Negro World coverage of Havana arrival · pending Black Star Archive',
+        note: 'A scan of the Negro World feature on the Yarmouth\'s Cuba arrival, or a Mulzac audio segment recalling the whisky run, lives in this slot.'
+      },
+      body: `
+        <p>The Yarmouth's <em>maiden voyage</em>, departing New York November 1919. The cargo: roughly <em>800,000 bottles of whisky</em>, ahead of US Prohibition. Cuba had no Prohibition. New York had a tax loophole. The Black Star Line sailed Black aspiration; they paid for the boiler with a tax loophole.</p>
+        <p>The route became routine: NYC → Havana → Kingston → Limón → Colón. UNIA divisions in each port met the ship. Rallies, recruitment, stockholder enrollment.</p>
+        <blockquote>"Wherever the Negro race lives, there shall the Black Star Line touch."<cite>Negro World editorial, c. 1920</cite></blockquote>
+      `,
+      source: 'Source: Hill, <em>UNIA Papers</em> Vol. II · Negro World coverage November 1919 → February 1920'
+    },
+    santiago: {
+      coords: [20.0244, -75.8219],
+      coordLabel: '20.02°N · 75.83°W',
+      typoMark: 'PORT · KANAWHA\'S END',
+      typoMeta: 'Santiago de Cuba',
+      labelText: 'Santiago de Cuba',
+      labelFaint: true,
+      eyebrow: 'Port · Kanawha\'s end',
+      title: 'Santiago de Cuba',
+      failed: true,
+      captain: { text: 'Captain on Kanawha\'s final voyage: pending NARA + Hill verification.', pending: true },
+      cargoNote: { text: 'Cargo on the final voyage: not consolidated in secondary record.', pending: true },
+      primarySource: {
+        pending: true,
+        label: 'Wreck coordinates + period coverage · pending',
+        note: 'Material lead for Jewell\'s Cuba wreck fieldwork. NARA crew repatriation paperwork + any Negro World mention of the abandonment would land here.'
+      },
+      body: `
+        <p>Where the Kanawha ended. The exact date is contested in the secondary record. A later voyage tied up in Santiago and never left. The US government repatriated the crew. <em>The vessel itself never reappeared.</em></p>
+        <p>This is a material lead for Jewell's planned Cuba wreck fieldwork. Coordinates and date require Hill critical-edition cross-reference before any dive plan.</p>
+      `,
+      source: 'Source: NARA BSL records · pending Hill critical-edition reconciliation'
+    },
+    kingston: {
+      coords: [17.9712, -76.7929],
+      coordLabel: '17.97°N · 76.79°W',
+      typoMark: 'PORT · GARVEY\'S HOMECOMING',
+      typoMeta: 'Kingston, Jamaica',
+      labelText: 'Kingston',
+      eyebrow: 'Port · Caribbean / homecoming',
+      title: 'Kingston, Jamaica',
+      failed: false,
+      captain: { text: 'Joshua Cockburn (early voyages); Hugh Mulzac (later).', source: 'Hill, <em>UNIA Papers</em> Vol. II' },
+      cargoNote: { text: 'Lumber, sugar, Negro World subscriptions, UNIA recruitment materials. Specific Kingston manifests pending corpus ingestion.', pending: true },
+      onBoard: {
+        text: 'Marcus Garvey almost certainly led at least one Kingston voyage personally (homecoming). Henrietta Vinton Davis likely in the delegation. Specific dates pending.',
+        source: 'pending Negro World cross-reference',
+        pending: true
+      },
+      primarySource: {
+        pending: true,
+        label: 'Negro World homecoming feature · pending',
+        note: 'Mulzac\'s audio recollection of Jamaica arrival, or the Negro World special on Garvey\'s return to the founding island, lives here.'
+      },
+      body: `
+        <p>Garvey's birthplace was Saint Ann's Bay, Jamaica, 1887. The UNIA's Jamaica branches were the founding stock of the movement, predating the Harlem reorganization by years. The Yarmouth's arrival in Kingston was a return: to the island, to the family network, to the original constituency.</p>
+        <p>UNIA Jamaica organized contract laborers across the British Caribbean diaspora. Kingston was the operational connector between Garvey's intellectual roots and the Central American banana plantations that produced his political education.</p>
+      `,
+      source: 'Source: archives/garvey/sources.md · Hill <em>UNIA Papers</em>'
+    },
+    limon: {
+      coords: [9.9907, -83.0356],
+      coordLabel: '10.00°N · 83.04°W',
+      typoMark: 'PORT · LIBERTY HALL · 1922',
+      typoMeta: 'Port Limón, Costa Rica',
+      labelText: 'Port Limón · Liberty Hall 1922',
+      eyebrow: 'Port · Liberty Hall, 1922',
+      title: 'Port Limón, Costa Rica',
+      failed: false,
+      captain: { text: 'Hugh Mulzac on the Caribbean legs that included Limón.', source: 'Mulzac, <em>A Star to Steer By</em>, 1963' },
+      cargoNote: { text: 'Lumber, sugar, Negro World subscriptions. Specific Limón manifest pending Black Star Archive.', pending: true },
+      onBoard: {
+        text: 'Maymie de Mena (UNIA international organizer, born Nicaragua) plausibly on this leg given her Central American organizing. Verification pending.',
+        source: 'pending',
+        pending: true
+      },
+      primarySource: {
+        pending: true,
+        label: 'Negro World Limón parade coverage (1923) · pending Black Star Archive',
+        note: 'The 1923 Negro World Port Limón parade column Jewell Humphrey cites in her 2026 SSRC article, OR Solo Nos\'s contemporary materials from Puerto Viejo, lands in this slot.'
+      },
+      body: `
+        <p>This is the place that shaped Garvey himself. Around <em>1910</em>, years before the UNIA, years before <em>Negro World</em>, Marcus Garvey worked as a <em>time-keeper on a banana plantation in Limón province</em>. He observed the conditions of Black labor across Central America. The UNIA was an answer to what he saw here.</p>
+        <p>By 1922 the UNIA had built <em>Liberty Hall on Calle 5</em> in Limón as the cultural center for its 23 Costa Rican branches. The 1923 <em>Negro World</em> Port Limón parade coverage that Jewell Humphrey cites in her 2026 SSRC article opens directly from this hall.</p>
+        <p><em>One century later:</em> Solo Nos's archive in Puerto Viejo, 50 km south, is named <em>Liberty Hall</em>. Same province. Same diaspora. The room kept moving. <a href="javascript:openLibertyHallModal('limon')">See Port Limón Liberty Hall →</a> · <a href="javascript:openLibertyHallModal('puerto_viejo')">See Solo Nos Puerto Viejo →</a></p>
+      `,
+      source: 'Source: Humphrey, "Reels of Resistance," <em>SSRC Just Tech</em>, 2026 · archives/garvey/research-dive-2026-04-24.md'
+    },
+    colon: {
+      coords: [9.3596, -79.9000],
+      coordLabel: '9.36°N · 79.90°W',
+      typoMark: 'PORT · CARIBBEAN TERMINUS',
+      typoMeta: 'Colón, Panama',
+      labelText: 'Colón',
+      eyebrow: 'Port · Caribbean',
+      title: 'Colón, Panama',
+      failed: false,
+      captain: { text: 'Hugh Mulzac on the southern Caribbean leg.', source: 'Mulzac, <em>A Star to Steer By</em>, 1963' },
+      cargoNote: { text: 'Subscriptions to Negro World, recruitment materials, return cargo of canal-zone goods. Specific manifests pending.', pending: true },
+      onBoard: { text: 'Pending verification.', pending: true },
+      primarySource: {
+        pending: true,
+        label: 'Panama UNIA branch records · pending',
+        note: 'A scan from a UNIA Panama division ledger, or Mulzac speaking on Colón arrival, fills this.'
+      },
+      body: `
+        <p>End of the Caribbean line. Colón anchored the southern leg of the Yarmouth's route. UNIA divisions in Panama drew from West Indian canal labor that built the isthmus. The ship arrived to crowds, departed with subscriptions to <em>Negro World</em> and stockholders for the next ship.</p>
+        <p>The 23 Costa Rican branches plus the Panama branches plus the Cuban branches together formed one of the densest extra-US organizing footprints, concentrated along the routes the United Fruit Company's labor migration had already cut.</p>
+      `,
+      source: 'Source: archives/garvey/research-dive-2026-04-24.md · UNIA branch geography ~1925'
+    }
+  };
+
+  // Liberty Hall lineage anchors
+  const LH_DUBLIN = [53.3498, -6.2603];
+  const LH_NYC = [40.8174, -73.9434]; // 138th & Lenox
+  const LH_LIMON = [9.9907, -83.0356];
+  const LH_PUERTO_VIEJO = [9.6552, -82.7528];
+
+  // === Ship data ===
+  const SHIPS = {
+    yarmouth: {
+      eyebrow: 'Ship · Flagship of the line',
+      title: 'SS Yarmouth → Frederick Douglass',
+      coordLabel: '1887 · 1,452 tons · NYC HQ',
+      hero: '/images/ss_yarmouth_1923.jpg',
+      heroCredit: 'SS Yarmouth at sea, c. 1919-1922',
+      captain: {
+        text: 'Joshua Cockburn (Nov 1919 maiden, NYC → Havana). Hugh Mulzac as chief officer under Cockburn, then captain on later voyages once Cockburn was sidelined.',
+        source: 'Hill, <em>UNIA Papers</em> Vol. II; Mulzac, <em>A Star to Steer By</em>, 1963'
+      },
+      cargoNote: {
+        text: 'Maiden Nov 1919: ~800,000 bottles of whisky to Havana. Subsequent: lumber, sugar, Negro World subscriptions, UNIA recruitment materials, stockholders.',
+        source: 'Hill, <em>UNIA Papers</em> Vol. II'
+      },
+      primarySource: {
+        pending: true,
+        label: 'Hugh Mulzac oral history · pending Black Star Archive',
+        note: 'Mulzac\'s firsthand recollections of the Yarmouth\'s career across NYC, Havana, Kingston, Limón, and Colón. The single most important primary source for the whole atlas.'
+      },
+      body: `
+        <p>The flagship. Purchased <em>17 September 1919</em> for $165,000. Independent valuation pegged her at $25,000, a discrepancy that became the seed of later fraud testimony. She was 32 years old when the BSL bought her, with the deteriorated post-war service condition of a vessel that had collied through a world war.</p>
+        <p>She was the only BSL ship that actually ran the Caribbean. Her route became routine: <em>NYC → Havana → Kingston → Port Limón → Colón</em>. Her maiden voyage cargo was 800,000 bottles of whisky, hauled to Cuba ahead of US Prohibition. Aspiration paid for itself with a tax loophole.</p>
+        <p>By 1922, leaks and unpaid wages had ended her. She was sold for scrap.</p>
+      `,
+      source: 'Source: Mariners\' Museum · Hill <em>UNIA Papers</em> Vol. II · NYPL Schomburg photograph collection'
+    },
+    kanawha: {
+      eyebrow: 'Ship · The voyage that never arrived',
+      title: 'SS Kanawha → Antonio Maceo',
+      coordLabel: '1899 steam yacht · 39-crew',
+      hero: '/images/black-star-line-action.jpg',
+      heroCredit: 'Black Star Line vessel underway',
+      captain: { text: 'Likely Adrian Richardson on the Aug 1920 maiden. Verification pending.', pending: true, source: 'pending Hill cross-reference' },
+      cargoNote: { text: 'Crew of 39, no passengers, hold of onions on the maiden. Boiler exploded day three.', source: 'Mariners\' Museum' },
+      primarySource: {
+        pending: true,
+        label: 'Crew manifest + Negro World account of the boiler explosion · pending',
+        note: 'The 39-man manifest exists in NARA. A Negro World feature on the explosion would land here.'
+      },
+      body: `
+        <p>A 1899 steam yacht renamed for Antonio Maceo, the Afro-Cuban general. Her first BSL voyage was a calamity: <em>26 August 1920</em>, departing Norfolk for Havana with a crew of 39, no passengers, and a hold full of onions. Three days out, a boiler exploded. One crew member died. She was towed back to New York.</p>
+        <p>A later voyage ended with the Kanawha tied up in Santiago de Cuba. The US government repatriated her crew. <em>The vessel itself never reappeared.</em></p>
+        <p style="color: var(--card-dim); font-style: italic;">⚠ The exact reconciliation between the maiden voyage and the Santiago terminus requires the Hill critical edition.</p>
+      `,
+      source: 'Source: BlackPast · Wikipedia · Mariners\' Museum (source conflict flagged)'
+    },
+    shadyside: {
+      eyebrow: 'Ship · Hudson River only',
+      title: 'SS Shadyside → Booker T. Washington',
+      coordLabel: '1873 sidewheel steamer · Hudson',
+      hero: '/images/bsl-poster.webp',
+      heroCredit: 'BSL promotional poster, c. 1920',
+      captain: { text: 'Captains rotated; named individuals not consolidated in secondary record.', pending: true },
+      cargoNote: { text: 'Hudson River day excursions: UNIA members, stockholders, Sunday picnic crowds.', source: 'Hill, <em>UNIA Papers</em>' },
+      primarySource: {
+        pending: true,
+        label: 'Excursion handbill or photograph · pending',
+        note: 'Period UNIA handbills advertised the Shadyside\'s Sunday trips. A scanned handbill or onboard photograph would land here.'
+      },
+      body: `
+        <p>A sidewheel steamer built in <em>1873</em>. By the time the BSL bought her, she was nearly 50 years old. She was never seaworthy for open water. Her entire BSL career consisted of summer Hudson River excursions out of New York City.</p>
+        <p>In the winter of 1922, she was damaged by ice and sank quietly at her mooring. She had never sailed beyond New York Harbor.</p>
+        <p>Her fundraising photographs, however, traveled everywhere. <em>Negro World</em> ran her image as part of the fleet whose foreign reach the Black Star Line was selling to its stockholders.</p>
+      `,
+      source: 'Source: archives/garvey/research-dive-2026-04-24.md · Hill <em>UNIA Papers</em>'
+    },
+    phyllis: {
+      eyebrow: 'The ship that never was',
+      title: 'SS Phyllis Wheatley',
+      coordLabel: 'no coordinates · she never sailed',
+      hero: '/images/bsl_phyllis_wheatley_brochure.jpg',
+      heroCredit: 'BSL Phyllis Wheatley fundraising brochure: doctored photograph of SS Orion with the Phyllis Wheatley name painted onto the hull',
+      captain: { text: 'No captain. She had no hull.' },
+      cargoNote: { text: 'Mailers and investment dollars. The cargo was the fraud.', source: 'NARA mail fraud indictment' },
+      primarySource: {
+        pending: true,
+        label: 'NARA mail fraud indictment scan · pending corpus ingestion',
+        note: 'The 15 Feb 1922 indictment file lives in NARA at archives/garvey/nara/mail-fraud-indictment-C33-688.pdf. A direct scan or page excerpt would land here when surfaced.'
+      },
+      body: `
+        <p>The Phyllis Wheatley was a fundraising target with a name and no hull. The UNIA mailers reproduced a doctored photograph of the SS <em>Orion</em> with "Phyllis Wheatley" painted onto its side, soliciting investment for a ship that did not yet exist, and would not.</p>
+        <p>On <em>15 February 1922</em>, Garvey was indicted on mail fraud charges tied specifically to that mailer. He was convicted <em>18 June 1923</em>, sentenced to five years at the Atlanta Federal Penitentiary, and entered prison in 1925.</p>
+        <p>The Phyllis Wheatley is the single most pedagogically rich artifact in the whole fleet. She names the tension between aspiration and material reality that defined the Black Star Line's final chapter. Archivally, <em>she is both a photograph and an absence.</em></p>
+      `,
+      source: 'Source: NARA mail fraud indictment file · Hill <em>UNIA Papers</em> Vol. IV'
+    }
+  };
+
+  // === Initialize map ===
+  const map = L.map('map', {
+    zoomControl: true,
+    attributionControl: true,
+    scrollWheelZoom: false
+  }).setView([22, -76], 5);
+
+  // CartoDB Dark Matter — free tiles, dark monochrome, matches RI palette
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 18,
+    minZoom: 4
+  }).addTo(map);
+
+  // Tighter bounds: focus on the BSL theatre, not all of Africa
+  map.fitBounds([
+    [7, -88],   // SW: just below Panama
+    [42, -65]   // NE: NYC + a bit of Atlantic for the Dublin lineage line
+  ]);
+
+  // === Routes ===
+  const Y = PORTS;
+
+  // Yarmouth route segments (real coords)
+  const yarmouthSegments = [
+    { id: 'yarmouth-1', coords: [Y.nyc.coords, Y.havana.coords], revealAt: 2 },
+    { id: 'yarmouth-2', coords: [Y.havana.coords, Y.kingston.coords], revealAt: 4 },
+    { id: 'yarmouth-3', coords: [Y.kingston.coords, Y.limon.coords], revealAt: 5 },
+    { id: 'yarmouth-4', coords: [Y.limon.coords, Y.colon.coords], revealAt: 6 }
+  ];
+
+  const kanawhaSegments = [
+    // Maiden voyage Norfolk → toward Havana, broke down ~3 days out
+    { id: 'kanawha-1', coords: [Y.norfolk.coords, [33.5, -76.5]], revealAt: 11, dashed: false },
+    // Later voyage Norfolk-ish → Santiago de Cuba
+    { id: 'kanawha-2', coords: [Y.norfolk.coords, Y.santiago.coords], revealAt: 24, dashed: true }
+  ];
+
+  // Shadyside — tiny Hudson River loop near NYC
+  const shadysideCoords = [
+    [40.7128, -74.0060],
+    [40.7530, -74.0010],
+    [40.8000, -73.9900],
+    [40.8400, -73.9700]
+  ];
+
+  // Liberty Hall lineage — gold dashed
+  const libertyHallCoords = [LH_DUBLIN, LH_NYC, LH_LIMON, LH_PUERTO_VIEJO];
+
+  // Polylines on the map
+  const routePolylines = {};
+
+  yarmouthSegments.forEach(seg => {
+    const line = L.polyline(seg.coords, {
+      color: '#c9a227',
+      weight: 2.5,
+      opacity: 0,
+      lineCap: 'round',
+      lineJoin: 'round'
+    }).addTo(map);
+    routePolylines[seg.id] = { line, revealAt: seg.revealAt, color: '#c9a227', opacity: 0.85 };
+  });
+
+  kanawhaSegments.forEach(seg => {
+    const line = L.polyline(seg.coords, {
+      color: '#C8102E',
+      weight: 2,
+      opacity: 0,
+      dashArray: seg.dashed ? '5 6' : null,
+      lineCap: 'round'
+    }).addTo(map);
+    routePolylines[seg.id] = { line, revealAt: seg.revealAt, color: '#C8102E', opacity: 0.75 };
+  });
+
+  // Shadyside (always faintly visible) — UNIA green
+  L.polyline(shadysideCoords, {
+    color: '#2E8B3E',
+    weight: 1.5,
+    opacity: 0.55,
+    dashArray: '3 3'
+  }).addTo(map);
+
+  // Liberty Hall lineage: a CONTEXTUAL overlay, not a voyage event.
+  // Dublin 1916 predates the BSL entirely; Harlem 1919 is t=0; Limón 1922 lands mid-timeline;
+  // Puerto Viejo 2026 is a future-shadow endpoint. Whole line stays visible from start
+  // so Dublin doesn't appear last and break chronology.
+  const libertyHallLine = L.polyline(libertyHallCoords, {
+    color: '#c9a227',
+    weight: 1.5,
+    opacity: 0.45,
+    dashArray: '8 8',
+    lineCap: 'round'
+  }).addTo(map);
+
+  // === Port markers ===
+  // Stagger label directions to prevent collisions in the dense Caribbean cluster
+  const LABEL_DIRECTIONS = {
+    nyc:      { dir: 'left',  offset: [-10, 0] },
+    norfolk:  { dir: 'right', offset: [10, 0] },
+    havana:   { dir: 'top',   offset: [0, -8] },
+    santiago: { dir: 'right', offset: [10, 0] },
+    kingston: { dir: 'bottom',offset: [0, 8] },
+    limon:    { dir: 'left',  offset: [-10, 0] },
+    colon:    { dir: 'right', offset: [10, 0] }
+  };
+  const portMarkers = {};
+  Object.entries(PORTS).forEach(([id, p]) => {
+    const html = `<div class="port-marker${p.failed ? ' failed' : ''}" data-port="${id}"></div>`;
+    const icon = L.divIcon({
+      className: 'port-marker-wrap',
+      html,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7]
+    });
+    const marker = L.marker(p.coords, { icon, riseOnHover: true }).addTo(map);
+    const ld = LABEL_DIRECTIONS[id] || { dir: 'right', offset: [10, 0] };
+    marker.bindTooltip(p.labelText, {
+      permanent: true,
+      direction: ld.dir,
+      offset: ld.offset,
+      className: 'port-label-leaflet' + (p.labelFaint ? ' faint' : '')
+    });
+    marker.on('click', () => openPortModal(id));
+    portMarkers[id] = marker;
+  });
+
+  // Liberty Hall pins (clickable, lineage points)
+  const dublinPin = L.circleMarker(LH_DUBLIN, {
+    radius: 5, color: '#c9a227', fillColor: '#c9a227', fillOpacity: 0.85, weight: 1.5, opacity: 0.85
+  }).addTo(map);
+  dublinPin.bindTooltip('Dublin · Liberty Hall, 1916', {
+    permanent: true, direction: 'left', offset: [-8, 0],
+    className: 'port-label-leaflet faint'
+  });
+  dublinPin.on('click', () => openLibertyHallModal('dublin'));
+  dublinPin.getElement && dublinPin.on('add', () => { const e = dublinPin.getElement(); if (e) e.style.cursor = 'pointer'; });
+
+  // Harlem Liberty Hall (138th & Lenox) — separate clickable pin from NYC port
+  const harlemLHPin = L.circleMarker(LH_NYC, {
+    radius: 5, color: '#c9a227', fillColor: '#c9a227', fillOpacity: 0.85, weight: 1.5, opacity: 0.85
+  }).addTo(map);
+  harlemLHPin.bindTooltip('Harlem · Liberty Hall, 1919', {
+    permanent: true, direction: 'right', offset: [8, 0],
+    className: 'port-label-leaflet faint'
+  });
+  harlemLHPin.on('click', () => openLibertyHallModal('harlem'));
+  harlemLHPin.on('add', () => { const e = harlemLHPin.getElement(); if (e) e.style.cursor = 'pointer'; });
+
+  // Puerto Viejo (Solo Nos, 2026) — small pin south of Limón, clickable
+  const puertoPin = L.circleMarker(LH_PUERTO_VIEJO, {
+    radius: 4, color: '#c9a227', fillColor: '#c9a227', fillOpacity: 0.55, weight: 1.5, opacity: 0.7
+  }).addTo(map);
+  puertoPin.bindTooltip('Puerto Viejo · 2026', {
+    permanent: false, direction: 'right', offset: [8, 0],
+    className: 'port-label-leaflet faint'
+  });
+  puertoPin.on('click', () => openLibertyHallModal('puerto_viejo'));
+  puertoPin.on('add', () => { const e = puertoPin.getElement(); if (e) e.style.cursor = 'pointer'; });
+
+  // Phyllis Wheatley — ghost ship label in deeper Atlantic. White/cream for the ship that wasn't.
+  const phyllisIcon = L.divIcon({
+    className: '',
+    html: `<div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:#f0ebe1;font-size:11px;letter-spacing:0.05em;background:rgba(10,10,10,0.6);padding:5px 9px;border:1px dashed rgba(240,235,225,0.45);border-radius:2px;white-space:nowrap;pointer-events:none;opacity:0.85;">
+      SS Phyllis Wheatley · <span style="color:#f0ebe1;opacity:0.7;">never sailed</span>
+    </div>`,
+    iconSize: [200, 24],
+    iconAnchor: [100, 12]
+  });
+  L.marker([34, -55], { icon: phyllisIcon, interactive: false }).addTo(map);
+
+  // === Scrubber ===
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const TIMELINE = [];
+  for (let i = 0; i < 49; i++) {
+    const totalMonth = 8 + i;
+    const year = 1919 + Math.floor(totalMonth / 12);
+    const month = totalMonth % 12;
+    TIMELINE.push({ month: MONTHS[month], year });
+  }
+
+  function stockholdersAt(monthIndex) {
+    if (monthIndex <= 0) return 0;
+    if (monthIndex <= 12) return Math.round(monthIndex * 3000);
+    if (monthIndex <= 24) return Math.round(36000 + (monthIndex - 12) * 2833);
+    if (monthIndex <= 36) return Math.round(70000 + (monthIndex - 24) * 2191);
+    return 96285;
+  }
+
+  const PORT_REVEAL = {
+    nyc: 0, havana: 2, kingston: 4, colon: 5,
+    limon: 7, norfolk: 11, santiago: 24
+  };
+
+  // === Cargo events: documented voyages with what was actually in the hold ===
+  // Each event has a position on the map (midpoint of the relevant route segment),
+  // a reveal month, the cargo text, and a source line.
+  const CARGO_EVENTS = [
+    {
+      id: 'yarmouth-whisky',
+      ship: 'yarmouth',
+      revealAt: 2,
+      pos: [32, -77],
+      date: 'Nov 1919',
+      title: 'Yarmouth maiden, NYC → Havana',
+      cargo: '~800,000 bottles of whisky, ahead of US Prohibition',
+      tag: '~800,000 bottles of whisky',
+      source: 'Hill, UNIA Papers Vol. II'
+    },
+    {
+      id: 'yarmouth-kingston',
+      ship: 'yarmouth',
+      revealAt: 4,
+      pos: [21, -78],
+      date: 'Jan 1920',
+      title: 'Yarmouth, Havana → Kingston',
+      cargo: 'Lumber, sugar, Negro World subscriptions, UNIA recruitment materials',
+      tag: 'lumber · sugar · Negro World',
+      source: 'Hill, UNIA Papers Vol. II'
+    },
+    {
+      id: 'yarmouth-limon',
+      ship: 'yarmouth',
+      revealAt: 5,
+      pos: [13.5, -80],
+      date: 'Feb 1920',
+      title: 'Yarmouth, Kingston → Port Limón',
+      cargo: 'UNIA materials, stockholder enrollment delegation. 23 Costa Rican branches greeting on arrival.',
+      tag: 'UNIA delegation · 23 branches greeting',
+      source: 'archives/garvey/research-dive-2026-04-24.md'
+    },
+    {
+      id: 'shadyside-hudson',
+      ship: 'shadyside',
+      revealAt: 8,
+      pos: [40.95, -73.95],
+      date: 'Summer 1920',
+      title: 'Shadyside · Hudson River excursions',
+      cargo: 'UNIA members, stockholders, Sunday picnic crowds. Never crossed open water.',
+      tag: 'UNIA Sunday excursions',
+      source: 'Hill, UNIA Papers'
+    },
+    {
+      id: 'kanawha-onions',
+      ship: 'kanawha',
+      revealAt: 11,
+      pos: [33.5, -76],
+      date: 'Aug 26, 1920',
+      title: 'Kanawha maiden, Norfolk → bound for Havana',
+      cargo: 'Crew of 39, no passengers, hold of onions. Boiler exploded day three. One dead. Towed back to New York.',
+      tag: '39 crew · no passengers · onions',
+      source: 'Mariners\' Museum'
+    },
+    {
+      id: 'phyllis-mailers',
+      ship: 'phyllis',
+      revealAt: 27,
+      pos: [34, -55],
+      date: '1921-22',
+      title: 'SS Phyllis Wheatley · the ship that never was',
+      cargo: 'Doctored photographs and investment dollars. The cargo was the fraud.',
+      tag: 'doctored photographs · fraud',
+      source: 'NARA mail fraud indictment'
+    }
+  ];
+
+  const scrubber = document.getElementById('scrubber');
+  const readoutMonth = document.getElementById('readoutMonth');
+  const readoutYear = document.getElementById('readoutYear');
+  const stockholderCount = document.getElementById('stockholderCount');
+  const cargoLog = document.getElementById('cargoLog');
+  const cargoLogText = document.getElementById('cargoLogText');
+  const cargoLogSource = document.getElementById('cargoLogSource');
+
+  // Add cargo tag markers (initially hidden, fade in when revealed). Color by ship.
+  const cargoTagMarkers = {};
+  CARGO_EVENTS.forEach(ev => {
+    const shipClass = ev.ship ? `ship-${ev.ship}` : '';
+    const html = `<div class="cargo-tag ${shipClass}" data-id="${ev.id}"><span class="cargo-date">${ev.date}</span>${ev.tag}</div>`;
+    const icon = L.divIcon({
+      className: '',
+      html,
+      iconSize: [220, 36],
+      iconAnchor: [110, 18]
+    });
+    const marker = L.marker(ev.pos, { icon, interactive: false }).addTo(map);
+    cargoTagMarkers[ev.id] = marker;
+  });
+
+  function updateTimeline(idx) {
+    const t = TIMELINE[idx] || TIMELINE[TIMELINE.length - 1];
+    readoutMonth.textContent = t.month;
+    readoutYear.textContent = t.year;
+    stockholderCount.textContent = stockholdersAt(idx).toLocaleString();
+
+    // Light up port markers
+    Object.entries(PORT_REVEAL).forEach(([id, lightAt]) => {
+      const marker = portMarkers[id];
+      if (!marker) return;
+      const el = marker.getElement();
+      if (!el) return;
+      const dot = el.querySelector('.port-marker');
+      if (!dot) return;
+      if (idx >= lightAt) dot.classList.add('lit');
+      else dot.classList.remove('lit');
+    });
+
+    // Reveal route polylines
+    Object.entries(routePolylines).forEach(([routeId, info]) => {
+      if (idx >= info.revealAt) info.line.setStyle({ opacity: info.opacity });
+      else info.line.setStyle({ opacity: 0 });
+    });
+
+    // Cargo tags: ephemeral fade. Show only the most recent event for ~4 seconds when crossed.
+    const recent = CARGO_EVENTS.filter(ev => idx >= ev.revealAt).pop();
+    const recentId = recent ? recent.id : null;
+    if (recentId !== lastCargoEventId) {
+      // Hide all tags first
+      Object.values(cargoTagMarkers).forEach(m => {
+        const el = m.getElement();
+        if (el) {
+          const t = el.querySelector('.cargo-tag');
+          if (t) { t.classList.remove('visible'); t.classList.remove('fading'); }
+        }
+      });
+      if (recentId) {
+        // Trigger glide + cargo flash + moment marker
+        const marker = cargoTagMarkers[recentId];
+        const tag = marker?.getElement()?.querySelector('.cargo-tag');
+        if (tag) {
+          // Flash in
+          requestAnimationFrame(() => {
+            tag.classList.add('visible');
+            cargoShowToken[recentId] = (cargoShowToken[recentId] || 0) + 1;
+            const tok = cargoShowToken[recentId];
+            setTimeout(() => {
+              if (cargoShowToken[recentId] === tok && lastCargoEventId === recentId) {
+                tag.classList.remove('visible');
+                tag.classList.add('fading');
+              }
+            }, 4000);
+          });
+          glideShipForEvent(recent);
+          flashMomentMarker(recent);
+        }
+      }
+      lastCargoEventId = recentId;
+    }
+
+    // Update cargo log: show the most recent cargo event at or before current scrubber position
+    if (recent) {
+      cargoLog.classList.remove('empty');
+      cargoLogText.innerHTML = `<strong style="color: var(--gold-warm); font-style: normal; font-weight: 600; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-right: 8px;">${recent.date}</strong>${recent.title}. ${recent.cargo}`;
+      cargoLogSource.textContent = `Source: ${recent.source}`;
+    } else {
+      cargoLog.classList.add('empty');
+      cargoLogText.textContent = 'Drag the year forward, or press play, to follow what was actually moving on the ships.';
+      cargoLogSource.textContent = '';
+    }
+  }
+
+  // Track which cargo event is currently the "most recent" so we don't re-trigger animations
+  let lastCargoEventId = null;
+  const cargoShowToken = {};
+
+  // === Ship glide: small animated ship icon traces the route on reveal ===
+  const SHIP_ROUTES = {
+    'yarmouth-whisky':   { from: PORTS.nyc.coords,      to: PORTS.havana.coords,    ship: 'yarmouth' },
+    'yarmouth-kingston': { from: PORTS.havana.coords,   to: PORTS.kingston.coords,  ship: 'yarmouth' },
+    'yarmouth-limon':    { from: PORTS.kingston.coords, to: PORTS.limon.coords,     ship: 'yarmouth' },
+    'shadyside-hudson':  { from: [40.71, -74.00],       to: [40.84, -73.97],        ship: 'shadyside' },
+    'kanawha-onions':    { from: PORTS.norfolk.coords,  to: [33.5, -76.5],          ship: 'kanawha' }
+  };
+  const SHIP_SVG = `<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 4 17 L 24 17 L 22 21 L 6 21 Z" fill="currentColor" fill-opacity="0.85"/>
+    <path d="M 14 17 L 14 6"/>
+    <path d="M 14 8 L 22 14 L 14 14 Z" fill="currentColor" fill-opacity="0.6"/>
+  </svg>`;
+
+  function glideShipForEvent(ev) {
+    const route = SHIP_ROUTES[ev.id];
+    if (!route) return;
+    const shipColor = ev.ship === 'yarmouth' ? '#c9a227' :
+                      ev.ship === 'kanawha' ? '#C8102E' :
+                      ev.ship === 'shadyside' ? '#2E8B3E' : '#f0ebe1';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="ship-glide ship-${ev.ship}" style="color: ${shipColor};">${SHIP_SVG}</div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+    const ship = L.marker(route.from, { icon, interactive: false }).addTo(map);
+    const start = Date.now();
+    const duration = 2800;
+    function tick() {
+      const elapsed = Date.now() - start;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      const lat = route.from[0] + (route.to[0] - route.from[0]) * eased;
+      const lng = route.from[1] + (route.to[1] - route.from[1]) * eased;
+      ship.setLatLng([lat, lng]);
+      if (t < 1) requestAnimationFrame(tick);
+      else {
+        const el = ship.getElement();
+        if (el) {
+          el.style.transition = 'opacity 900ms';
+          el.style.opacity = '0';
+        }
+        setTimeout(() => map.removeLayer(ship), 1000);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // === Moment-marker headlines: cinematic flash on key voyage events ===
+  const MOMENT_MARKERS = {
+    'yarmouth-whisky':   { date: 'November 1919', headline: 'The Yarmouth departs Harlem with whisky for Havana.' },
+    'yarmouth-kingston': { date: 'January 1920',  headline: 'The flagship reaches <em>Kingston</em>. Garvey\'s home island.' },
+    'yarmouth-limon':    { date: 'February 1920', headline: '<em>Twenty-three branches</em> greet the Yarmouth at Port Limón.' },
+    'shadyside-hudson':  { date: 'Summer 1920',   headline: 'The Shadyside on Sunday excursions. <em>Never crossed open water.</em>' },
+    'kanawha-onions':    { date: 'August 26, 1920', headline: 'Three days out of Norfolk, the boiler explodes.' },
+    'phyllis-mailers':   { date: '1921–1922',     headline: 'A photograph of someone else\'s ship, painted with a name. <em>The crime was the cargo.</em>' }
+  };
+  const momentMarker = document.getElementById('momentMarker');
+  const mmDate = document.getElementById('mmDate');
+  const mmHeadline = document.getElementById('mmHeadline');
+  let mmHideTimer = null;
+
+  function flashMomentMarker(ev) {
+    const m = MOMENT_MARKERS[ev.id];
+    if (!m) return;
+    if (mmHideTimer) { clearTimeout(mmHideTimer); mmHideTimer = null; }
+    mmDate.textContent = m.date;
+    mmHeadline.innerHTML = m.headline;
+    momentMarker.classList.add('show');
+    mmHideTimer = setTimeout(() => {
+      momentMarker.classList.remove('show');
+    }, 4200);
+  }
+
+  scrubber.addEventListener('input', e => {
+    if (autoplay.active) stopAutoplay();
+    updateTimeline(parseInt(e.target.value, 10));
+  });
+
+  // === Autoplay ===
+  const autoplay = { active: false, intervalId: null, startTime: 0, durationMs: 78000 };
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  function startAutoplay() {
+    if (autoplay.active) return;
+    autoplay.active = true;
+    playBtn.innerHTML = '<svg viewBox="0 0 12 12"><rect x="2" y="2" width="3" height="8"/><rect x="7" y="2" width="3" height="8"/></svg>';
+    playBtn.setAttribute('aria-label', 'Pause timeline');
+    const startIdx = parseInt(scrubber.value, 10);
+    const startAt = startIdx >= 48 ? 0 : startIdx;
+    autoplay.startTime = Date.now();
+    autoplay.startIdx = startAt;
+    if (startIdx >= 48) {
+      scrubber.value = 0;
+      updateTimeline(0);
+    }
+    autoplay.intervalId = setInterval(() => {
+      const elapsed = Date.now() - autoplay.startTime;
+      const remaining = (48 - autoplay.startIdx) / 48 * autoplay.durationMs;
+      const t = Math.min(elapsed / remaining, 1);
+      const idx = Math.round(autoplay.startIdx + (48 - autoplay.startIdx) * t);
+      scrubber.value = idx;
+      updateTimeline(idx);
+      if (idx >= 48) stopAutoplay();
+    }, 80);
+  }
+  function stopAutoplay() {
+    if (!autoplay.active) return;
+    autoplay.active = false;
+    clearInterval(autoplay.intervalId);
+    playBtn.innerHTML = '<svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>';
+    playBtn.setAttribute('aria-label', 'Play timeline');
+  }
+  playBtn.addEventListener('click', () => {
+    if (autoplay.active) stopAutoplay();
+    else startAutoplay();
+  });
+  resetBtn.addEventListener('click', () => {
+    stopAutoplay();
+    scrubber.value = 0;
+    updateTimeline(0);
+  });
+
+  // === Modal ===
+  const overlay = document.getElementById('modalOverlay');
+  const modalEyebrow = document.getElementById('modalEyebrow');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalCoords = document.getElementById('modalCoords');
+  const modalBody = document.getElementById('modalBody');
+  const modalSource = document.getElementById('modalSource');
+  const heroImage = document.getElementById('heroImage');
+  const heroCredit = document.getElementById('heroCredit');
+  const heroTypo = document.getElementById('heroTypo');
+  const typoMark = document.getElementById('typoMark');
+  const typoCoords = document.getElementById('typoCoords');
+  const typoMeta = document.getElementById('typoMeta');
+
+  function openPortModal(portId) {
+    const data = PORTS[portId];
+    if (!data) return;
+    heroImage.classList.remove('show');
+    heroTypo.classList.add('show');
+    typoMark.textContent = data.typoMark;
+    typoCoords.textContent = data.coordLabel;
+    typoMeta.textContent = data.typoMeta;
+
+    modalEyebrow.textContent = data.eyebrow;
+    modalTitle.textContent = data.title;
+    modalCoords.textContent = data.coordLabel;
+    modalBody.innerHTML = renderVoyageMeta(data) + renderPrimarySlot(data.primarySource) + data.body;
+    modalSource.innerHTML = data.source;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // === Liberty Hall lineage data ===
+  const LIBERTY_HALLS = {
+    dublin: {
+      eyebrow: 'Liberty Hall · Dublin',
+      title: 'Dublin Liberty Hall',
+      coordLabel: '53.35°N · 6.26°W · 1916',
+      hero: null,
+      typoMark: 'LIBERTY HALL · DUBLIN · 1916',
+      typoMeta: 'James Connolly · Easter Rising',
+      body: `
+        <p><em>Liberty Hall</em>, on the north quay of the River Liffey in Dublin, was the headquarters of the Irish Citizen Army and the Irish Transport and General Workers\' Union. James Connolly ran it. The 1916 Easter Rising Proclamation was printed inside this building.</p>
+        <p>British naval gunboats shelled it during Easter Week. The original structure was destroyed and later rebuilt.</p>
+        <p>The name traveled. Three years later, Marcus Garvey opened the UNIA\'s headquarters in Harlem and called it <em>Liberty Hall</em>. The transmission of the name from Connolly\'s Dublin labor hall to Garvey\'s Harlem mass-movement hall is documented in Hill\'s critical edition. Black workers and Irish workers were reading each other.</p>
+        <blockquote>"The cause of labour is the cause of Ireland; the cause of Ireland is the cause of labour."<cite>James Connolly, 1914</cite></blockquote>
+      `,
+      source: 'Source: Hill, <em>UNIA Papers</em>; Irish Bureau of Military History 1913-21 collection'
+    },
+    harlem: {
+      eyebrow: 'Liberty Hall · Harlem',
+      title: 'Harlem Liberty Hall',
+      coordLabel: '40.82°N · 73.94°W · 1919-1925',
+      hero: '/images/garvey_speaking_1920.png',
+      heroCredit: 'Marcus Garvey at the UNIA podium, Liberty Hall Harlem, c. 1920',
+      body: `
+        <p>The roof of the entire Garvey movement, 138th Street and Lenox Avenue. A former church, repurposed by the UNIA in 1919 to seat 6,000. Garvey opened every annual convention here. Audrey Bishop, Henrietta Vinton Davis, and the full UNIA orator bench took this stage. The 1920 First International Convention of the Negro Peoples of the World ran four weeks out of this building.</p>
+        <p>This is where the Black Star Line was sold to its 96,285 stockholders. This is where every voyage you see on this atlas began rhetorically before it began on the water.</p>
+        <p style="margin: 18px 0;">
+          <img src="/images/unia_parade_1920.jpg" alt="1920 UNIA Convention parade in Harlem" style="width: 100%; height: auto; display: block; border-radius: 2px; border: 1px solid rgba(15,10,6,0.15);">
+          <span style="display: block; font-size: 11px; color: var(--card-dim); margin-top: 6px; font-style: italic; font-family: 'Cormorant Garamond', serif;">UNIA First International Convention parade, Harlem, August 1920. Liberty Hall is two blocks east.</span>
+        </p>
+      `,
+      source: 'Source: NYPL Schomburg UNIA Collection; Hill, <em>UNIA Papers</em> Vol. II'
+    },
+    limon: {
+      eyebrow: 'Liberty Hall · Port Limón',
+      title: 'Port Limón Liberty Hall',
+      coordLabel: '10.00°N · 83.04°W · 1922',
+      hero: null,
+      typoMark: 'LIBERTY HALL · PORT LIMÓN · 1922',
+      typoMeta: 'Calle 5, Limón province',
+      body: `
+        <p>Built 1922 on Calle 5 in Port Limón, Costa Rica. The cultural center for the UNIA\'s 23 Costa Rican branches, by far the densest extra-US footprint of the movement. Mass meetings, recruitment drives, the 1923 parade <em>Negro World</em> covered.</p>
+        <p>Garvey himself had worked in Limón province around 1910 as a time-keeper on a banana plantation, years before the UNIA existed. The Liberty Hall on Calle 5 was a return.</p>
+        <p>For the BSL, this Liberty Hall was the southern Caribbean anchor. The Yarmouth\'s arrivals at the port were greeted by delegations from the hall.</p>
+      `,
+      source: 'Source: Humphrey, "Reels of Resistance," <em>SSRC Just Tech</em>, 2026; Hill, <em>UNIA Papers</em> Vol. II'
+    },
+    puerto_viejo: {
+      eyebrow: 'Liberty Hall · Puerto Viejo',
+      title: 'Solo Nos · Liberty Hall, Puerto Viejo',
+      coordLabel: '9.66°N · 82.75°W · 2026',
+      hero: null,
+      typoMark: 'LIBERTY HALL · PUERTO VIEJO · 2026',
+      typoMeta: 'Solo Nos · Afro-Costa Rican archival practice',
+      body: `
+        <p>One century later, in the same Limón province, fifty kilometers south of Port Limón, the contemporary Afro-Costa Rican collective <em>Solo Nos</em> runs a community photo and video archive. They call it <em>Liberty Hall</em>.</p>
+        <p>This is not a coincidence and not a recovery. It is a transmission. The same diasporic community that built the 1922 Liberty Hall in Limón is keeping the name alive in 2026, in the same province, in their own archival practice.</p>
+        <p>Jewell Humphrey\'s 2026 SSRC <em>Just Tech</em> article positions the 1923 <em>Negro World</em> Limón parade coverage and Solo Nos\'s contemporary fieldwork as a single diasporic throughline. The Black Star Atlas extends that thread back to the body of the ship and back further to Garvey\'s 1910 plantation work in the same province.</p>
+      `,
+      source: 'Source: Humphrey, "Reels of Resistance," <em>SSRC Just Tech</em>, 2026'
+    }
+  };
+
+  function openLibertyHallModal(id) {
+    const data = LIBERTY_HALLS[id];
+    if (!data) return;
+    if (data.hero) {
+      heroTypo.classList.remove('show');
+      heroImage.classList.add('show');
+      heroImage.style.backgroundImage = `url('${data.hero}')`;
+      heroImage.style.backgroundSize = 'cover';
+      heroImage.style.backgroundPosition = 'center';
+      heroImage.style.backgroundColor = '#1a1410';
+      heroCredit.textContent = data.heroCredit || '';
+    } else {
+      heroImage.classList.remove('show');
+      heroTypo.classList.add('show');
+      typoMark.textContent = data.typoMark;
+      typoCoords.textContent = data.coordLabel;
+      typoMeta.textContent = data.typoMeta;
+    }
+    modalEyebrow.textContent = data.eyebrow;
+    modalTitle.textContent = data.title;
+    modalCoords.textContent = data.coordLabel;
+    modalBody.innerHTML = data.body;
+    modalSource.innerHTML = data.source;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function openShipModal(shipId) {
+    const data = SHIPS[shipId];
+    if (!data) return;
+    heroTypo.classList.remove('show');
+    heroImage.classList.add('show');
+    heroImage.style.backgroundImage = `url('${data.hero}')`;
+    if (data.title.includes('Phyllis')) {
+      heroImage.style.backgroundSize = 'contain';
+      heroImage.style.backgroundColor = '#1a1410';
+      heroImage.style.backgroundRepeat = 'no-repeat';
+    } else {
+      heroImage.style.backgroundSize = 'cover';
+      heroImage.style.backgroundColor = '#1a1410';
+      heroImage.style.backgroundRepeat = 'no-repeat';
+    }
+    heroCredit.textContent = data.heroCredit || '';
+
+    modalEyebrow.textContent = data.eyebrow;
+    modalTitle.textContent = data.title;
+    modalCoords.textContent = data.coordLabel;
+    modalBody.innerHTML = renderVoyageMeta(data) + renderPrimarySlot(data.primarySource) + data.body;
+    modalSource.innerHTML = data.source;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    document.querySelectorAll('audio').forEach(a => a.pause());
+  }
+  window.closeModal = closeModal;
+  window.openLibertyHallModal = openLibertyHallModal;
+
+  document.querySelectorAll('.ship-card').forEach(card => {
+    card.addEventListener('click', () => openShipModal(card.dataset.ship));
+  });
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  updateTimeline(0);
+</script>
+
+</body>
+</html>

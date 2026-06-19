@@ -4,12 +4,14 @@
     { "src": "api/*.js", "use": "@vercel/node" },
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "sam/**/*", "use": "@vercel/static" },
+    { "src": "atlas/**/*", "use": "@vercel/static" },
     { "src": "vr/**/*", "use": "@vercel/static" },
     { "src": "public/**/*", "use": "@vercel/static" }
   ],
   "rewrites": [
     { "source": "/sam", "destination": "/sam/index.html" },
     { "source": "/sam/chat", "destination": "/sam/chat.html" },
+    { "source": "/atlas", "destination": "/atlas/index.html" },
     { "source": "/api/embed", "destination": "/api/embed.js" },
     { "source": "/api/chat", "destination": "/api/chat.js" },
     { "source": "/manifest.json", "destination": "/public/manifest.json" },
