@@ -1207,8 +1207,8 @@
         el.vocabBanner.style.display = 'block';
         el.vocabBanner.innerHTML = `
           <div class="modern">${escape(match.term)}</div>
-          <div class="period"><em>no clean period analog in Garvey's vocabulary</em></div>
-          <div class="note">${escape(match.entry.scholarly_note)}</div>
+          <div class="period"><em>this book has no word for this; results below match your own words</em></div>
+          <div class="note">Our note, not Garvey's words: ${escape(match.entry.scholarly_note)}</div>
         `;
         return;
       }
@@ -1218,9 +1218,9 @@
     const periodList = match.entry.period_terms.map(t => `<em>${escape(t)}</em>`).join(' · ');
     el.vocabBanner.style.display = 'block';
     el.vocabBanner.innerHTML = `
-      <div class="modern">modern: ${escape(match.term)}</div>
-      <div class="period">Garvey's period vocabulary: ${periodList}</div>
-      <div class="note">${escape(match.entry.scholarly_note || '')}</div>
+      <div class="modern">you searched: ${escape(match.term)}</div>
+      <div class="period">Words to try from this book: ${periodList}</div>
+      <div class="note">${match.entry.scholarly_note ? 'Our note, not Garvey\'s words: ' + escape(match.entry.scholarly_note) : ''}</div>
     `;
   }
 

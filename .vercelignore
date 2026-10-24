@@ -23,3 +23,6 @@ CORPUS-AUDIT-2026-04-11.md
 .git/
 .DS_Store
 node_modules/
+
+# Research test files (archival-intelligence), not for the public site
+eval/
