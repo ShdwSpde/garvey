@@ -14,7 +14,7 @@ Try it at [garvey.radicalimagination.xyz/sam](https://garvey.radicalimagination.
 
 ## How it's built
 
-Static pages and a small serverless API on Vercel, with a Postgres-backed manifest. The search runs over the archive's own catalog, and each item links to where it came from.
+Static pages and a small serverless API on Vercel, with a Postgres-backed manifest. The search runs over the archive's own catalog.
 
 ## Credits
 
