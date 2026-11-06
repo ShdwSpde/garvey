@@ -1,0 +1,274 @@
+<meta charset="utf-8">
+<title>Collaborate on Legacy Lectures: Marcus Garvey</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --cotton:#E8E2D3; --panel:#DED6C3; --ink:#14120E; --red:#C81E28; --green:#1B7A3E;
+  --gold:#C9A227; --mut:#7A7161; --cotton-mut:rgba(232,226,211,.62); --red-dk:#A81620;
+  --display:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono','Roboto Mono','Space Mono',monospace;
+  --stripe:repeating-linear-gradient(135deg,var(--red) 0 14px,var(--ink) 14px 28px,var(--green) 28px 42px);
+}
+:root[data-theme="dark"]{ --page-bg:#0b0a08; --page-fg:#cfc8b8; }
+:root[data-theme="light"]{ --page-bg:#E8E2D3; --page-fg:#14120E; }
+@media (prefers-color-scheme: dark){ :root{ --page-bg:#0b0a08; --page-fg:#cfc8b8; } }
+@media (prefers-color-scheme: light){ :root{ --page-bg:#E8E2D3; --page-fg:#14120E; } }
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--page-bg); color:var(--ink);
+  font-family:var(--mono);
+  display:flex; justify-content:center;
+  padding:5vh 4vw 10vh;
+}
+.sheet{
+  width:100%; max-width:840px; background:var(--cotton); color:var(--ink);
+  position:relative; box-shadow:0 40px 90px -30px rgba(0,0,0,.5);
+}
+.stripe{ height:14px; background:var(--stripe); }
+
+.mk{ position:absolute; width:16px; height:16px; z-index:4; color:var(--ink); opacity:.4; }
+.mk:before,.mk:after{ content:""; position:absolute; background:currentColor; }
+.mk:before{ left:50%; top:0; width:1px; height:100%; }
+.mk:after{ top:50%; left:0; height:1px; width:100%; }
+.mk.a{ top:24px; left:24px; } .mk.b{ top:24px; right:24px; }
+.mk.c{ bottom:24px; left:24px; } .mk.d{ bottom:24px; right:24px; }
+
+.pad{ padding:56px 64px; }
+@media (max-width:600px){ .pad{ padding:40px 24px; } }
+
+/* masthead */
+.masthead{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; }
+.badge{ width:84px; height:84px; flex:none; }
+.badge svg{ display:block; width:100%; height:100%; }
+.credit{
+  font-family:var(--mono); font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  font-size:13px; color:var(--red-dk); text-align:right; line-height:1.6;
+}
+.eyebrow{
+  margin-top:28px; font-family:var(--mono); font-weight:700; text-transform:uppercase;
+  letter-spacing:.16em; font-size:12px; color:var(--mut);
+}
+h1{
+  font-family:var(--display); font-weight:900; font-style:italic; letter-spacing:-.01em;
+  font-size:clamp(34px,6vw,54px); line-height:.94; margin-top:10px; text-wrap:balance;
+  text-shadow:3px 3px 0 var(--red);
+}
+.dek{
+  font-family:var(--display); font-weight:500; font-size:19px; line-height:1.45;
+  max-width:56ch; margin-top:20px; color:var(--ink);
+}
+.dek b{ font-weight:800; }
+
+.divider{ height:5px; background:var(--stripe); margin:0; }
+
+/* the ask */
+.section{ padding:44px 64px; }
+@media (max-width:600px){ .section{ padding:36px 24px; } }
+.section-label{
+  font-family:var(--mono); font-weight:700; text-transform:uppercase; letter-spacing:.14em;
+  font-size:12px; color:var(--red-dk); margin-bottom:14px;
+}
+.tracks{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+@media (max-width:640px){ .tracks{ grid-template-columns:1fr; } }
+.track{ border:1.5px solid var(--ink); padding:24px; }
+.track .n{
+  font-family:var(--mono); font-weight:700; color:var(--red-dk); font-size:13px;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.track h3{
+  font-family:var(--display); font-weight:900; text-transform:uppercase; font-size:24px;
+  margin-top:6px; letter-spacing:-.01em;
+}
+.track p{ font-family:var(--display); font-weight:500; font-size:15px; line-height:1.5; margin-top:10px; color:#3a3630; }
+
+/* audience cards */
+.audience{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1.5px solid var(--ink); margin-top:8px; }
+@media (max-width:640px){ .audience{ grid-template-columns:1fr; } }
+.acard{ padding:20px 22px; border-right:1px solid rgba(20,18,14,.2); }
+.acard:last-child{ border-right:none; }
+@media (max-width:640px){ .acard{ border-right:none; border-bottom:1px solid rgba(20,18,14,.2); } }
+.acard .l{
+  font-family:var(--mono); font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  font-size:12px; color:var(--mut);
+}
+.acard p{ font-family:var(--display); font-weight:600; font-size:15px; line-height:1.4; margin-top:8px; }
+
+.archive-proof{ margin-top:26px; padding-top:22px; border-top:1.5px solid var(--ink); }
+.archive-proof + .archive-proof{ margin-top:20px; padding-top:20px; }
+.archive-proof .l{
+  font-family:var(--mono); font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  font-size:12px; color:var(--red-dk);
+}
+.archive-proof p{ font-family:var(--display); font-weight:500; font-size:15px; line-height:1.55; margin-top:8px; color:#3a3630; max-width:64ch; }
+.archive-proof p b{ font-weight:800; color:var(--ink); }
+.archive-proof a{ color:var(--ink); font-weight:800; text-decoration-color:var(--red-dk); }
+
+/* dark info band */
+.zone-info{ background:var(--ink); color:var(--cotton); padding:48px 64px; }
+@media (max-width:600px){ .zone-info{ padding:36px 24px; } }
+.zone-info .section-label{ color:var(--gold); }
+.course{ margin-top:8px; }
+.row{
+  display:flex; align-items:baseline; gap:18px; padding:12px 0;
+  border-bottom:1px solid rgba(232,226,211,.16);
+}
+.row .n2{ font-family:var(--mono); font-weight:700; color:var(--red); font-size:14px; width:26px; flex:none; }
+.row .d{ font-family:var(--mono); font-weight:700; color:var(--gold); font-size:12px; width:64px; flex:none; text-transform:uppercase; }
+.row .t{ font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:15px; flex:1; }
+.row .x{ font-family:var(--mono); font-size:11px; color:var(--cotton-mut); text-align:right; max-width:22ch; }
+@media (max-width:640px){ .row{ flex-wrap:wrap; } .row .x{ text-align:left; max-width:none; margin-left:44px; } }
+
+.logistics{
+  display:flex; flex-wrap:wrap; gap:28px; margin-top:36px; padding-top:28px;
+  border-top:1px solid rgba(232,226,211,.25);
+}
+.lg{ flex:1; min-width:160px; }
+.lg .l{ font-family:var(--mono); font-weight:700; text-transform:uppercase; letter-spacing:.08em; font-size:11px; color:var(--cotton-mut); }
+.lg .v{ font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:17px; margin-top:6px; }
+.lg .v em{ font-style:normal; color:var(--red); }
+
+/* footer CTA */
+.cta{ padding:48px 64px 56px; text-align:center; }
+@media (max-width:600px){ .cta{ padding:40px 24px 48px; } }
+.cta .headline{
+  font-family:var(--display); font-weight:900; font-style:italic; font-size:clamp(24px,4vw,34px);
+  text-wrap:balance;
+}
+.cta .sub{ font-family:var(--mono); font-size:13px; color:var(--mut); margin-top:12px; letter-spacing:.02em; }
+.cta .email{
+  display:inline-block; margin-top:24px; padding:14px 32px; background:var(--red); color:var(--cotton);
+  font-family:var(--mono); font-weight:700; letter-spacing:.06em; font-size:15px; text-decoration:none;
+}
+.cta .footnote{
+  margin-top:28px; font-family:var(--mono); font-size:11px; color:var(--mut); letter-spacing:.04em;
+  text-transform:uppercase;
+}
+</style>
+
+<div class="sheet">
+  <div class="mk a"></div><div class="mk b"></div><div class="mk c"></div><div class="mk d"></div>
+  <div class="stripe"></div>
+
+  <div class="pad">
+    <div class="masthead">
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="47" fill="none" stroke="#14120E" stroke-width="1.5"/>
+          <path id="badgePathInv" d="M 10,50 A 40,40 0 0 1 90,50" fill="none"/>
+          <text font-size="6.4" letter-spacing="1" fill="#14120E" text-anchor="middle">
+            <textPath href="#badgePathInv" startOffset="50%">RADICAL IMAGINATION</textPath>
+          </text>
+          <g transform="translate(2.2,2.2)" fill="#14120E">
+            <polygon points="50,15 61,39 50,50 39,39"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(60 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(120 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(180 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(240 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(300 50 50)"/>
+          </g>
+          <g fill="#C81E28" stroke="#14120E" stroke-width="1.6" stroke-linejoin="round">
+            <polygon points="50,15 61,39 50,50 39,39"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(60 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(120 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(180 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(240 50 50)"/>
+            <polygon points="50,15 61,39 50,50 39,39" transform="rotate(300 50 50)"/>
+          </g>
+          <circle cx="50" cy="50" r="7.5" fill="#C9A227" stroke="#14120E" stroke-width="1.6"/>
+        </svg>
+      </div>
+      <div class="credit">Radical Imagination<br>× Black Star Archive</div>
+    </div>
+
+    <div class="eyebrow">An invitation to teachers, community organizers &amp; institutions</div>
+    <h1>Bring Legacy Lectures<br>into your room.</h1>
+    <p class="dek">
+      <b>Legacy Lectures: Marcus Garvey</b> is a free, six-week virtual series on Pan-Africanism,
+      the UNIA, and the Black Star Line, taught from primary sources and hosted by Dr. Jewell
+      Humphrey and Mike Spade. We're inviting educators, organizers, and institutions to either
+      <b>help shape a session</b> or simply <b>put it in front of the people you already reach.</b>
+    </p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-label">Two ways in</div>
+    <div class="tracks">
+      <div class="track">
+        <div class="n">Track 01</div>
+        <h3>Collaborate</h3>
+        <p>Co-present a session, bring a discussion group, contribute a primary source or a
+        classroom activity, or help us think through a specific topic. We'll build the credit
+        and the format around what you actually want to do.</p>
+      </div>
+      <div class="track">
+        <div class="n">Track 02</div>
+        <h3>Share</h3>
+        <p>Forward the series to your students, members, or network. No cost, no obligation.
+        Just a real six-week course taught from the archive, ready to hand to people who'd
+        want it.</p>
+      </div>
+    </div>
+
+    <div class="audience">
+      <div class="acard">
+        <div class="l">For teachers</div>
+        <p>Assign a session as coursework, or use the primary sources directly: the Declaration
+        of Rights, the Black Star Line brochure, the FBI file, as discussion material of your own.</p>
+      </div>
+      <div class="acard">
+        <div class="l">For organizers</div>
+        <p>A ready-made study series for your members: Pan-Africanism as a living tradition, not
+        a museum piece. Good for reading groups, chapter meetings, political education.</p>
+      </div>
+      <div class="acard">
+        <div class="l">For institutions</div>
+        <p>A public-scholarship offering you can co-host, cross-post, or point your audience to:
+        the same archive infrastructure behind the Garvey Living Archive (blackstararchive.com).</p>
+      </div>
+    </div>
+
+    <div class="archive-proof">
+      <div class="l">Not just a lecture series</div>
+      <p>Every session draws from the Marcus Garvey Living Archive: <b>37 primary sources, 618
+      passages</b>, searchable in his own words. Try it yourself:
+      <a href="https://garvey.radicalimagination.xyz/sam">garvey.radicalimagination.xyz/sam</a></p>
+    </div>
+
+    <div class="archive-proof">
+      <div class="l">This was never a US-only story</div>
+      <p>The UNIA's largest chapter network outside the United States was in Cuba, more than any
+      other country. We're building a dedicated space for Caribbean and diaspora participants to
+      connect directly with each other, not just watch. Details land soon, ask us about it now.</p>
+    </div>
+  </div>
+
+  <div class="zone-info">
+    <div class="section-label">The six sessions</div>
+    <div class="course">
+      <div class="row"><div class="n2">01</div><div class="d">Sept 27</div><div class="t">Pan-Africanism</div><div class="x">The idea that started it all</div></div>
+      <div class="row"><div class="n2">02</div><div class="d">Oct 4</div><div class="t">Organization</div><div class="x">Who ran it (and the women's story)</div></div>
+      <div class="row"><div class="n2">03</div><div class="d">Oct 11</div><div class="t">Place</div><div class="x">Harlem: Liberty Hall, the port</div></div>
+      <div class="row"><div class="n2">04</div><div class="d">Oct 18</div><div class="t">Culture</div><div class="x">The regalia, the colors</div></div>
+      <div class="row"><div class="n2">05</div><div class="d">Oct 25</div><div class="t">Economy</div><div class="x">The Black Star Line ships</div></div>
+      <div class="row"><div class="n2">06</div><div class="d">Nov 1</div><div class="t">Memory</div><div class="x">The living archive</div></div>
+    </div>
+
+    <div class="logistics">
+      <div class="lg"><div class="l">When</div><div class="v">Sundays <em>·</em> 4PM ET</div></div>
+      <div class="lg"><div class="l">Where</div><div class="v">Virtual <em>·</em> Google Meet</div></div>
+      <div class="lg"><div class="l">Cost</div><div class="v">Free</div></div>
+      <div class="lg"><div class="l">Hosts</div><div class="v">Dr. Jewell Humphrey<br>+ Mike Spade</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="cta">
+    <div class="headline">Let's talk.</div>
+    <p class="sub">Tell us who you are, what you're thinking, and which track fits. We'll take it from there.</p>
+    <a class="email" href="mailto:create@radicalimagination.xyz?subject=Legacy%20Lectures%3A%20Marcus%20Garvey%20%C2%B7%20Collaborate%2FShare">create@radicalimagination.xyz</a>
+    <div class="footnote">Legacy Lectures: Marcus Garvey · Radical Imagination × Black Star Archive</div>
+  </div>
+</div>

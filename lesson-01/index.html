@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><base href="/lesson-01/">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 1 · "Pan-Africanism" · Marcus Garvey in the Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cotton:#E8E2D3; --panel:#ded6c3; --ink:#14120E; --red:#C81E28; --green:#1B7A3E;
+  --gold:#C9A227; --gold-dk:#8f7016; --mut:#7a7161;
+  --grotesk:'Archivo',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+  --stripe:repeating-linear-gradient(135deg,var(--red) 0 20px,var(--ink) 20px 40px,var(--green) 40px 60px);
+  --ease:cubic-bezier(.19,1,.22,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#000;color:var(--ink);font-family:var(--grotesk);overflow:hidden}
+.deck{position:fixed;inset:0}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:15;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:8vh 8vw;background:var(--cotton);opacity:0;overflow:hidden}
+.slide.on{display:flex;opacity:1}
+.slide.ink{background:var(--ink);color:var(--cotton)}
+.slide.red{background:var(--red);color:var(--cotton)}
+.slide.green{background:var(--green);color:var(--cotton)}
+.slide.plate-photo{padding:0;justify-content:flex-end;color:var(--cotton)}
+
+/* monograph framing */
+.spec{position:absolute;font-family:var(--mono);font-size:clamp(9px,1.02vw,12.5px);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--mut);z-index:5;line-height:1.5}
+.slide.ink .spec,.slide.red .spec,.slide.green .spec,.plate-photo .spec{color:rgba(232,226,211,.72)}
+.spec.tl{top:5vh;left:8vw}.spec.tr{top:5vh;right:8vw;text-align:right}
+.spec.bl{bottom:5vh;left:8vw}.spec.br{bottom:5vh;right:8vw;text-align:right}
+.spec b{color:var(--red);font-weight:700}
+.slide.ink .spec b,.plate-photo .spec b{color:var(--gold)}
+.caution{position:absolute;left:0;right:0;height:12px;background:var(--stripe);z-index:6;transform-origin:left}
+.caution.top{top:0}.caution.bot{bottom:0}
+.mk{position:absolute;width:16px;height:16px;z-index:5;opacity:.55}
+.slide.ink .mk,.plate-photo .mk{opacity:.5}
+.mk:before,.mk:after{content:"";position:absolute;background:currentColor}
+.mk:before{left:50%;top:0;width:1px;height:100%;transform:translateX(-.5px)}
+.mk:after{top:50%;left:0;height:1px;width:100%;transform:translateY(-.5px)}
+.mk.a{top:2.6vh;left:2.4vw;color:var(--ink)}.mk.b{top:2.6vh;right:2.4vw;color:var(--ink)}
+.mk.c{bottom:2.6vh;left:2.4vw;color:var(--ink)}.mk.d{bottom:2.6vh;right:2.4vw;color:var(--ink)}
+.slide.ink .mk,.slide.red .mk,.slide.green .mk,.plate-photo .mk{color:var(--cotton)}
+
+/* type */
+.kicker{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.16em;
+  font-size:clamp(11px,1.3vw,15px);color:var(--red);margin-bottom:3vh}
+.slide.ink .kicker,.plate-photo .kicker{color:var(--gold)}
+.slide.red .kicker,.slide.green .kicker{color:var(--cotton)}
+h1{font-weight:900;line-height:.82;text-transform:uppercase;font-size:clamp(54px,11.2vw,200px);letter-spacing:-.025em}
+h2{font-weight:900;line-height:.86;text-transform:uppercase;font-size:clamp(40px,7.4vw,128px);letter-spacing:-.025em}
+.sub{font-weight:500;font-size:clamp(18px,2.5vw,34px);line-height:1.24;max-width:26ch;margin-top:3.4vh}
+.hl{background:var(--gold);color:var(--ink);padding:0 .12em;font-weight:700;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.big{font-weight:900;letter-spacing:-.04em;line-height:.74;font-size:clamp(96px,25vw,420px)}
+.qmark{font-weight:900;color:var(--red);opacity:.24;line-height:.5;font-size:clamp(200px,36vw,520px);
+  position:absolute;user-select:none;z-index:0;pointer-events:none}
+.slide.ink .qmark,.plate-photo .qmark{color:var(--gold);opacity:.22}
+.slide.green .qmark{color:var(--cotton);opacity:.22}
+.above{position:relative;z-index:2}
+
+/* teaching */
+.prompt{font-weight:800;text-transform:uppercase;line-height:.94;letter-spacing:-.02em;font-size:clamp(34px,6.2vw,104px);max-width:15ch}
+.prompts{list-style:none;margin-top:3.2vh;display:flex;flex-direction:column;gap:1.7vh;max-width:36ch}
+.prompts li{font-weight:500;font-size:clamp(17px,2.2vw,30px);line-height:1.14;padding-left:1.8em;position:relative}
+.prompts li:before{content:"→";position:absolute;left:0;font-family:var(--mono);font-weight:700;color:var(--cotton)}
+.slide:not(.ink):not(.red):not(.green) .prompts li:before{color:var(--red)}
+.quote{font-weight:800;text-transform:uppercase;line-height:.94;letter-spacing:-.02em;font-size:clamp(30px,5.4vw,92px);max-width:16ch}
+.qsrc{font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;font-size:clamp(11px,1.3vw,15px);color:var(--gold);margin-top:2.6vh}
+.lyric{font-weight:800;text-transform:uppercase;line-height:.96;letter-spacing:-.02em;font-size:clamp(34px,5.8vw,96px);color:var(--gold);max-width:14ch}
+
+.tl-wrap{margin-top:2vh;max-width:72ch}
+.tl{display:grid;grid-template-columns:5.4em 1fr;gap:.5em 1.2vw;align-items:baseline;padding:1.15vh 0;border-top:1px solid rgba(20,18,14,.18)}
+.tl:last-child{border-bottom:1px solid rgba(20,18,14,.18)}
+.tl .yr{font-family:var(--mono);font-weight:700;color:var(--red);font-size:clamp(15px,1.9vw,24px)}
+.tl .who{font-weight:500;font-size:clamp(14px,1.75vw,25px);line-height:1.14}
+.tl .who b{font-weight:800;text-transform:uppercase}
+.split{display:grid;grid-template-columns:1.55fr .75fr;gap:3.5vw;align-items:center;width:100%}
+.split .art{width:100%;object-fit:cover;filter:grayscale(.15) contrast(1.05);box-shadow:0 22px 44px rgba(0,0,0,.3)}
+
+.reel{position:relative;width:min(56vw,820px);aspect-ratio:16/9;margin-top:2vh;background:#000;outline:1px solid var(--gold);outline-offset:6px}
+.reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.covers{display:flex;gap:.9vw;margin-top:3.4vh;align-items:flex-start}
+.cover{flex:1;min-width:0}
+.cover img{width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(.1)}
+.cover .cap{font-family:var(--mono);text-transform:uppercase;letter-spacing:.03em;font-size:clamp(7.5px,.8vw,10px);margin-top:.9vh;line-height:1.35;color:rgba(232,226,211,.8)}
+.cover .fig{font-family:var(--mono);font-size:clamp(7.5px,.8vw,10px);color:var(--gold);margin-bottom:.4vh}
+.plate-photo .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.25) contrast(1.05);z-index:0}
+.plate-photo .scrim{position:absolute;inset:0;z-index:1}
+.plate-photo .content{position:relative;z-index:2;padding:9vh 8vw}
+.doors{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:4vh;border:1px solid rgba(20,18,14,.2)}
+.door{padding:2.6vh 1vw;border-right:1px solid rgba(20,18,14,.2)}
+.door:last-child{border-right:0}
+.door .n{font-family:var(--mono);font-weight:700;color:var(--red);font-size:clamp(12px,1.3vw,16px)}
+.door .l{font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(13px,1.5vw,21px);margin-top:1vh}
+.door .t{font-weight:400;font-size:clamp(11px,1.25vw,16px);margin-top:.8vh;color:#5f5642;line-height:1.14}
+.frame-list{list-style:none;display:flex;gap:0;margin-top:3.6vh;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.frame-list li{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(11px,1.4vw,17px);padding:1.5vh 1.6vw;border-right:1px solid rgba(20,18,14,.25);flex:1}
+.frame-list li:last-child{border-right:0}
+.src{font-family:var(--mono);font-size:clamp(10px,1.1vw,13px);letter-spacing:.03em;color:var(--gold);margin-top:2.4vh;line-height:1.5;max-width:62ch}
+
+/* kinetic type: words strike in one at a time, silent (exhibition-caption cadence) */
+.kinetic{display:block}
+.slide.on .kinetic{animation:none!important}
+.kinetic .kw{display:inline-block;will-change:transform,opacity}
+.slide.on .kinetic .kw{animation:kwrise .5s var(--ease) both;animation-delay:calc(var(--d,0)*.08s + .35s)}
+@keyframes kwrise{from{opacity:0;transform:translateY(.34em) scaleY(.86)}to{opacity:1;transform:none}}
+.gw{color:var(--gold)}
+/* whisper annotations (the head catches them, the tourist doesn't) */
+.whisper{position:absolute;font-family:var(--mono);font-size:clamp(8px,.92vw,11px);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);z-index:6;line-height:1.5}
+.slide.ink .whisper,.plate-photo .whisper{color:rgba(232,226,211,.55)}
+.whisper.mid-r{top:50%;right:8vw;transform:translateY(-50%);text-align:right}
+
+/* ticker */
+.ticker{position:absolute;left:0;right:0;bottom:3.2vh;overflow:hidden;z-index:4;
+  border-top:1px solid rgba(201,162,39,.4);border-bottom:1px solid rgba(201,162,39,.4);padding:.7vh 0}
+.plate-photo .ticker{bottom:3.2vh}
+.has-ticker .spec.br{bottom:9vh}
+.ticker .track{display:inline-block;white-space:nowrap;font-family:var(--mono);font-weight:700;
+  text-transform:uppercase;letter-spacing:.14em;font-size:clamp(10px,1.15vw,14px);color:var(--gold);
+  animation:marquee 26s linear infinite}
+.ticker .track span{padding:0 1.4vw}.ticker .track b{color:var(--red)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.counter{position:fixed;right:2vw;bottom:3.6vh;font-family:var(--mono);letter-spacing:.15em;font-size:12px;color:var(--cotton);background:rgba(20,18,14,.62);padding:.3em .62em;border-radius:2px;z-index:20}
+.progress{position:fixed;left:0;top:0;height:3px;background:var(--red);z-index:20;transition:width .35s var(--ease)}
+
+/* ORCHESTRATED ENTRANCE */
+@keyframes wipe{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes slam{from{opacity:0;transform:translateY(46px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes popq{from{opacity:0;transform:scale(.55) rotate(-7deg)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.slide.on .caution{animation:wipe .75s var(--ease) both}
+.slide.on .caution.bot{animation-delay:.08s}
+.slide.on .kicker{animation:rise .6s var(--ease) both;animation-delay:.15s}
+.slide.on h1,.slide.on h2,.slide.on .prompt,.slide.on .quote,.slide.on .lyric,.slide.on .big{animation:slam .8s var(--ease) both;animation-delay:.22s}
+.slide.on .sub,.slide.on .prompts,.slide.on .frame-list,.slide.on .tl-wrap,.slide.on .covers,.slide.on .doors,.slide.on .reel,.slide.on .split,.slide.on .qsrc,.slide.on .src{animation:fadeup .8s var(--ease) both;animation-delay:.4s}
+.slide.on .qmark{animation:popq 1.1s var(--ease) both;animation-delay:.1s}
+.slide.on .spec,.slide.on .mk,.slide.on .ticker{animation:fadein 1s ease both;animation-delay:.5s}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important}
+  .grain{display:none}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="progress" id="prog"></div>
+<div class="counter" id="counter">01 / 15</div>
+<div class="deck" id="deck">
+
+  <!-- 1 · TITLE -->
+  <section class="slide on has-ticker">
+    <div class="caution top"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl"><b>"Marcus Garvey<br>in the Media"</b></div>
+    <div class="spec tr">Lesson 01 · 06<br>Plate 01 / 15</div>
+    <span class="qmark" style="top:25vh;right:5vw">&#8220;</span>
+    <div class="above">
+      <div class="kicker">Introduction to the tradition</div>
+      <h1>"Pan-<br>Africanism"</h1>
+      <p class="sub">The idea that turned one man into <span class="hl">a movement of millions</span>. It was older than him, and it isn't finished.</p>
+    </div>
+    <div class="ticker"><div class="track">
+      <span>"PAN-AFRICANISM"</span><b>·</b><span>"BLACK STAR"</span><b>·</b><span>UP, YOU MIGHTY RACE</span><b>·</b><span>AFRICA FOR THE AFRICANS</span><b>·</b><span>"REDEMPTION"</span><b>·</b><span>TWO SEVENS CLASH</span><b>·</b><span>ONE AIM · ONE GOD · ONE DESTINY</span><b>·</b>
+      <span>"PAN-AFRICANISM"</span><b>·</b><span>"BLACK STAR"</span><b>·</b><span>UP, YOU MIGHTY RACE</span><b>·</b><span>AFRICA FOR THE AFRICANS</span><b>·</b><span>"REDEMPTION"</span><b>·</b><span>TWO SEVENS CLASH</span><b>·</b><span>ONE AIM · ONE GOD · ONE DESTINY</span><b>·</b>
+    </div></div>
+    <div class="spec br">Garvey · UNIA parade · 1924 · PD</div>
+  </section>
+
+  <!-- 2 · WELCOME -->
+  <section class="slide">
+    <div class="caution bot"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 02 / 15</div>
+    <div class="spec tr">[ 00–05 min ]<br>Welcome · ESC Trinidad</div>
+    <div class="kicker">Tonight, in four moves</div>
+    <h2>One idea,<br>and the tradition<br>it belongs to.</h2>
+    <ul class="frame-list"><li>01 · Watch</li><li>02 · Read it</li><li>03 · Listen</li><li>04 · Where you stand</li></ul>
+    <div class="src" style="margin-top:2.4vh;color:var(--mut);letter-spacing:.12em">for the tourist and the purist · at once</div>
+    <div class="spec br">Hosts: Humphrey &amp; Spade<br>Live greeting c/o ESC, T&amp;T</div>
+  </section>
+
+  <!-- 3 · REEL -->
+  <section class="slide ink" style="justify-content:center;align-items:flex-start">
+    <div class="caution top"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 03 / 15</div>
+    <div class="spec tr">[ 05–09 min ]<br>Watch · ESC Trinidad</div>
+    <div class="kicker">Roll the reel</div>
+    <h2 style="font-size:clamp(30px,5vw,72px)">You already<br>know him.</h2>
+    <div class="reel"><iframe src="https://player.vimeo.com/video/1120350757?title=0&byline=0&portrait=0&dnt=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Black Star Archive reel"></iframe></div>
+    <div class="spec br">Reel c/o Dr. Humphrey<br>Black Star Archive · Vimeo</div>
+  </section>
+
+  <!-- 4 · DISCUSSION 1 -->
+  <section class="slide red">
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 04 / 15</div>
+    <div class="spec tr">[ 09–14 min ]<br>Discuss</div>
+    <div class="kicker">Before we name it</div>
+    <p class="prompt">What did you<br>just see?</p>
+    <ul class="prompts">
+      <li>That man built a navy. From Harlem. Start there.</li>
+      <li>What hit first: the uniforms, the ships, or the nerve?</li>
+      <li>Real talk, how much of this made your textbook?</li>
+    </ul>
+  </section>
+
+  <!-- 5 · THE IDEA -->
+  <section class="slide">
+    <div class="caution bot"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 05 / 15</div>
+    <div class="spec tr">[ 14–18 min ]<br>Teach</div>
+    <div class="kicker">Define the term</div>
+    <h2>So what <span style="color:var(--red)">is</span><br>"Pan-Africanism"?</h2>
+    <p class="sub">A tradition of <span class="hl">Black global solidarity</span>: that African people, scattered across the water, share a destiny, and can build a world of their own.</p>
+    <div style="margin-top:3vh;height:28px;width:260px;background:var(--stripe);outline:1px solid var(--ink)"></div>
+    <div class="spec br">Fig. · the flag, in three bars<br>Red · Black · Green</div>
+  </section>
+
+  <!-- 6 · PRIMARY SOURCE -->
+  <section class="slide ink">
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 06 / 15</div>
+    <div class="spec tr">[ 18–24 min ]<br>Read it together</div>
+    <span class="qmark" style="top:27vh;right:5vw">&#8220;</span>
+    <div class="whisper" style="top:14vh;right:8vw;text-align:right">&#9651; 3%</div>
+    <div class="above">
+      <div class="kicker">Primary source · the readymade</div>
+      <p class="quote kinetic"><span class="kw" style="--d:0">All</span> <span class="kw" style="--d:1">men,</span> <span class="kw" style="--d:2">women</span> <span class="kw" style="--d:3">and</span> <span class="kw" style="--d:4">children</span> <span class="kw" style="--d:5">of</span> <span class="kw" style="--d:6">our</span> <span class="kw" style="--d:7">blood,</span> <span class="kw gw" style="--d:8">free</span> <span class="kw gw" style="--d:9">citizens</span> <span class="kw gw" style="--d:10">of</span> <span class="kw gw" style="--d:11">Africa.</span></p>
+      <p class="qsrc">Declaration of Rights of the Negro Peoples of the World · UNIA convention · 1920</p>
+      <ul class="prompts" style="margin-top:2.6vh">
+        <li style="font-size:clamp(15px,1.9vw,26px)">Who is the "we," and who gave them the right to declare it?</li>
+        <li style="font-size:clamp(15px,1.9vw,26px)">Where have you heard language like this before? (1776?)</li>
+      </ul>
+    </div>
+    <div class="spec br">Declaration of Rights · UNIA · 1920<br>c/o Dr. Humphrey · archive</div>
+  </section>
+
+  <!-- 7 · TRINIDAD THREAD -->
+  <section class="slide">
+    <div class="caution bot"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 07 / 15</div>
+    <div class="spec tr">[ 24–32 min ]<br>The tradition</div>
+    <div class="split">
+      <div>
+        <div class="kicker">A Caribbean thread</div>
+        <h2 style="font-size:clamp(26px,4.4vw,64px)">It ran through<br>Trinidad the<br>whole time.</h2>
+        <div class="tl-wrap">
+          <div class="tl"><span class="yr">1900 →</span><span class="who"><b>Henry Sylvester Williams</b>, a Trinidadian, convenes the first Pan-African Conference. London. The movement is named.</span></div>
+          <div class="tl"><span class="yr">1919 →</span><span class="who"><b>Du Bois'</b> Congress goes international (Paris), as Trinidad's docks and returning soldiers catch fire.</span></div>
+          <div class="tl"><span class="yr">1920s →</span><span class="who"><b>Garvey &amp; the UNIA</b> make it a mass movement. The Negro World circulates island to island.</span></div>
+          <div class="tl"><span class="yr">1930s →</span><span class="who"><b>Padmore &amp; C.L.R. James</b> (both Trinidad-born) carry it forward.</span></div>
+          <div class="tl"><span class="yr">Now →</span><span class="who"><b>Kwame Ture → ESC Trinidad.</b> The "until now."</span></div>
+        </div>
+      </div>
+      <img class="art" src="assets/img/negro-world.jpg" alt="The Negro World newspaper">
+    </div>
+    <div class="spec br">Fig. · The Negro World · UNIA organ<br>Trinidad · 10.66°N 61.52°W</div>
+  </section>
+
+  <!-- 8 · ACTIVITY -->
+  <section class="slide green">
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 08 / 15</div>
+    <div class="spec tr">[ 32–36 min ]<br>Your turn</div>
+    <div class="kicker">Map the tradition</div>
+    <p class="prompt">Which of these<br>did you already<br>know?</p>
+    <ul class="prompts" style="margin-top:2vh">
+      <li>Which name is new to you?</li>
+      <li>Where does your own family's map touch this: a port, an island, a migration?</li>
+    </ul>
+  </section>
+
+  <!-- 9 · MILLIONS -->
+  <section class="slide plate-photo">
+    <img class="bg" src="assets/img/garvey_speaking_1920.png" alt="Marcus Garvey addressing a crowd, 1920">
+    <div class="scrim" style="background:linear-gradient(90deg,rgba(20,18,14,.92) 0%,rgba(20,18,14,.72) 42%,rgba(200,30,40,.34) 100%)"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 09 / 15</div>
+    <div class="spec tr">[ 36–40 min ]<br>Garvey's turn</div>
+    <div class="content">
+      <div class="kicker">From the hall to the street</div>
+      <h2 style="margin-bottom:1.4vh">Then Garvey made it</h2>
+      <div class="big" style="color:var(--gold);font-size:clamp(56px,12vw,178px);white-space:nowrap">"MILLIONS"</div>
+      <p class="src" style="margin-top:2.4vh;max-width:44ch;color:var(--cotton)">Provisional President of Africa. Never set foot there. Millions said bet.</p>
+    </div>
+    <div class="spec br">Fig. · Garvey addressing the crowd · 1920 · PD</div>
+  </section>
+
+  <!-- 9b · CALL & RESPONSE -->
+  <section class="slide red">
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 00 / 15</div>
+    <div class="spec tr">[ say it back ]<br>Together</div>
+    <div class="kicker">His rallies ran on this</div>
+    <p class="prompt" style="font-size:clamp(44px,9.2vw,150px);max-width:13ch">Up, you mighty race.</p>
+    <p class="sub" style="max-width:26ch">Garvey's crowds shouted it back. Your turn. On three.</p>
+    <div class="spec br">"Up, you mighty race, accomplish what you will." · Marcus Garvey</div>
+  </section>
+
+  <!-- 10 · LISTEN -->
+  <section class="slide ink">
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 10 / 15</div>
+    <div class="spec tr">[ 40–46 min ]<br>Listen · close-read</div>
+    <div class="kicker">Put the needle down</div>
+    <p class="lyric">"Marcus Garvey<br>words come<br>to pass."</p>
+    <p class="qsrc">Burning Spear · "Marcus Garvey" · 1975</p>
+    <ul class="prompts" style="margin-top:2.4vh">
+      <li style="font-size:clamp(15px,1.9vw,26px)">"Words come to pass," like prophecy. What does it mean to sing a leader into scripture?</li>
+    </ul>
+    <div class="spec br">Excerpt · educational discussion</div>
+  </section>
+
+  <!-- 11 · COVERS -->
+  <section class="slide ink">
+    <div class="caution top"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 11 / 15</div>
+    <div class="spec tr">[ 46–48 min ]<br>The archive, re-issued</div>
+    <div class="kicker">"Quotation" · on wax</div>
+    <h2 style="font-size:clamp(26px,4.6vw,66px)">The culture keeps<br>him in "quotes."</h2>
+    <div class="covers">
+      <div class="cover"><div class="fig">FIG. 01</div><img src="assets/covers/burning-spear-marcus-garvey.jpg" alt=""><div class="cap">Burning Spear<br>Marcus Garvey · '75</div></div>
+      <div class="cover"><div class="fig">FIG. 02</div><img src="assets/covers/culture-two-sevens.jpg" alt=""><div class="cap">Culture<br>Two Sevens Clash</div></div>
+      <div class="cover"><div class="fig">FIG. 03</div><img src="assets/covers/marley-uprising.jpg" alt=""><div class="cap">Bob Marley</div></div>
+      <div class="cover"><div class="fig">FIG. 04</div><img src="assets/covers/max-romeo.jpg" alt=""><div class="cap">Max Romeo<br>War Ina Babylon</div></div>
+      <div class="cover"><div class="fig">FIG. 05</div><img src="assets/covers/black-star.jpg" alt=""><div class="cap">Black Star<br>Mos Def · Talib Kweli</div></div>
+      <div class="cover"><div class="fig">FIG. 06</div><img src="assets/covers/kendrick-tpab.jpg" alt=""><div class="cap">Kendrick Lamar<br>To Pimp a Butterfly</div></div>
+      <div class="cover"><div class="fig">FIG. 07</div><img src="assets/covers/chance-star-line.jpg" alt=""><div class="cap">Chance<br>the Rapper</div></div>
+    </div>
+    <p style="font-family:var(--grotesk);font-weight:500;font-size:clamp(15px,1.85vw,25px);line-height:1.25;margin-top:2.8vh;max-width:54ch;color:var(--cotton)">Burning Spear named a whole album after him. Mos, Kendrick, Chance kept it in rotation. <span class="gw">You've been playing Garvey this whole time.</span></p>
+    <div class="spec br">Album art · educational · ties to "Wall of Echoes"</div>
+  </section>
+
+  <!-- 12 · THINK PAIR SHARE -->
+  <section class="slide red">
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 12 / 15</div>
+    <div class="spec tr">[ 48–55 min ]<br>Think · pair · share</div>
+    <div class="kicker">Turn to the person next to you</div>
+    <p class="prompt">Where do you<br>see it today?</p>
+    <ul class="prompts">
+      <li>In music? Politics? Fashion? Your own block?</li>
+      <li>Is it a relic, or a living tradition?</li>
+    </ul>
+  </section>
+
+  <!-- 13 · FIVE DOORS -->
+  <section class="slide">
+    <div class="caution bot"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 13 / 15</div>
+    <div class="spec tr">[ 55–58 min ]<br>The collection</div>
+    <div class="kicker">Five more, coming</div>
+    <h2>This is the<br>front door.</h2>
+    <div class="doors">
+      <div class="door"><div class="n">02</div><div class="l">Organization</div><div class="t">who ran it (and the women's story)</div></div>
+      <div class="door"><div class="n">03</div><div class="l">Place</div><div class="t">Harlem: Liberty Hall, the port</div></div>
+      <div class="door"><div class="n">04</div><div class="l">Culture</div><div class="t">the regalia, the colors</div></div>
+      <div class="door"><div class="n">05</div><div class="l">Economy</div><div class="t">the Black Star Line ships</div></div>
+      <div class="door"><div class="n">06</div><div class="l">Memory</div><div class="t">the living archive</div></div>
+    </div>
+  </section>
+
+  <!-- 14 · CLOSE -->
+  <section class="slide green">
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 14 / 15</div>
+    <div class="spec tr">[ 58–60 min ]<br>Reflect</div>
+    <span class="qmark" style="top:25vh;right:5vw">&#8221;</span>
+    <div class="above">
+      <div class="kicker">Carry this out the door</div>
+      <h1 style="font-size:clamp(42px,8.2vw,140px)">A tradition,<br>not a relic.</h1>
+      <p class="prompt" style="margin-top:2.6vh;color:var(--gold)">Where do<br>you stand<br>in it?</p>
+    </div>
+    <div class="spec br">Next · Lesson 02: who ran the movement,<br>and the women's story that got buried</div>
+  </section>
+
+  <!-- 15 · THE WHIRLWIND (kinetic close) -->
+  <section class="slide plate-photo">
+    <img class="bg" src="assets/img/garvey-plumed-1924.jpg" alt="Marcus Garvey, portrait, 1924">
+    <div class="scrim" style="background:linear-gradient(90deg,rgba(20,18,14,.95) 0%,rgba(20,18,14,.82) 48%,rgba(20,18,14,.42) 100%)"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 00 / 15</div>
+    <div class="spec tr">[ 58–60 min ]<br>His own words</div>
+    <div class="content">
+      <div class="kicker">Carry this out the door</div>
+      <p class="quote kinetic" style="font-size:clamp(26px,4.5vw,68px);max-width:19ch"><span class="kw" style="--d:0">Look</span> <span class="kw" style="--d:1">for</span> <span class="kw" style="--d:2">me</span> <span class="kw" style="--d:3">in</span> <span class="kw" style="--d:4">the</span> <span class="kw gw" style="--d:5">whirlwind</span> <span class="kw" style="--d:6">or</span> <span class="kw" style="--d:7">the</span> <span class="kw" style="--d:8">storm,</span> <span class="kw" style="--d:9">look</span> <span class="kw" style="--d:10">for</span> <span class="kw" style="--d:11">me</span> <span class="kw" style="--d:12">all</span> <span class="kw" style="--d:13">around</span> <span class="kw" style="--d:14">you,</span> <span class="kw" style="--d:15">for,</span> <span class="kw" style="--d:16">with</span> <span class="kw" style="--d:17">God's</span> <span class="kw" style="--d:18">grace,</span> <span class="kw" style="--d:19">I</span> <span class="kw" style="--d:20">shall</span> <span class="kw" style="--d:21">come</span> <span class="kw" style="--d:22">and</span> <span class="kw" style="--d:23">bring</span> <span class="kw" style="--d:24">with</span> <span class="kw" style="--d:25">me</span> <span class="kw gw" style="--d:26">countless</span> <span class="kw gw" style="--d:27">millions.</span></p>
+      <p class="qsrc">Marcus Garvey · First Message from Atlanta Prison · Feb. 10, 1925 · via Wikisource</p>
+    </div>
+    <div class="spec br">Fig. · Marcus Garvey · 1924 · PD</div>
+  </section>
+
+  <!-- 16 · CREDITS -->
+  <section class="slide plate-photo has-ticker">
+    <img class="bg" src="assets/img/bsl-brochure.webp" alt="Black Star Line brochure">
+    <div class="scrim" style="background:linear-gradient(180deg,rgba(20,18,14,.7),rgba(20,18,14,.97))"></div>
+    <div class="caution top"></div>
+    <span class="mk a"></span><span class="mk b"></span><span class="mk c"></span><span class="mk d"></span>
+    <div class="spec tl">Plate 15 / 15</div>
+    <div class="spec tr">"Marcus Garvey in the Media"</div>
+    <div class="content" style="padding-bottom:12vh">
+      <div class="kicker">Colophon</div>
+      <h2>The tradition<br>continues.</h2>
+      <p class="src">"A people's art is the genesis of their freedom." · Claudia Jones<br><br>Dr. Jewell Ruth-Ella Humphrey &amp; Mike Spade · with the Emancipation Support Committee of Trinidad &amp; Tobago · Black Star Archive · Radical Imagination</p>
+    </div>
+    <div class="ticker"><div class="track">
+      <span>THE BLACK STAR LINE</span><b>·</b><span>UP, YOU MIGHTY RACE</span><b>·</b><span>ONE AIM · ONE GOD · ONE DESTINY</span><b>·</b><span>"UNTIL NOW"</span><b>·</b>
+      <span>THE BLACK STAR LINE</span><b>·</b><span>UP, YOU MIGHTY RACE</span><b>·</b><span>ONE AIM · ONE GOD · ONE DESTINY</span><b>·</b><span>"UNTIL NOW"</span><b>·</b>
+    </div></div>
+    <div class="spec br">Fig. · Black Star Line brochure · PD</div>
+  </section>
+
+</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;
+  // dynamic plate numbers: rewrite any "Plate NN / MM" to match DOM order + total (survives slide add/remove)
+  slides.forEach((s,idx)=>{s.querySelectorAll('.spec').forEach(sp=>{sp.innerHTML=sp.innerHTML.replace(/Plate\s+\d+\s*\/\s*\d+/i,'Plate '+String(idx+1).padStart(2,'0')+' / '+slides.length)})});
+  function show(n){i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('on',k===i));
+    const c=document.getElementById('counter');c.textContent=String(i+1).padStart(2,'0')+' / '+slides.length;c.style.display=slides[i].classList.contains('has-ticker')?'none':'';
+    document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';}
+  const next=()=>show(i+1),prev=()=>show(i-1);
+  window.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();next()}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();prev()}
+    else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);});
+  document.getElementById('deck').addEventListener('click',e=>{if(e.target.closest('iframe'))return;(e.clientX<innerWidth*0.3?prev:next)();});
+  show(0);
+</script>
+</body>
+</html>
