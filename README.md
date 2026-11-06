@@ -1,31 +1,21 @@
 # The Marcus Garvey Living Archive
 
-Search Marcus Garvey's own words, see the movement's photographs and documents, and hear his voice, in one place. Made with Dr. Jewell Humphrey and the Black Star Archive.
+Marcus Garvey's writing, the movement's photographs and documents, and recordings of his voice, searchable in one place. Made with Dr. Jewell Humphrey and the Black Star Archive.
 
 ![Searching the archive for "Liberia"](assets/garvey-sam.gif)
 
-**Try it:** [garvey.radicalimagination.xyz/sam](https://garvey.radicalimagination.xyz/sam)
+Try it at [garvey.radicalimagination.xyz/sam](https://garvey.radicalimagination.xyz/sam). There's also a [30-second demo video](https://radicalimagination.xyz/demos/garvey.mp4), silent with captions.
 
-## What it does
+## What's in it
 
-- **Search in his words.** 618 passages from *Philosophy and Opinions* (1923) sit alongside the archive's items: photographs, documents, and the two 1921 recordings of Garvey's voice. Filter by photo, document, audio or quote.
-- **Our notes are labelled as ours.** Anything we wrote is marked "Our note, not Garvey's words," and when the archive has no word for a modern term, it says so.
-- **More ways in.** A voyage piece, a lesson, an invitation and a VR room live at the same address.
+- 618 passages from *Philosophy and Opinions* (1923), alongside the archive's photographs, documents and Garvey's two 1921 recordings. You can filter by photo, document, audio or quote.
+- Anything we wrote is marked "Our note, not Garvey's words." If the archive has no word for a modern term, it says so.
+- The same site has a voyage piece, a lesson, an invitation and a VR room.
 
 ## How it's built
 
-Static pages and a small serverless API on Vercel, with a Postgres-backed manifest. The search runs over the archive's own catalog, each item linked to where it came from.
-
-## Demo, in captions
-
-**▶ [Watch the demo](https://radicalimagination.xyz/demos/garvey.mp4)** (silent, captioned, under 30 seconds)
-
-1. "Marcus Garvey, in his own words."
-2. "Search the archive: photographs, documents, his voice."
-3. "Every passage is his. Every note of ours is labelled."
-4. "Black Star Archive × Radical Imagination."
+Static pages and a small serverless API on Vercel, with a Postgres-backed manifest. The search runs over the archive's own catalog, and each item links to where it came from.
 
 ## Credits
 
-**Black Star Archive × Radical Imagination.** Archive and scholarship: Dr. Jewell Humphrey, [Black Star Archive](https://blackstarchive.com). Build: Radical Imagination, a cultural technology studio in Queens.
-
+Black Star Archive × Radical Imagination. Archive and scholarship: Dr. Jewell Humphrey, [Black Star Archive](https://blackstarchive.com). Built by Radical Imagination, a cultural technology studio in Queens.
