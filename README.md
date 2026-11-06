@@ -18,6 +18,8 @@ Static pages and a small serverless API on Vercel, with a Postgres-backed manife
 
 ## Demo, in captions
 
+**▶ [Watch the demo](https://radicalimagination.xyz/demos/garvey.mp4)** (silent, captioned, under 30 seconds)
+
 1. "Marcus Garvey, in his own words."
 2. "Search the archive: photographs, documents, his voice."
 3. "Every passage is his. Every note of ours is labelled."
