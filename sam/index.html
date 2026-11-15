@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>The Marcus Garvey Living Archive · search the archive · SAM</title>
-<meta name="description" content="Search Marcus Garvey's archive — 618 passages from Philosophy and Opinions, photographs, FBI surveillance documents, and audio recordings. A Small Archive Model (SAM) from Radical Imagination, built with Jewell Humphrey of the Black Star Archive.">
-<meta name="author" content="Radical Imagination">
+<meta name="description" content="Search Marcus Garvey's archive · 240 passages from Philosophy and Opinions, photographs, FBI surveillance documents, and audio recordings. A Small Archive Model (SAM) from the Black Star Archive × Radical Imagination, with Dr. Jewell Humphrey.">
+<meta name="author" content="Black Star Archive × Radical Imagination">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="canonical" href="https://garvey.radicalimagination.xyz/sam">
@@ -15,17 +15,17 @@
 <meta property="og:site_name" content="Marcus Garvey Living Archive">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://garvey.radicalimagination.xyz/sam">
-<meta property="og:title" content="The Marcus Garvey Living Archive — search the archive · SAM">
-<meta property="og:description" content="Search 618 passages from Philosophy and Opinions, photographs, FBI surveillance documents, and audio recordings. A Small Archive Model from Radical Imagination.">
-<meta property="og:image" content="https://garvey.radicalimagination.xyz/public/images/garvey_speaking_1920.png">
-<meta property="og:image:alt" content="Marcus Garvey speaking at a UNIA gathering, c. 1920.">
+<meta property="og:title" content="The Marcus Garvey Living Archive · search the archive · SAM">
+<meta property="og:description" content="Search 240 passages from Philosophy and Opinions, photographs, FBI surveillance documents, and audio recordings. A Small Archive Model from the Black Star Archive × Radical Imagination.">
+<meta property="og:image" content="https://garvey.radicalimagination.xyz/public/images/garvey_1924.jpg">
+<meta property="og:image:alt" content="Marcus Garvey seated at a desk, Bain Collection, Library of Congress.">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Marcus Garvey Living Archive — search the archive">
-<meta name="twitter:description" content="Search 618 passages, photographs, FBI surveillance documents, and audio. A Small Archive Model from Radical Imagination.">
-<meta name="twitter:image" content="https://garvey.radicalimagination.xyz/public/images/garvey_speaking_1920.png">
+<meta name="twitter:title" content="The Marcus Garvey Living Archive · search the archive">
+<meta name="twitter:description" content="Search 240 passages, photographs, FBI surveillance documents, and audio. A Small Archive Model from the Black Star Archive × Radical Imagination.">
+<meta name="twitter:image" content="https://garvey.radicalimagination.xyz/public/images/garvey_1924.jpg">
 
 <!-- Schema.org / JSON-LD : WebSite with SearchAction -->
 <script type="application/ld+json">
@@ -61,18 +61,17 @@
   "name": "Marcus Garvey Small Archive Model (SAM) Corpus",
   "alternateName": "Garvey SAM Corpus",
   "url": "https://garvey.radicalimagination.xyz/sam",
-  "description": "A curated, searchable corpus of Marcus Garvey primary sources: 618 passages from Philosophy and Opinions of Marcus Garvey (1923, ed. Amy Jacques Garvey), supplementary photographs from NYPL Schomburg and Library of Congress, FBI Bureau of Investigation surveillance documents, and audio recordings including the 1921 phonograph address. Open to scholar contribution; designed as the Garvey star in the Radical Imagination Constellation.",
-  "creator": {
-    "@type": "Organization",
-    "name": "Radical Imagination",
-    "url": "https://radicalimagination.xyz"
-  },
+  "description": "A curated, searchable corpus of Marcus Garvey primary sources: 240 passages from Philosophy and Opinions of Marcus Garvey (1923, ed. Amy Jacques Garvey), supplementary photographs from NYPL Schomburg and Library of Congress, FBI Bureau of Investigation surveillance documents, and audio recordings including the 1921 phonograph address. Open to scholar contribution; designed as the Garvey star in the Radical Imagination Constellation.",
+  "creator": [
+    { "@type": "Organization", "name": "Black Star Archive", "url": "https://blackstararchive.com" },
+    { "@type": "Person", "name": "Dr. Jewell Humphrey" },
+    { "@type": "Organization", "name": "Radical Imagination", "url": "https://radicalimagination.xyz" }
+  ],
   "publisher": {
     "@type": "Organization",
     "name": "Radical Imagination",
     "url": "https://radicalimagination.xyz"
   },
-  "license": "https://creativecommons.org/licenses/by-sa/4.0/",
   "isAccessibleForFree": true,
   "inLanguage": "en",
   "keywords": [
@@ -157,7 +156,7 @@
     --gold-warm: #d4a843;
     --text: #f0ebe1;
     --text-dim: #9a8f7f;
-    --text-faint: #555045;
+    --text-faint: #8f8676;
     --border: #262017;
     --border-red: rgba(200, 16, 46, 0.35);
     --card-bg: #f5efe1;
@@ -263,7 +262,7 @@
   }
   header nav button:hover,
   header nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
-  header nav a.chat { color: var(--red); }
+  header nav a.chat { color: #ff5a6e; }
   header nav a.chat:hover { color: var(--red-glow); border-bottom-color: var(--red); }
 
   /* ─── status bar ───────────────────────────────────────────────────── */
@@ -323,7 +322,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("/images/unia_parade_1920.jpg");
+    background-image: url("/images/garvey_1924.jpg");
     background-size: cover;
     background-position: center 30%;
     filter: contrast(1.5) brightness(0.38) sepia(0.55) saturate(1.4) hue-rotate(-8deg);
@@ -456,7 +455,7 @@
     .sig-ink { animation: none; clip-path: none; }
   }
 
-  /* Pan-African flag accent bars — flanking the signature */
+  /* Pan-African flag accent bars · flanking the signature */
   .flag-accent {
     position: absolute;
     top: 50%;
@@ -502,7 +501,7 @@
     color: rgba(240, 235, 225, 0.78);
     margin-bottom: 10px;
   }
-  .hero-upper .rally span { color: var(--red); }
+  .hero-upper .rally span { color: #ff5a6e; }
   .hero-upper .kicker {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
@@ -544,9 +543,9 @@
     font-size: 10px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(240, 235, 225, 0.4);
+    color: rgba(240, 235, 225, 0.75);
   }
-  .hero-lower .attribution strong { color: var(--red); font-weight: 700; }
+  .hero-lower .attribution strong { color: #ff5a6e; font-weight: 700; }
 
   /* ─── search surface ───────────────────────────────────────────────── */
   .search-surface {
@@ -888,6 +887,7 @@
     break-inside: avoid;
     break-before: column;
   }
+  @media (max-width: 680px) { .section-divider { break-before: auto; } }
 
   /* ─── quote cards (on dark) ────────────────────────────────────────── */
   .card.quote {
@@ -1027,7 +1027,7 @@
     <div class="hero-lower">
       <div class="the-archive">Search the archive <strong>in his own words</strong>.</div>
       <div class="attribution">
-        A <strong>Radical Imagination</strong> Small Archive Model &nbsp;·&nbsp; 37 primary sources &nbsp;·&nbsp; 618 passages
+        <strong>Black Star Archive × Radical Imagination</strong> &nbsp;·&nbsp; a Small Archive Model &nbsp;·&nbsp; 35 primary sources &nbsp;·&nbsp; 240 passages
       </div>
     </div>
   </section>
@@ -1063,7 +1063,9 @@
 <footer>
   A Small Archive Model for Marcus Garvey &nbsp;·&nbsp;
   Part of the <a href="https://radicalimagination.xyz">Radical Imagination</a> Constellation.<br>
-  <span class="ri-rule">All artifacts are public domain or CC-licensed · Provenance registered in <code>archives/garvey/sources.md</code></span><br>
+  Header photo: Marcus Garvey at his desk, Bain Collection, Library of Congress (LC-USZ61-1854); the Library dates it August 5, 1924 from an old caption card, other sources say 1922.<br>
+  Garvey was convicted of mail fraud in 1923, imprisoned in Atlanta in 1925, deported in 1927, and pardoned posthumously on January 19, 2025.<br>
+  <span class="ri-rule">Rights for each item are recorded in the archive's <a href="/manifest.json">manifest</a>; a few are still being confirmed. Quote cards: each one matches an independent edition of Philosophy and Opinions (Journal of Pan African Studies, 2009) word for word; 378 more are held back (scan damage, or no exact match yet) until checked against the 1923 page images.</span><br>
   <a href="/sam/chat">Ask the archive →</a>
 </footer>
 
@@ -1154,7 +1156,8 @@
     if (!q && state.type !== 'quote') return [];
     if (state.type !== 'all' && state.type !== 'quote') return [];
 
-    const tokens = (q + ' ' + vocabPeriodTerms(q)).toLowerCase().split(/\s+/).filter(Boolean);
+    const STOP = new Set(['the','a','an','and','of','to','in','on','for','is','his','her','its','by','as','at','or']);
+    const tokens = (q + ' ' + vocabPeriodTerms(q)).toLowerCase().split(/\s+/).filter(t => t && !STOP.has(t));
     if (tokens.length === 0) {
       return state.quotes.quotes.slice(0, MAX_QUOTE_RESULTS);
     }
@@ -1187,7 +1190,7 @@
     const entries = state.vocabulary.entries || {};
     if (entries[query]) return { term: query, entry: entries[query] };
     for (const [term, entry] of Object.entries(entries)) {
-      if (query.includes(term.toLowerCase()) || term.toLowerCase().includes(query)) {
+      if (query.includes(term.toLowerCase())) {
         if (query.length >= 4) return { term, entry };
       }
     }
@@ -1201,26 +1204,18 @@
   }
 
   function renderVocabBanner(q) {
+    // 2026-11-15: the scholarly notes are off until each is checked against the corpus (validator, 3rd re-review).
+    // Only the period terms (audited 10/23) are shown, as search suggestions.
     const match = vocabMatch(q);
     if (!match || !match.entry.period_terms || match.entry.period_terms.length === 0) {
-      if (match && match.entry.scholarly_note) {
-        el.vocabBanner.style.display = 'block';
-        el.vocabBanner.innerHTML = `
-          <div class="modern">${escape(match.term)}</div>
-          <div class="period"><em>this book has no word for this; results below match your own words</em></div>
-          <div class="note">Our note, not Garvey's words: ${escape(match.entry.scholarly_note)}</div>
-        `;
-        return;
-      }
       el.vocabBanner.style.display = 'none';
       return;
     }
-    const periodList = match.entry.period_terms.map(t => `<em>${escape(t)}</em>`).join(' · ');
+    const periodList = match.entry.period_terms.map(t => `<em>${escape(t)}</em>`).join(', ');
     el.vocabBanner.style.display = 'block';
     el.vocabBanner.innerHTML = `
-      <div class="modern">you searched: ${escape(match.term)}</div>
-      <div class="period">Words to try from this book: ${periodList}</div>
-      <div class="note">${match.entry.scholarly_note ? 'Our note, not Garvey\'s words: ' + escape(match.entry.scholarly_note) : ''}</div>
+      <div class="modern">you searched: ${escape(q)}</div>
+      <div class="period">Our suggestion, words from this book to try: ${periodList}</div>
     `;
   }
 
@@ -1241,7 +1236,7 @@
     if (state.type === 'audio' && !hasQuery) {
       const note = document.createElement('div');
       note.className = 'scarcity-note';
-      note.textContent = 'Across every archive we surveyed — UCLA MGPP, Library of Congress, Wikimedia, American RadioWorks — these two recordings are the only known surviving audio of Marcus Garvey\'s voice. No Jamaica recordings. No BBC. No UNIA band masters. The scarcity is part of the story.';
+      note.textContent = 'Across every archive we surveyed (UCLA MGPP, Library of Congress, Wikimedia, American RadioWorks), these two sides from July 1921 are the only recordings of Garvey\'s voice we found.';
       el.grid.appendChild(note);
     }
 
@@ -1290,7 +1285,7 @@
 
     const attr = document.createElement('div');
     attr.className = 'quote-attribution';
-    attr.textContent = 'Philosophy & Opinions · 1923';
+    attr.textContent = 'Philosophy and Opinions (1923)' + (q.jpas_page ? ' · JPAS 2009 ed., ' + q.jpas_page : '') + (q.editorial ? ' · line-break hyphens rejoined' : '');
     card.appendChild(attr);
 
     return card;
@@ -1416,7 +1411,7 @@
 
   el.historyBtn.addEventListener('click', () => {
     if (state.history.length === 0) {
-      alert('no searches yet — try typing something first');
+      alert('No searches yet. Try typing something first.');
       return;
     }
     const choice = prompt('recent searches:\n\n' + state.history.join('\n') + '\n\n(type one to run it)');

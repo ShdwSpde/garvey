@@ -19,6 +19,7 @@ export default async function handler(req, res) {
 
   const { text } = req.body || {}
   if (!text) return res.status(400).json({ error: 'Missing text' })
+  if (typeof text !== 'string' || text.length > 600) return res.status(400).json({ error: 'Text too long' })
 
   try {
     const upstream = await fetch(`${GEMINI_EMBED_URL}?key=${apiKey}`, {

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Marcus Garvey Living Archive · Radical Imagination</title>
+<title>Ask the Garvey Archive · Black Star Archive × Radical Imagination</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Alfa+Slab+One&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Courier+Prime:wght@400;700&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Alfa+Slab+One&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -25,7 +25,7 @@
     --gold: #c9a227;       /* UNIA regalia gold — accent only */
     --text: #f0ebe1;       /* off-white, parchment */
     --text-dim: #9a8f7f;
-    --text-faint: #555045;
+    --text-faint: #8f8676;
     --border: #262017;
     --border-red: rgba(200, 16, 46, 0.35);
   }
@@ -279,7 +279,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("public/images/unia_parade_1920.jpg");
+    background-image: url("/images/garvey_1924.jpg");
     background-size: cover;
     background-position: center 30%;
     filter: contrast(1.5) brightness(0.38) sepia(0.55) saturate(1.4) hue-rotate(-8deg);
@@ -337,7 +337,7 @@
     transform: translate(-50%, -46%);
     font-family: 'Alfa Slab One', serif;
     font-weight: 400;
-    font-size: clamp(150px, 17vw, 300px);
+    font-size: clamp(76px, 12vw, 190px);
     line-height: 0.82;
     letter-spacing: -4px;
     color: transparent;
@@ -372,6 +372,9 @@
     pointer-events: none;
   }
 
+  /* 2026-11-15: the text-filled version did not clip to the letters (unreadable bars); solid fill until rebuilt */
+  .wordmark-source { background-image: linear-gradient(180deg, #f5efe1 0%, #f5efe1 60%, #d4a843 100%) !important; background-size: auto !important; }
+  .source-warning { margin: 6px 0 8px; padding: 8px 10px; border-left: 3px solid #ff5a6e; background: rgba(255,90,110,0.08); color: #f3e6d6; font-size: 13px; line-height: 1.45; }
   .wordmark-source.ready { /* no animation — static for screenshot performance */ }
 
   /* Pan-African flag accent bars — thin vertical strokes on the wordmark sides */
@@ -434,8 +437,9 @@
     margin-bottom: 10px;
   }
 
+  .hero-upper .rally { white-space: nowrap; }
   .hero-upper .rally span {
-    color: var(--red);
+    color: #ff5a6e;
   }
 
   .hero-upper .subhead {
@@ -476,11 +480,11 @@
     font-size: 10px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(240, 235, 225, 0.4);
+    color: rgba(240, 235, 225, 0.75);
   }
 
   .hero-lower .attribution strong {
-    color: var(--red);
+    color: #ff5a6e;
     font-weight: 700;
   }
 
@@ -555,6 +559,8 @@
 
   @media (max-width: 780px) {
     .suggestions { grid-template-columns: 1fr; }
+    .hero-upper .rally { letter-spacing: 2px; white-space: nowrap; font-size: 10px; }
+    .black-star-mark { display: none; }
   }
 
   /* MESSAGES */
@@ -951,13 +957,13 @@
     </div>
   </div>
   <div class="ri-mark">
-    <div class="prototype-tag">Prototype v1</div><br>
-    A Demo by<span class="dim">Radical Imagination</span>
+    <div class="prototype-tag">Prototype</div><br>
+    Black Star Archive × <span class="dim">Radical Imagination</span>
   </div>
 </header>
 
 <div class="status-bar">
-  <div><span class="signal"></span><span id="statusText">Hailing the flagship...</span></div>
+  <div><span class="signal"></span><span id="statusText">Loading the archive...</span></div>
   <div id="statsText">…</div>
 </div>
 
@@ -973,7 +979,7 @@
           <div class="hero-vignette source"></div>
 
           <!-- THE WORDMARK — literally made from Garvey's own words -->
-          <!-- Caveat script, giant, filled with micro-text from Philosophy and Opinions -->
+          <!-- Alfa Slab One wordmark -->
           <h1 class="wordmark-source" id="wordmarkSource">Garvey</h1>
 
           <!-- Pan-African flag accent bars on the wordmark sides -->
@@ -990,14 +996,14 @@
           <!-- Over-the-horizon small type -->
           <div class="hero-upper">
             <div class="rally">★ <span>One God</span> · <span>One Aim</span> · <span>One Destiny</span> ★</div>
-            <div class="subhead">Every letter you see is built from his own writings. Lean in.</div>
+            <div class="subhead">The background text is Garvey's own writing, from Philosophy and Opinions.</div>
           </div>
 
           <!-- Lower legend -->
           <div class="hero-lower">
             <div class="the-archive">The Living Archive</div>
             <div class="attribution">
-              The archive spells its own name in its own words &nbsp;·&nbsp; A <strong>Radical Imagination</strong> prototype
+              Background: Garvey's own words. A <strong>Black Star Archive × Radical Imagination</strong> prototype
             </div>
           </div>
         </div>
@@ -1008,7 +1014,6 @@
             <button class="suggestion" data-q="What did Marcus Garvey mean by 'Africa for the Africans'?">What did Garvey mean by "Africa for the Africans"?</button>
             <button class="suggestion" data-q="Why did Garvey say the Negro race needed a nation of their own?">Why did Garvey say the Negro race needed a nation of their own?</button>
             <button class="suggestion" data-q="What was Garvey's answer to those who called him a dreamer?">What was Garvey's answer to those who called him a dreamer?</button>
-            <button class="suggestion" data-q="How did Garvey describe the purpose of the Black Star Line?">How did Garvey describe the purpose of the Black Star Line?</button>
             <button class="suggestion" data-q="What did Garvey say about prejudice between races in America?">What did Garvey say about prejudice between races in America?</button>
             <button class="suggestion" data-q="How did Garvey respond to those who said the UNIA was impossible?">How did Garvey respond to those who said the UNIA was impossible?</button>
           </div>
@@ -1017,18 +1022,18 @@
     </div>
     <div class="chat-input-wrap">
       <div class="chat-input-inner">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Ask the movement a question..." />
-        <button class="chat-send" id="sendBtn">★ Signal</button>
+        <input type="text" class="chat-input" id="chatInput" placeholder="Ask the archive a question" />
+        <button class="chat-send" id="sendBtn">Ask</button>
       </div>
     </div>
   </div>
 
   <div class="sources-panel">
-    <h3>★ Dispatches from the Archive</h3>
-    <div class="subhead">Every answer is grounded in Garvey's own words.</div>
+    <h3>Passages used</h3>
+    <div class="subhead">Answers are written by an AI model (Google Gemini) from these passages. Check them against the passages; the model can be wrong.</div>
     <div id="sourcesContainer">
       <div class="sources-empty">
-        Ask a question of the archive. The passages of Garvey's own writing most relevant to your query will arrive here, with similarity rankings, like signals from the flagship.
+        Ask a question of the archive. The passages of Garvey's own writing most relevant to your query will arrive here, with their page numbers in the 2009 edition.
       </div>
     </div>
   </div>
@@ -1050,22 +1055,12 @@ let embeddings = null
 const API_EMBED = "/api/embed"
 const API_CHAT = "/api/chat"
 
-const SYSTEM_PROMPT = `You are a scholar-docent for the Marcus Garvey Living Archive — a conversational interface over the writings of Marcus Garvey (1887-1940), founder of the Universal Negro Improvement Association (UNIA) and the Black Star Line.
-
-You speak with the care of a historian and the directness of a community member. Your voice carries the cadence of oratory — Garvey was a mass-movement speaker, and the words you present should feel like they are being delivered, not academically analyzed.
-
-STRICT RULES:
-1. Answer using ONLY the provided excerpts from Garvey's own writings. Never invent quotes or claims.
-2. If the excerpts don't answer the question, say so honestly. Do not fill gaps with speculation.
-3. When you cite Garvey, use phrases like "Garvey wrote..." or "In Philosophy and Opinions, Garvey argued..." Quote sparingly but precisely.
-4. The OCR is imperfect — occasional typos or odd characters come from the 1923 scanning, not Garvey himself. Silently correct obvious errors in quotes without flagging them.
-5. Keep responses to 2-4 paragraphs. Ground every claim. Honor the archive.
-6. Do NOT add disclaimers about being an AI. You are a docent speaking for the archive.`
+// The system prompt lives on the server (api/chat.js) so the endpoint cannot be used as an open proxy.
 
 // ============================================================
 // SOURCE-IS-THE-FORM HERO
 // The wordmark "Garvey" is filled with Garvey's own text,
-// pulled from the 689-sentence cleaned corpus.
+// pulled from the archive's passages (JPAS 2009 edition text).
 // ============================================================
 async function buildSourceHero() {
   try {
@@ -1097,15 +1092,15 @@ async function buildSourceHero() {
       } catch {}
     }
     if (!sentences.length) {
-      // Hard fallback: hand-picked canonical Garvey quotes
+      // Hard fallback: verified cards (match the JPAS 2009 edition)
       sentences = [
-        "Up, you mighty race! You can accomplish what you will.",
-        "A people without the knowledge of their past history, origin and culture is like a tree without roots.",
-        "If you have no confidence in self, you are twice defeated in the race of life.",
-        "We declare to the world that Africa must be free, that the Negro race must be emancipated.",
-        "The Black skin is not a badge of shame, but rather a glorious symbol of national greatness.",
-        "Intelligence rules the world, ignorance carries the burden.",
-        "God and Nature first made us what we are, and then out of our own created genius we make ourselves what we want to be.",
+        "There is nothing in the world common to man, that man cannot do.",
+        "There is no criticism that calls not forth yet another.",
+        "The last critic is the biggest fool of all, for the world starts and ends with him.",
+        "When man fears a creature like himself he offends God, in whose image and likeness he is created.",
+        "It is a burning flame that lights up the life of the individual and makes him see himself in another state.",
+        "If one’s attitude or conduct changes toward an object, then one has lost in one’s faithfulness.",
+        "Everybody is a drunkard, and if we were to enforce real prohibition we should all be dead."
       ]
     }
 
@@ -1231,13 +1226,13 @@ async function init() {
 
   try {
     const statusEl = document.getElementById("statusText")
-    statusEl.textContent = "Hailing the flagship..."
+    statusEl.textContent = "Loading the archive..."
     const res = await fetch("/public/embeddings.json")
     if (!res.ok) throw new Error("Failed to load embeddings: run `node scripts/ingest.mjs` first")
     embeddings = await res.json()
-    statusEl.innerHTML = `Signal locked · <strong style="color:#c9a227">${embeddings.chunks.length}</strong> passages indexed`
+    statusEl.innerHTML = `Ready · <strong style="color:#c9a227">${embeddings.chunks.length}</strong> long passages (about a page or two each) from Philosophy and Opinions`
     const sources = new Set(embeddings.chunks.map((c) => c.source_title))
-    document.getElementById("statsText").textContent = `${sources.size} primary source · 1923 edition · OCR from Archive.org`
+    document.getElementById("statsText").textContent = "Philosophy and Opinions (1923), text from the JPAS 2009 edition"
   } catch (err) {
     document.getElementById("statusText").textContent = `Error: ${err.message}`
     console.error(err)
@@ -1275,16 +1270,10 @@ async function embedQuery(text) {
 }
 
 async function generateAnswer(question, sources) {
-  const context = sources
-    .map((s, i) => `[Source ${i + 1}: ${s.source_title}]\n${s.content}`)
-    .join("\n\n---\n\n")
-
-  const prompt = `${SYSTEM_PROMPT}\n\n=== PROVIDED EXCERPTS ===\n${context}\n\n=== USER QUESTION ===\n${question}\n\n=== YOUR ANSWER (grounded in the excerpts above) ===`
-
   const res = await fetch(API_CHAT, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt }),
+    body: JSON.stringify({ question, chunk_ids: sources.map((s) => Number(s.chunk_index)) }),
   })
   if (!res.ok) throw new Error(`Chat completion failed: ${await res.text()}`)
   const data = await res.json()
@@ -1314,7 +1303,7 @@ async function handleSubmit() {
     renderSources(sources)
   } catch (err) {
     console.error(err)
-    updateMessage(loadingId, `★ Signal lost: ${err.message}`)
+    updateMessage(loadingId, `Something went wrong: ${err.message}`)
   } finally {
     document.getElementById("sendBtn").disabled = false
   }
@@ -1327,7 +1316,7 @@ function addMessage(role, content, loading = false) {
   const div = document.createElement("div")
   div.id = id
   div.className = `message ${role}${loading ? " loading" : ""}`
-  const label = role === "user" ? "The Inquirer" : "Garvey Archive"
+  const label = role === "user" ? "You" : "AI answer (from the passages)"
   div.innerHTML = `
     <div class="message-role">${label}</div>
     <div class="message-content"></div>
@@ -1352,15 +1341,27 @@ function renderSources(sources) {
   sources.forEach((s, idx) => {
     const card = document.createElement("div")
     card.className = "source-card"
-    const excerpt = s.content.length > 200 ? s.content.slice(0, 200) + "..." : s.content
+    const excerpt = s.content.length > 220 ? s.content.slice(0, s.content.lastIndexOf(" ", 220)) + " …" : s.content
     card.innerHTML = `
-      <div class="source-index">Dispatch №${String(idx + 1).padStart(2, '0')}</div>
+      <div class="source-index">Passage ${idx + 1}</div>
       <div class="source-title"></div>
-      <div class="source-similarity">★ Signal Strength: ${(s.similarity * 100).toFixed(1)}%</div>
+      <div class="source-similarity">${s.pages ? "JPAS 2009 edition, " + s.pages : ""}</div>
       <div class="source-excerpt"></div>
     `
     card.querySelector(".source-title").textContent = s.source_title
-    card.querySelector(".source-excerpt").textContent = `"${excerpt}"`
+    card.querySelector(".source-excerpt").textContent = excerpt
+    if (s.warning) {
+      const w = document.createElement("div")
+      w.className = "source-warning"
+      w.textContent = s.warning
+      card.insertBefore(w, card.querySelector(".source-excerpt"))
+    }
+    if (s.content.length > excerpt.length) {
+      const more = document.createElement("details")
+      const sum = document.createElement("summary"); sum.textContent = "Read the whole passage"
+      const full = document.createElement("div"); full.className = "source-excerpt"; full.textContent = s.content
+      more.appendChild(sum); more.appendChild(full); card.appendChild(more)
+    }
     container.appendChild(card)
   })
 }
