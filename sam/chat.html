@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Marcus Garvey Living Archive — Radical Imagination</title>
+<title>The Marcus Garvey Living Archive · Radical Imagination</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Caveat:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Alfa+Slab+One&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -327,7 +327,7 @@
     break-inside: avoid-column;
   }
 
-  /* THE WORDMARK — giant Caveat script.
+  /* THE WORDMARK: giant Alfa Slab One (was Caveat; swapped 2026-11-14 per the no-Caveat rule).
      Filled with a background image of the SAME Garvey text at full brightness.
      The letter shapes act as a spotlight on the archive. */
   .wordmark-source {
@@ -335,9 +335,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -46%);
-    font-family: 'Caveat', cursive;
-    font-weight: 700;
-    font-size: clamp(220px, 25vw, 440px);
+    font-family: 'Alfa Slab One', serif;
+    font-weight: 400;
+    font-size: clamp(150px, 17vw, 300px);
     line-height: 0.82;
     letter-spacing: -4px;
     color: transparent;
@@ -958,7 +958,7 @@
 
 <div class="status-bar">
   <div><span class="signal"></span><span id="statusText">Hailing the flagship...</span></div>
-  <div id="statsText">—</div>
+  <div id="statsText">…</div>
 </div>
 
 <main>
@@ -1028,7 +1028,7 @@
     <div class="subhead">Every answer is grounded in Garvey's own words.</div>
     <div id="sourcesContainer">
       <div class="sources-empty">
-        Ask a question of the archive. The passages of Garvey's own writing most relevant to your query will arrive here — with similarity rankings, like signals from the flagship.
+        Ask a question of the archive. The passages of Garvey's own writing most relevant to your query will arrive here, with similarity rankings, like signals from the flagship.
       </div>
     </div>
   </div>
@@ -1233,7 +1233,7 @@ async function init() {
     const statusEl = document.getElementById("statusText")
     statusEl.textContent = "Hailing the flagship..."
     const res = await fetch("/public/embeddings.json")
-    if (!res.ok) throw new Error("Failed to load embeddings — run `node scripts/ingest.mjs` first")
+    if (!res.ok) throw new Error("Failed to load embeddings: run `node scripts/ingest.mjs` first")
     embeddings = await res.json()
     statusEl.innerHTML = `Signal locked · <strong style="color:#c9a227">${embeddings.chunks.length}</strong> passages indexed`
     const sources = new Set(embeddings.chunks.map((c) => c.source_title))
