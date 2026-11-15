@@ -63,9 +63,10 @@ export default async function handler(req, res) {
     .join('\n\n---\n\n')
   const prompt = `${SYSTEM_PROMPT}\n\n=== PROVIDED EXCERPTS ===\n${context}\n\n=== USER QUESTION ===\n${question.trim()}\n\n=== YOUR ANSWER (grounded in the excerpts above) ===`
 
-  const body = JSON.stringify({
+  const bodyFor = (model) => JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 0.4, maxOutputTokens: 1024 },
+    // 2.5 models spend output tokens on hidden thinking, which cut answers short (2026-11-15)
+    generationConfig: Object.assign({ temperature: 0.4, maxOutputTokens: 2048 }, model.startsWith('gemini-2.5') ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
   })
 
   let lastError = null
@@ -75,7 +76,7 @@ export default async function handler(req, res) {
       const upstream = await fetch(`${chatUrl(model)}?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body,
+        body: bodyFor(model),
       })
       if (upstream.ok) {
         const data = await upstream.json()
