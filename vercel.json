@@ -23,6 +23,7 @@
     { "source": "/api/manifest", "destination": "/api/manifest.js" },
     { "source": "/voyage", "destination": "/voyage/index.html" },
     { "source": "/voyage/", "destination": "/voyage/index.html" },
+    { "source": "/voyage/map/", "destination": "/voyage/map/index.html" },
     { "source": "/manifest.json", "destination": "/public/manifest.json" },
     { "source": "/quotes.json", "destination": "/public/quotes.json" },
     { "source": "/vocabulary.json", "destination": "/public/vocabulary.json" },

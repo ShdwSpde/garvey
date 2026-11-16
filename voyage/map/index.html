@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Harlem, On Foot · Walking Map</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  /* Tokens and pieces from the voyage itself (src/ui/theme.css): Archivo and Space Mono, cotton ticket stock, ink, the three bars, gold, red ink stamps. */
+  :root { --cotton:#E8E2D3; --panel:#DED6C3; --ink:#14120E; --red:#C81E28; --green:#16683A; --gold:#C9A227; --mut:#6b6253; --night:#0b0a08;
+          --type:'Space Mono', ui-monospace, monospace; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body { height: 100dvh; display: flex; flex-direction: column; background: var(--night); color: var(--cotton); font-family: Archivo, system-ui, sans-serif; }
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; padding: calc(12px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-left)) 10px; }
+  .top b { display: block; font: 900 20px/1 Archivo, sans-serif; letter-spacing: -.01em; }
+  .top b::before { content: '★ '; }
+  .top small { display: block; margin-top: 5px; font: 700 11px/1 var(--type); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  .top a { font: 700 11px/1.2 var(--type); letter-spacing: .1em; text-transform: uppercase; color: var(--cotton); text-decoration: none; text-align: right; }
+  .bars { height: 6px; flex: none; background: linear-gradient(90deg, var(--red) 0 33.3%, var(--ink) 33.3% 66.6%, var(--green) 66.6%); border-block: 2px solid var(--cotton); }
+  .sheet { flex: 1 1 0; min-height: 0; display: flex; padding: 10px max(10px, env(safe-area-inset-left)) 0; }
+  #map { flex: 1; min-height: 0; background: var(--cotton); }
+  .leaflet-container { font: 700 11px/1.3 var(--type); }
+  .leaflet-control-attribution { max-width: 62%; text-align: right; background: transparent !important; color: var(--mut); font: 700 10px/1.3 var(--type); }
+  .leaflet-control-attribution a { color: var(--mut); }
+  .leaflet-bar a { background: var(--cotton); color: var(--ink); border-color: var(--panel); font: 900 18px/26px Archivo, sans-serif; }
+  .leaflet-control-scale-line { background: var(--cotton); border: 2px solid var(--ink); border-top: 0; color: var(--ink); font: 700 11px var(--type); }
+
+  .slabel { white-space: nowrap; font: 700 10.5px/1 var(--type); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); pointer-events: none;
+            text-shadow: 0 0 3px var(--cotton), 0 0 3px var(--cotton), 0 0 3px var(--cotton), 0 0 3px var(--cotton); transform: translate(-50%, -50%) rotate(var(--a)); position: absolute; }
+  .slabel.park { font: 800 12px/1.1 Archivo, sans-serif; letter-spacing: .02em; text-transform: none; color: #3d5a3a; text-align: center; }
+  .slabel.stairs { color: #A8181F; font-size: 10px; }
+  #map.far .slabel:not(.park) { display: none; }
+  .card .how { font: 400 11px/1.4 var(--type); color: var(--mut); margin-top: 6px; }
+  .card .how b { color: var(--ink); }
+  .card .how, .card .cr { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  .card .how.open, .card .cr.open { -webkit-line-clamp: unset; }
+  .card .folds { text-decoration: underline dotted var(--mut); text-underline-offset: 3px; }
+  .card .folds:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .card .cr b { color: var(--ink); }
+  /* stops: green discs (the green of the walk's own tricolor), numbered in walking order */
+  .stop { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 26px; height: 26px; border-radius: 50%;
+          background: var(--green); color: var(--cotton); border: 2.5px solid var(--ink); display: grid; place-items: center;
+          font: 900 13px/1 Archivo, sans-serif; cursor: pointer; }
+  .stop .l { display: none; position: absolute; left: 32px; top: 50%; transform: translateY(-50%); white-space: nowrap; color: var(--ink);
+             font: 700 11px/1 var(--type); text-transform: uppercase; letter-spacing: .06em;
+             text-shadow: 0 0 3px var(--cotton), 0 0 3px var(--cotton), 0 0 3px var(--cotton); }
+  #map.far .stop { width: 20px; height: 20px; font-size: 10px; border-width: 2px; }
+  #map.close .stop { width: 32px; height: 32px; font-size: 15px; } #map.close .stop .l { display: block; }
+  .stop.near::after { content: ''; position: absolute; inset: -9px; border: 3px double var(--ink); border-radius: 50%; animation: ring 1.6s ease-out infinite; }
+  @keyframes ring { from { transform: scale(.8); opacity: 1; } to { transform: scale(1.3); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .stop.near::after { animation: none; } }
+  /* you: the Black Star Line ship from the voyage kit, on a pin that points at where you stand */
+  .ship.west { transform: scaleX(-1); }
+  .ship { position: relative; width: 48px; height: 48px; border-radius: 50%; background: var(--cotton) url(../kit/bsl-ship-dark.png) center 45% / 78% no-repeat; border: 3px solid var(--ink); box-shadow: 0 3px 0 var(--ink); }
+  .ship::after { content: ''; position: absolute; left: 50%; bottom: -11px; margin-left: -6px; border: 6px solid transparent; border-top: 8px solid var(--ink); }
+
+  /* title block, a corner of the boarding pass */
+  .cartouche { background: var(--cotton); color: var(--ink); border: 2px solid var(--ink); padding: 8px 11px 9px; max-width: 220px; box-shadow: 4px 4px 0 var(--ink); }
+  .cartouche h1 { font: 900 20px/1 Archivo, sans-serif; letter-spacing: -.01em; }
+  .cartouche p { font: 700 11px/1.35 var(--type); color: var(--mut); margin-top: 5px; letter-spacing: .02em; }
+  @media (max-width: 600px) { body.carded .cartouche p { display: none; } body.carded .cartouche h1 { font-size: 17px; } }
+
+  /* the card: a boarding-pass stub, under the map so it never covers the ship */
+  .card { display: none; background: var(--cotton); color: var(--ink); margin: 10px max(10px, env(safe-area-inset-left)) 0; padding: 12px 14px; grid-template-columns: 1fr auto; gap: 8px 12px; position: relative; }
+  .card::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: linear-gradient(90deg, var(--red) 0 33.3%, var(--ink) 33.3% 66.6%, var(--green) 66.6%); }
+  .card.show { display: grid; animation: deal .28s cubic-bezier(.3,1.4,.5,1); }
+  @keyframes deal { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .card.show { animation: none; } }
+  .card .code { font: 900 34px/.9 Archivo, sans-serif; letter-spacing: -.01em; margin-top: 4px; }
+  .card .code span { font: 700 11px/1 var(--type); letter-spacing: .12em; text-transform: uppercase; color: var(--mut); margin-left: 6px; vertical-align: middle; }
+  .card h3 { font: 800 18px/1.15 Archivo, sans-serif; margin-top: 5px; }
+  .card .place { font: 700 11px/1.35 var(--type); letter-spacing: .04em; text-transform: uppercase; color: var(--mut); margin-top: 5px; }
+  .badge { display: inline-block; margin-top: 7px; padding: 3px 8px; font: 700 10px var(--type); text-transform: uppercase; letter-spacing: .08em; }
+  .badge.single-source { background: var(--gold); color: var(--ink); }
+  .badge.disputed, .badge.unverified { background: #A8181F; color: var(--cotton); }
+  .card figure { grid-row: 1 / span 2; grid-column: 2; width: 86px; align-self: start; margin-top: 6px; }
+  .card figure img { width: 86px; height: 104px; object-fit: cover; display: block; background: var(--ink); border: 2px solid var(--ink); }
+  .card .row { grid-column: 1 / -1; display: flex; gap: 12px; align-items: center; justify-content: space-between; border-top: 2px dashed var(--mut); padding-top: 8px; }
+  .card .cr { font: 700 10.5px/1.35 var(--type); color: var(--mut); }
+  .btn { flex: none; cursor: pointer; font: 700 12px var(--type); text-transform: uppercase; letter-spacing: .08em; padding: 11px 14px; border: 2px solid var(--gold); background: var(--gold); color: var(--ink); text-decoration: none; }
+  .btn:focus-visible, .card a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .foot { display: flex; align-items: center; gap: 12px; padding: 10px max(16px, env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom)); }
+  .foot button[aria-pressed="true"] { background: var(--night); color: var(--gold); }
+  #note { flex: 1; min-width: 0; font: 700 12px/1.35 var(--type); color: var(--cotton); }
+  #note b { color: var(--gold); }
+  .credit { flex: none; text-align: center; font: 700 10.5px/1 var(--type); letter-spacing: .12em; text-transform: uppercase; color: #b3aa96; padding: 0 0 calc(8px + env(safe-area-inset-bottom)); }
+</style>
+</head>
+<body>
+<header class="top">
+  <div><b>Black Star Line</b><small>Harlem, On Foot · the walking map</small></div>
+  <a href="../">Back to<br>the voyage</a>
+</header>
+<div class="bars"></div>
+<div class="sheet"><div id="map" role="application" aria-label="Map of Harlem with the ten stops of the walk"></div></div>
+<div class="card" id="card" aria-live="polite"></div>
+<div class="foot">
+  <button type="button" class="btn" id="follow" aria-pressed="false">Walk with me</button>
+  <span id="note" aria-live="polite">Tap a stop to read it, or walk with the map in your hand.</span>
+</div>
+<p class="credit">Black Star Archive × Radical Imagination</p>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="map-data.js"></script>
+<script>
+(function () {
+  var DATA = window.HARLEM_MAP;
+  var STOPS = DATA.stops;   // position, how it was placed, and card text from content/stops (scripts/build-map-data.py)
+  var STATUS = { 'disputed': 'Sources disagree', 'single-source': 'One source', 'unverified': 'Not yet confirmed' };
+
+  var map = L.map('map', { zoomSnap: 0.25, minZoom: 14, maxZoom: 19 });
+  map.attributionControl.setPrefix(false).addAttribution('Streets and stops: NYC Street Centerline, NYC Open Data');
+  DATA.streets.forEach(function (st) { L.polyline(st[1], { color: '#cfc6b1', weight: 9, lineCap: 'round', interactive: false }).addTo(map); });
+  DATA.streets.forEach(function (st) { L.polyline(st[1], { color: '#14120E', weight: 1.4, opacity: .55, interactive: false }).addTo(map); });
+  L.polyline(DATA.block5, { color: '#16683A', weight: 9, opacity: .35, lineCap: 'butt', interactive: false }).addTo(map);   // No. 56's block
+  DATA.route.forEach(function (leg) {   // one quiet ink line; the silent walk is dotted
+    L.polyline(leg.line, leg.to === 6 ? { color: '#14120E', weight: 3.5, dashArray: '1 8', lineCap: 'round', interactive: false }
+                                      : { color: '#14120E', weight: 3.5, opacity: .85, lineCap: 'round', lineJoin: 'round', interactive: false }).addTo(map);
+  });
+
+  DATA.stairs.forEach(function (l) { L.polyline(l, { color: '#A8181F', weight: 5, dashArray: '2 3', interactive: false }).addTo(map); });
+  function label(lat, lon, html, cls, a) { L.marker([lat, lon], { icon: L.divIcon({ className: '', html: '<span class="slabel ' + (cls || '') + '" style="--a:' + (a || 0) + 'deg">' + html + '</span>', iconSize: [0, 0] }), interactive: false, keyboard: false }).addTo(map); }
+  DATA.labels.forEach(function (l) { label(l.lat, l.lon, l.t, '', l.a); });
+  label(40.8160, -73.9497, 'St. Nicholas<br>Park', 'park', 0);
+  if (DATA.stairs.length) { var sp = [].concat.apply([], DATA.stairs), mid = sp[Math.floor(sp.length / 2)]; label(mid[0] - 0.00012, mid[1], '135th St stairs', 'stairs', 0); }
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  var ART = {};
+  fetch('/manifest.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (m) {
+    if (m) m.artifacts.forEach(function (a) { ART[a.id] = a; });
+    if (shown) show(shown);
+  }).catch(function () {});
+
+  var cardEl = document.getElementById('card'), shown = null, markers = {};
+  function show(s) {
+    shown = s;
+    var a = s.then && ART[s.then], f = s.file, img = '', cr = '';
+    if (a) { img = '<figure><img src="' + esc(a.asset) + '" alt="' + esc(a.title) + '"></figure>'; cr = esc(a.title) + '. ' + esc(a.source.institution) + '. ' + esc(a.source.license) + '.'; }
+    else if (f) { img = '<figure><img src="../' + esc(f.src) + '" alt="' + esc(f.title) + '"></figure>'; cr = '<b>Hostile witness.</b> ' + esc(f.title) + ', ' + esc(f.date) + '. ' + esc(f.ref) + '. ' + esc(f.frame || ''); }
+    cardEl.innerHTML = '<div><p class="code">' + esc(s.mark) + '<span>Stop ' + s.n + ' of 10</span></p>' +
+      '<h3>' + esc(s.title) + '</h3><p class="place">' + esc(s.place) + '</p>' +
+      (STATUS[s.status] ? '<span class="badge ' + s.status + '">' + STATUS[s.status] + '</span>' : '') +
+      '<p class="how"><b>Pin:</b> ' + esc(s.how) + '</p>' +
+      (s.n === 9 ? '<p class="how"><b>Stairs:</b> steep. A step-free route isn\u2019t mapped yet.</p>' : '') + '</div>' + img +
+      '<div class="row"><span class="cr">' + cr + '</span><a class="btn" href="../?stop=' + String(s.n).padStart(2, '0') + '">Open the stop</a></div>';
+    cardEl.classList.remove('show'); void cardEl.offsetWidth; cardEl.classList.add('show'); document.body.classList.add('carded');
+    cardEl.querySelectorAll('.how, .cr').forEach(function (el) {
+      if (el.scrollHeight <= el.clientHeight + 2) return;   // nothing folded, nothing to open
+      el.classList.add('folds'); el.setAttribute('role', 'button'); el.setAttribute('tabindex', '0'); el.setAttribute('aria-expanded', 'false');
+      var flip = function () { var o = el.classList.toggle('open'); el.setAttribute('aria-expanded', o ? 'true' : 'false'); setTimeout(function () { map.invalidateSize(); }, 50); };
+      el.onclick = flip; el.onkeydown = function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } };
+    });
+    setTimeout(function () { map.invalidateSize(); }, 300);
+  }
+  STOPS.forEach(function (s) {
+    var html = '<span class="stop" id="st-' + s.id + '">' + s.n + '<span class="l">' + esc(s.n === 5 ? 'No. 56\u2019s block' : s.label) + '</span></span>';
+    var m = L.marker([s.lat, s.lon], { icon: L.divIcon({ className: '', html: html, iconSize: [40, 40], iconAnchor: [20, 20] }), title: 'Stop ' + s.n + ': ' + s.label, keyboard: true, riseOnHover: true });
+    m.on('click', function () { show(s); }); m.addTo(map); markers[s.id] = m;
+  });
+
+  var bounds = L.latLngBounds(STOPS.map(function (s) { return [s.lat, s.lon]; }));
+  map.fitBounds(bounds, { paddingTopLeft: [24, 120], paddingBottomRight: [24, 40] });
+  map.setMaxBounds(bounds.pad(0.8));
+  function zoomLook() { var z = map.getZoom(), el = document.getElementById('map'); el.classList.toggle('close', z >= 17); el.classList.toggle('far', z < 15.75); }
+  map.on('zoomend', zoomLook); zoomLook();
+  var Title = L.Control.extend({ options: { position: 'topright' }, onAdd: function () {
+    var d = L.DomUtil.create('div', 'cartouche');
+    d.innerHTML = '<h1>Harlem, On Foot</h1><p>Ten stops, Liberty Hall to the Hudson, about 2 miles. The route follows Dr. Humphrey’s directions; the dotted stretch is the silent walk.</p>';
+    L.DomEvent.disableClickPropagation(d); return d;
+  } });
+  new Title().addTo(map);
+  L.control.scale({ position: 'bottomleft', metric: false, maxWidth: 110 }).addTo(map);
+
+  // ---------- walk with me ----------
+  var note = document.getElementById('note'), btn = document.getElementById('follow'), watch = null, me = null, last = null;
+  function dist(a, b) { var R = 6371000, r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLon = (b.lon - a.lon) * r;
+    var h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); }
+  function fmt(m) { var ft = m * 3.281; return ft < 1000 ? Math.round(ft / 10) * 10 + ' ft' : (m / 1609.34).toFixed(1) + ' mi'; }
+  var nearId = null;
+  function setNear(id) { if (nearId === id) return; if (nearId) document.getElementById('st-' + nearId).classList.remove('near'); nearId = id; if (id) document.getElementById('st-' + id).classList.add('near'); }
+  function onPos(pos) {
+    var here = { lat: pos.coords.latitude, lon: pos.coords.longitude }, first = !me;
+    if (!me) me = L.marker([here.lat, here.lon], { icon: L.divIcon({ className: '', html: '<div class="ship" id="ship"></div>', iconSize: [48, 48], iconAnchor: [24, 62] }), interactive: false, zIndexOffset: 1000 }).addTo(map);
+    else me.setLatLng([here.lat, here.lon]);
+    if (last && dist(last, here) > 4) { var el = document.getElementById('ship'); if (el) el.classList.toggle('west', here.lon < last.lon); }
+    last = here;
+    var best = null; STOPS.forEach(function (s) { var d = dist(here, s); if (!best || d < best.d) best = { s: s, d: d }; });
+    if (best.d < 600) {
+      setNear(best.s.id);
+      note.innerHTML = 'Nearest: <b>stop ' + best.s.n + '</b>, ' + esc(best.s.label) + ', ' + fmt(best.d) + ' away.';
+      if (first) map.setView([here.lat, here.lon], 17.5, { animate: false }); else map.panTo([here.lat, here.lon]);
+      if (shown !== best.s) show(best.s);
+    } else { setNear(null); note.textContent = 'You’re ' + fmt(best.d) + ' from the nearest stop. The walk starts at Liberty Hall, on 138th St.'; }
+  }
+  function stop() { if (watch !== null) navigator.geolocation.clearWatch(watch); watch = null; btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Walk with me'; }
+  btn.onclick = function () {
+    if (watch !== null) { stop(); note.textContent = 'Stopped following you. The map still works.'; return; }
+    if (!navigator.geolocation) { note.textContent = 'This browser can’t share location. The map still works.'; return; }
+    note.textContent = 'Your location stays on your phone. Finding you…';
+    btn.setAttribute('aria-pressed', 'true'); btn.textContent = 'Stop';
+    watch = navigator.geolocation.watchPosition(onPos, function (err) {
+      if (err.code === 1) { stop(); note.textContent = 'Location not shared. The map still works.'; }
+      else if (!me) note.textContent = 'Still looking for a GPS signal…';
+    }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 });
+  };
+})();
+</script>
+</body>
+</html>
