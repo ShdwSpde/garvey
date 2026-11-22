@@ -8,7 +8,7 @@ Try it at [garvey.radicalimagination.xyz/sam](https://garvey.radicalimagination.
 
 ## What's in it
 
-- 618 passages from *Philosophy and Opinions* (1923), alongside the archive's photographs, documents and Garvey's two 1921 recordings. You can filter by photo, document, audio or quote.
+- 240 passages from *Philosophy and Opinions* (1923), each checked against the 1923 printing (the rest wait until they are checked), alongside the archive's photographs, documents and Garvey's two 1921 recordings. You can filter by photo, document, audio or quote.
 - Anything we wrote is marked "Our note, not Garvey's words." If the archive has no word for a modern term, it says so.
 - The same site has a voyage piece, a lesson, an invitation and a VR room.
 
