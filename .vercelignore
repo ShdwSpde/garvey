@@ -26,3 +26,6 @@ node_modules/
 
 # Research test files (archival-intelligence), not for the public site
 eval/
+
+# Draft: Garvey Wrapped, not reviewed (design kit 2026-11-21, roadmap 1)
+public/wrapped/
